@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import validate from './validateInfo';
-import useForm from './useForm';
 import {Link, withRouter} from 'react-router-dom';
 import './FormSign.css';
 import {connect} from 'react-redux'
@@ -22,7 +21,7 @@ class SignUp extends React.Component{
       {  axios.post('http://localhost:8000/user/signup',{email:this.state.email,password:this.state.password,username:this.state.username}).then((res)=>{
       console.log(res);
       this.props.history.push({
-        pathname:`/protask/${res.data.username}`,
+        pathname:`/protask/${res.data._id}/${res.data.username}`,
         
      });
       }).catch((err)=>{

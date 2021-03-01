@@ -29,9 +29,7 @@ class Task extends React.Component{
          arr.push(value)
          this.setState({selected1:arr})
     }
-    fetcher=()=>{
-       axios.post(`http://localhost:8000/user/getUser/${this.props.match.params.id}`).then((res)=>res.data)
-    }
+
     setTodos=(myTask,assignedTask)=>{
       this.setState({listOfTask:myTask,listOfAssignTask:assignedTask})
     }

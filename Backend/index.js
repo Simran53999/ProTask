@@ -19,7 +19,7 @@ mongoose.Promise=global.Promise;
 app.use('/user',userRoutes);
 app.use('/task',taskRoutes);
 
-mongoose.connect("mongodb+srv://5Simran_Singh:Simran5@clusteras.zogxl.mongodb.net/ProTask?retryWrites=true&w=majority",{useNewUrlParser:true,useUnifiedTopology:true})
+mongoose.connect("mongodb://127.0.0.1:27017/ProTask",{useNewUrlParser:true,useUnifiedTopology:true})
 .then(()=>{
     app.listen(8000);
     console.log("connected to Database");
