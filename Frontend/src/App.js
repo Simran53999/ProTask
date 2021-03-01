@@ -21,7 +21,7 @@ return (
     <div>
       <Router basename="/protask">
         <Switch>
-          <Route path="/protask/:id" component={Task}/>
+          <Route path="/protask/:id/:username" component={Task}/>
           <Route path="/login"><Formlogin/></Route>
           <Route path="/"><SignUp/></Route>
         </Switch>

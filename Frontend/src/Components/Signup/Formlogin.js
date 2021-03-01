@@ -17,7 +17,7 @@ class Formlogin extends React.Component{
        axios.post('http://localhost:8000/user/login',{email:this.state.email,password:this.state.password}).then((result)=>{
         
         this.props.history.push({
-             pathname:`/protask/${result.data._id}`,
+             pathname:`/protask/${result.data._id}/${result.data.username}`,
             
            })
        }).catch((err)=>{

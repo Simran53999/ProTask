@@ -119,7 +119,7 @@ class Task extends React.Component{
               <h1>ProTask</h1> 
               </header>
               <div className="welc">
-                <h2> Welcome {this.state.username} </h2>
+                <h2> Welcome {this.props.match.params.username} </h2>
               </div>
               {/* <form>
                  <input value={this.state.task} onChange={(event)=>this.setState({...this.state,task:event.target.value})} type="text" className="todo-input" /> 
