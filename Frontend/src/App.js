@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import './App.css';
-//import Form from "./Components/Form";//importing components
-//import TodoList from "./Components/TodoList"; //importing components
 import {
   BrowserRouter as Router,
   Route,
@@ -11,8 +9,6 @@ import {
 import Formlogin from "./Components/Signup/Formlogin";
 import SignUp from './Components/Signup/FormSignup';
 import Task from "./Components/Task";
-import { createBootstrapComponent } from "react-bootstrap/esm/ThemeProvider";
-import {connect} from 'react-redux';
 
 function App(props) {
   
@@ -30,13 +26,5 @@ return (
   );
 }
 
-const mapStateToProps= state=>{
-  return{
-    username:state.username,
-    task:state.task,
-    login:state.login
-  }
-}
-const mapDispatchToProps=dispatch=>{
-}
-export default connect(mapStateToProps)(App);
+
+export default (App);

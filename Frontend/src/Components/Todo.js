@@ -46,14 +46,11 @@ const Todo = (props) => {
         console.log(err)
     })
  }
-
-  //const now=150;
     return(    
 <div className="todo">
     <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
         {props.Task}
     </li>
-    {/* className="fas fa-pencil"<input className="input-progress"></input>  */}
 
     <input className="changeProgress"  placeholder='Edit Progress' disabled={status==="Open"?false:true} onChange={(event)=>setprogress(event.target.value)}></input>
    
@@ -76,45 +73,6 @@ const Todo = (props) => {
         <i className="fas fa-trash"></i>
         </button>
         </div>
-          
-          
-        {/* <button className="trash-btn">
-        <i className="fas fa-trash"></i>
-    </button>  */}
-       {/* <button className="share-btn">
-       
-        <i className="fas fa-share-alt"  ></i>
-        
-        </button>
-        <button onClick={deleteHandler} className="access-btn">
-        <i className="fas fa-tags"></i>
-        </button>
-         */} 
-{/*<div className="dropdown">
- <MultiSelect
-        options={Data}
-        value={selected}
-        onChange={setSelected}
-        ArrowRenderer= {ArrowRenderer1}
-        overrideStrings={{selectSomeItems:"Share with:",}}
-      /> 
-      </div>
-      <div className="dropdown"> <MultiSelect
-        options={Data}
-        value={selected1}
-        onChange={setSelected1}
-        ArrowRenderer= {ArrowRenderer2}
-        overrideStrings={{selectSomeItems:"Assign to:",}}
-      />
- </div>*/}
-      
-     {/*  <div className="progress">
-          <label id="status">
-              {props.status}
-          </label>
-          <label id="changeProgress">Change Progress</label>
-          <ProgressBar variant="Danger" now={props.progress} label={`${props.progress}%`} />
-      </div> */}
     </div>
    
     );

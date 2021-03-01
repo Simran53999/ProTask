@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import MultiSelect from "react-multi-select-component";
 import axios from 'axios';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import './Todo.css';
@@ -32,7 +31,6 @@ const deleteTask=()=>{
     <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
         {props.Task}
     </li>
-    {/* className="fas fa-pencil"<input className="input-progress"></input>  */}
    
     <div className="progress">
           <ProgressBar variant="info" now={progress} label={`${progress}%`} />
@@ -49,45 +47,6 @@ const deleteTask=()=>{
         <i className="fas fa-trash"></i>
         </button>
         </div>
-          
-          
-        {/* <button className="trash-btn">
-        <i className="fas fa-trash"></i>
-    </button>  */}
-       {/* <button className="share-btn">
-       
-        <i className="fas fa-share-alt"  ></i>
-        
-        </button>
-        <button onClick={deleteHandler} className="access-btn">
-        <i className="fas fa-tags"></i>
-        </button>
-         */} 
-{/*<div className="dropdown">
- <MultiSelect
-        options={Data}
-        value={selected}
-        onChange={setSelected}
-        ArrowRenderer= {ArrowRenderer1}
-        overrideStrings={{selectSomeItems:"Share with:",}}
-      /> 
-      </div>
-      <div className="dropdown"> <MultiSelect
-        options={Data}
-        value={selected1}
-        onChange={setSelected1}
-        ArrowRenderer= {ArrowRenderer2}
-        overrideStrings={{selectSomeItems:"Assign to:",}}
-      />
- </div>*/}
-      
-     {/*  <div className="progress">
-          <label id="status">
-              {props.status}
-          </label>
-          <label id="changeProgress">Change Progress</label>
-          <ProgressBar variant="Danger" now={props.progress} label={`${props.progress}%`} />
-      </div> */}
     </div>
    
     );

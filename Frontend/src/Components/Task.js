@@ -3,12 +3,8 @@ import React from 'react';
 import Todo from './Todo';
 import './Task.css';
 import '../App.css';
-import {useParams, withRouter} from 'react-router-dom';
-import MultiSelect from "react-multi-select-component";
+import { withRouter} from 'react-router-dom';
 import Select from 'react-dropdown-select';
-import {connect} from 'react-redux'
-import * as actionTypes from './store/action'
-import useSWR from 'swr';
 import AssignTodo from './Assigntodo';
 
 class Task extends React.Component{

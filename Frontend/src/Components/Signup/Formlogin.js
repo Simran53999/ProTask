@@ -2,8 +2,6 @@ import React from 'react';
 import './FormSign.css';
 import axios from 'axios';
 import {Link, withRouter} from 'react-router-dom';
-import * as actionTypes from '../store/action';
-import {connect} from 'react-redux'
 
 class Formlogin extends React.Component{
     
@@ -73,16 +71,5 @@ class Formlogin extends React.Component{
     }
 }
 
-const mapStateToProps= state=>{
-  return{
-    username:state.username
-  }
-}
 
-const mapDispatchToProps=dispatch=>{
-  return{
-    handleSubmit:(email,password)=>dispatch(actionTypes.fetchUser(email,password)),
-    User:(username)=>dispatch(actionTypes.getUser(username))
-  }
-}
-export default (connect(mapStateToProps,mapDispatchToProps)(withRouter(Formlogin)));
+export default (withRouter(Formlogin));

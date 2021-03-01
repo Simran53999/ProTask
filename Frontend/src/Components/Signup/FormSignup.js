@@ -3,8 +3,7 @@ import axios from 'axios';
 import validate from './validateInfo';
 import {Link, withRouter} from 'react-router-dom';
 import './FormSign.css';
-import {connect} from 'react-redux'
-import * as actionTypes from '../store/action';
+
 
 
 class SignUp extends React.Component{
@@ -110,17 +109,6 @@ class SignUp extends React.Component{
     }
 }
 
-const mapStateToProps= state=>{
-  return{
-    username:state.username
-  }
-}
 
-const mapDispatchToProps=dispatch=>{
-  return{
-    handleSubmit:(email,password,username,confirmPassword)=>dispatch(actionTypes.SignUp(email,password,username,confirmPassword)),
-    changeToLogin:()=>dispatch(actionTypes.changeToLogin)
-  }
-}
 
 export default withRouter(SignUp);
