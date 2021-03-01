@@ -8,6 +8,7 @@ import MultiSelect from "react-multi-select-component";
 import Select from 'react-dropdown-select';
 import {connect} from 'react-redux'
 import * as actionTypes from './store/action'
+import useSWR from 'swr';
 import AssignTodo from './Assigntodo';
 
 class Task extends React.Component{
@@ -18,15 +19,19 @@ class Task extends React.Component{
         assigntask:'',
         id:'',
         selected1:[],
-        Data:[],
-        listOfAssignTask:[]
+        listOfUsers:[],
+        listOfAssignTask:[],
+        data:null
     }
+    
     setSelected1 = (value)=>{
          let arr=[...this.state.selected1];
          arr.push(value)
          this.setState({selected1:arr})
     }
-    
+    fetcher=()=>{
+       axios.post(`http://localhost:8000/user/getUser/${this.props.match.params.id}`).then((res)=>res.data)
+    }
     setTodos=(myTask,assignedTask)=>{
       this.setState({listOfTask:myTask,listOfAssignTask:assignedTask})
     }
@@ -39,8 +44,8 @@ class Task extends React.Component{
             axios.get('http://localhost:8000/task/getAllUsers')
             .then((res)=>{
                 
-                this.setState({Data:res.data,})
-                console.log(this.state.Data)
+                this.setState({listOfUsers:res.data,})
+                console.log(this.state.listOfUsers)
             }).catch((err)=>{
                console.log(err);
             })
@@ -92,27 +97,12 @@ class Task extends React.Component{
         console.log(this.state.selected1)
          myTask=this.state.listOfTask.map((element,index)=>{
           return <Todo Task={element.Task} id={this.state.id} status={element.status} progress={element.progress} set={this.setTodos}/>
- /*            if(index==0){
-              const prog=element.progress;
-              const status=element.status;
-              console.log(prog,status)
-              return <Todo Task={element.Task} username={this.state.username} status={status} progress={prog} set={this.setTodos}/>
-            }
-            else{
-            return <Todo Task={element.Task} username={this.state.username} status={element.status} progress={element.progress} set={this.setTodos}/>
-          }*/ 
         })
        
         assignTask=this.state.listOfAssignTask.map((element)=>{
             return <AssignTodo Task={element.Task} id={this.state.id} status={element.status} progress={element.progress} set={this.setTodos}/>
         })
         
-       // const data=[
-       //   {label: 'Simran', value:1},
-       //   {label: 'Virendra', value:2},
-       //   {label: 'Arvind', value:3},
-       //   {label:'Ayush', value:4}
-      //]
         return(
             <div className="Task">
               <header>
@@ -121,21 +111,6 @@ class Task extends React.Component{
               <div className="welc">
                 <h2> Welcome {this.props.match.params.username} </h2>
               </div>
-              {/* <form>
-                 <input value={this.state.task} onChange={(event)=>this.setState({...this.state,task:event.target.value})} type="text" className="todo-input" /> 
-                 <button onClick={this.addTask} className="todo-button" type="submit">
-                   <i className="fas fa-plus-square"></i>
-                 </button>
-                 <div className="select">
-                   <select name="todos" className="filter-todo">
-                      <option value="all">All</option>
-                      <option value="completed">Completed</option>
-                      <option value="uncompleted">Uncompleted</option>
-                   </select>
-                 </div>
-              </form>
-               */}
-              
               <div className="task-grid" >
               {}
                 <div className= "my-todo-column">
@@ -145,13 +120,6 @@ class Task extends React.Component{
                  <button onClick={this.addTask} className="todo-button" type="submit">
                    <i className="fas fa-plus-square"></i>
                  </button>
-                 {/*<div className="select">
-                   <select name="todos" className="filter-todo">
-                      <option value="all">All</option>
-                      <option value="completed">Completed</option>
-                      <option value="uncompleted">Uncompleted</option>
-                   </select>
-                 </div>*/}
               </form>
                   {myTask}
                   </div>
@@ -160,15 +128,10 @@ class Task extends React.Component{
                 <form>
                  <input value={this.state.assigntask} onChange={(event)=>this.setState({...this.state,assigntask:event.target.value})} type="text" className="todo-input" /> 
                  
-                 <div className="dropdown"> {/*<MultiSelect
-        options={this.state.Data}
-        value={this.state.selected1}
-        onChange={selected=>this.setState({selected1:selected})}
-        overrideStrings={{selectSomeItems:"Assign to:",}} 
-                 />*/}
+                 <div className="dropdown"> 
                  <Select
     multi
-    options={this.state.Data}
+    options={this.state.listOfUsers}
     onChange={(values) => this.setState({selected1:values})}
     className="react-select"
     placeholder="Assign Tasks ..."
@@ -178,14 +141,6 @@ class Task extends React.Component{
  <button  className="todo-button" type="submit" onClick={this.assignTask}>
                    <i className="fas fa-plus-square"></i>
                  </button>
-
-                 {/* <div className="select">
-                   <select name="todos" className="filter-todo">
-                      <option value="all">All</option>
-                      <option value="completed">Completed</option>
-                      <option value="uncompleted">Uncompleted</option>
-                   </select>
-                 </div> */}
               </form> 
                {assignTask}
                 </div>
