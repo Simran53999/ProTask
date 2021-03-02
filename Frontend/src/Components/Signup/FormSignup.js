@@ -38,7 +38,7 @@ class SignUp extends React.Component{
           <header>
     <h1>ProTask</h1>
         </header>
-        <img className='form-img' src='img/img-2.png' alt='protasklogo' />
+        <img className='form-img' src='img/img-2.png' alt='spaceship' />
           </div>
             <div className='form-content-right' >
         <div className='form' >
@@ -111,4 +111,4 @@ class SignUp extends React.Component{
 
 
 
-export default withRouter(SignUp);
+export default (withRouter(SignUp));
