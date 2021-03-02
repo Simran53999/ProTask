@@ -38,6 +38,10 @@ body {
   position: relative;
 }
 
+.form-content-left h1{
+  color: rgb(255, 255, 255);
+}
+
 .form-img {
   width: 35%;
   height: 29%;
@@ -87,7 +91,7 @@ body {
   text-align: start;
   width: 80%;
   margin-bottom: 1rem;
-  color: #fff;
+  color: rgb(255, 255, 255);
 }
 
 .form-inputs {
