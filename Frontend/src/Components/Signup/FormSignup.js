@@ -17,7 +17,7 @@ class SignUp extends React.Component{
     
     Submit=()=>{
       if(this.state.email.length!==0&&this.state.password.length!==0&&this.state.confirmPassword.length!==0&&this.state.username.length!==0)
-      {  axios.post('http://localhost:8000/user/signup',{email:this.state.email,password:this.state.password,username:this.state.username}).then((res)=>{
+      {  axios.post(`${process.env.REACT_APP_BASE_URL}/user/signup`,{email:this.state.email,password:this.state.password,username:this.state.username}).then((res)=>{
       console.log(res);
       this.props.history.push({
         pathname:`/protask/${res.data._id}/${res.data.username}`,

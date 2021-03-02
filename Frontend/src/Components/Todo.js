@@ -22,7 +22,7 @@ const Todo = (props) => {
  }
 
  const updateTask=()=>{
-     axios.put('http://localhost:8000/task/updateTask',{task:props.Task,progress}).then((result)=>{
+     axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`,{task:props.Task,progress}).then((result)=>{
         console.log(result);
         setprogress(progress)
      }).catch((err)=>{
@@ -31,7 +31,7 @@ const Todo = (props) => {
  }
 
  const closeTask=()=>{
-     axios.put('http://localhost:8000/task/closeTask',{task:props.Task,id:props.id}).then((res)=>{
+     axios.put(`${process.env.REACT_APP_BASE_URL}/task/closeTask`,{task:props.Task,id:props.id}).then((res)=>{
          console.log(res);
          setstatus("Closed")
      }).then((err)=>{
@@ -40,7 +40,7 @@ const Todo = (props) => {
  }
 
  const deleteTask=()=>{
-    axios.put('http://localhost:8000/task/deleteTask',{task:props.Task,id:props.id}).then((res)=>{
+    axios.put(`${process.env.REACT_APP_BASE_URL}/task/deleteTask`,{task:props.Task,id:props.id}).then((res)=>{
         props.set(res.data.myTask,res.data.assignedTask)
     }).catch((err)=>{
         console.log(err)

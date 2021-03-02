@@ -31,11 +31,11 @@ class Task extends React.Component{
     }
     componentDidMount(){
         const id=(this.props.match.params.id)
-        const url=`http://localhost:8000/user/getUser/${id}`;
+        const url=`${process.env.REACT_APP_BASE_URL}/user/getUser/${id}`;
         axios.get(url).then((result)=>{
             console.log(result);
             this.setState({listOfTask:result.data.myTask,id,listOfAssignTask:result.data.assignedTask})
-            axios.get('http://localhost:8000/task/getAllUsers')
+            axios.get(`${process.env.REACT_APP_BASE_URL}/task/getAllUsers`)
             .then((res)=>{
                 
                 this.setState({listOfUsers:res.data,})
@@ -50,7 +50,7 @@ class Task extends React.Component{
     }
 
     addTask=()=>{
-       axios.put("http://localhost:8000/task/addMyTask",{id:this.state.id,task:this.state.mytask})
+       axios.put(`${process.env.REACT_APP_BASE_URL}/task/addMyTask`,{id:this.state.id,task:this.state.mytask})
        .then((result)=>{
            console.log(result);
            this.setState({task:'',listOfTask:result.data.myTask,user:result})
@@ -68,7 +68,7 @@ class Task extends React.Component{
         listOfUser.push(obj)
       })
       console.log(listOfUser)
-      axios.post('http://localhost:8000/task/delegateTask',{listOfUser,task:this.state.assigntask,id:this.props.match.params.id}).then((res)=>{
+      axios.post(`${process.env.REACT_APP_BASE_URL}/task/delegateTask`,{listOfUser,task:this.state.assigntask,id:this.props.match.params.id}).then((res)=>{
         console.log(res)
         this.setState({listOfTask:res.data.myTask,listOfAssignTask:res.data.assignedTask})
         
