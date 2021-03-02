@@ -10,9 +10,7 @@ import Formlogin from "./Components/Signup/Formlogin";
 import SignUp from './Components/Signup/FormSignup';
 import Task from "./Components/Task";
 
-function App(props) {
-  
-console.log(props.task)
+function App() {
 return (
     <div>
       <Router basename="/protask">
