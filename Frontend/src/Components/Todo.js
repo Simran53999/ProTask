@@ -6,7 +6,6 @@ import './Todo.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Todo = (props) => {
- console.log(props)
  const [progress,setprogress]=useState(0)
  const [status,setstatus]=useState("Open")
  //const [progress,setprogress]=useState(props.progress)
@@ -23,8 +22,8 @@ const Todo = (props) => {
 
  const updateTask=()=>{
      axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`,{task:props.Task,progress}).then((result)=>{
-        console.log(result);
         setprogress(progress)
+        props.mutate();
      }).catch((err)=>{
          console.log(err);
      })
@@ -32,8 +31,8 @@ const Todo = (props) => {
 
  const closeTask=()=>{
      axios.put(`${process.env.REACT_APP_BASE_URL}/task/closeTask`,{task:props.Task,id:props.id}).then((res)=>{
-         console.log(res);
          setstatus("Closed")
+         props.mutate();
      }).then((err)=>{
          console.log(err);
      })
@@ -41,7 +40,7 @@ const Todo = (props) => {
 
  const deleteTask=()=>{
     axios.put(`${process.env.REACT_APP_BASE_URL}/task/deleteTask`,{task:props.Task,id:props.id}).then((res)=>{
-        props.set(res.data.myTask,res.data.assignedTask)
+        props.mutate();
     }).catch((err)=>{
         console.log(err)
     })

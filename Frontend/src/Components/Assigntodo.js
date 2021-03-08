@@ -12,15 +12,15 @@ const AssignTodo = (props) => {
 
  const closeTask=()=>{
     axios.put(`${process.env.REACT_APP_BASE_URL}task/closeTask`,{task:props.Task,id:props.id}).then((res)=>{
-        console.log(res);
         setstatus("Closed")
+        props.mutate();
     }).then((err)=>{
         console.log(err);
     })
 }
 const deleteTask=()=>{
     axios.put(`${process.env.REACT_APP_BASE_URL}/task/deleteTask`,{task:props.Task,id:props.id}).then((res)=>{
-        props.set(res.data.myTask,res.data.assignedTask)
+        props.mutate();
     }).catch((err)=>{
         console.log(err)
     })
