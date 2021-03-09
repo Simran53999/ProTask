@@ -11,9 +11,12 @@ const AssignTodo = (props) => {
  
 
  const closeTask=()=>{
-    axios.put(`${process.env.REACT_APP_BASE_URL}task/closeTask`,{task:props.Task,id:props.id}).then((res)=>{
-        setstatus("Closed")
-        props.mutate();
+    axios.put(`${process.env.REACT_APP_BASE_URL}/task/closeTask`,{task:props.Task,id:props.id}).then((res)=>{
+        if(status==="Open")
+           setstatus("Closed")
+         else  
+         setstatus("Open")
+    props.mutate();
     }).then((err)=>{
         console.log(err);
     })

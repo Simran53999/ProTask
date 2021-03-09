@@ -46,7 +46,6 @@ router.put('/addMyTask',(req,res)=>{
     }).catch((err)=>{
         res.send(err);
     })
-
 });
 
 router.put('/deletemyTask',(req,res)=>{
@@ -70,7 +69,10 @@ router.put('/closeTask',(req,res)=>{
         return new Promise((resolve,reject)=>{
             
                 let i=User.myTask.findIndex(e=>e.Task===req.body.task)
-                User.myTask[i].status="Closed"
+                if( User.myTask[i].status==="Closed")
+                User.myTask[i].status="Open"
+                else
+                   User.myTask[i].status="Closed"
                 User.save().then((resul)=>{
                     console.log(resul)
                     resolve(resul)
@@ -89,6 +91,9 @@ router.put('/closeTask',(req,res)=>{
                    if(rr)
                    {
                    let i=rr.assignedTask.findIndex(e=>e.Task===req.body.task)
+                   if( rr.assignedTask[i].status==="Closed")
+                    rr.assignedTask[i].status="Open"
+                   else
                    rr.assignedTask[i].status="Closed"
                    rr.save().then(()=>{
                        user.findOne({_id:req.body.id}).then((Result)=>{
@@ -263,10 +268,7 @@ router.post('/delegateTask',(req,res)=>{
                   reject("error ocuured")
               })
           })
-
       }
-
-
       function UpdateUsers(User,assigne){
         
           return new Promise((resolve,reject)=>{

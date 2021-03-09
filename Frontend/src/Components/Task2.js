@@ -17,44 +17,51 @@ const Task=(props)=>{
     const [selected1,setselected1]=useState([]);
     const [listOfUsers,setlistOfUsers]=useState([]);
     
-    const fetcher=(url)=>{
-        return axios.get(url).then(res=> res.data)
+    useEffect(()=>{
+      const id=(props.match.params.id)
+      //const url=`${process.env.REACT_APP_BASE_URL}/user/getUser/${id}`;
+          axios.get(`${process.env.REACT_APP_BASE_URL}/task/getAllUsers`)
+          .then((res)=>{
+              setlistOfUsers(res.data);
+          }).catch((err)=>{
+             console.log(err);
+          })
+  },[])
+  useEffect(()=>{
+    setMyTask(props.mytask);
+  },[])
+
+    const fetcher=async url=>{
+        const res = await axios.get(url);
+      return res.data;
     }
 
     const {data,error,mutate}=useSWR(
-        `${process.env.REACT_APP_BASE_URL}/user/getUser/${props.match.params.id}`,
-        fetcher
-    )
+        `${process.env.REACT_APP_BASE_URL}/user/getUser/${props.match.params.id}`, fetcher)
+    // if (error) return <div>failed to load</div>
+     //if (!data) return <div>loading...</div>
     console.log(data);
-    const setSelected1 = (value)=>{
-        let arr=[...selected1];
-        arr.push(value)
-        setselected1(arr);
-    }
-    
-    useEffect(()=>{
-        const id=(props.match.params.id)
-        const url=`${process.env.REACT_APP_BASE_URL}/user/getUser/${id}`;
-       
-            axios.get(`${process.env.REACT_APP_BASE_URL}/task/getAllUsers`)
-            .then((res)=>{
-                setlistOfUsers(res.data);
-            }).catch((err)=>{
-               console.log(err);
-            })
-        
-    },[])
 
-    const addTask=()=>{
-        axios.put(`${process.env.REACT_APP_BASE_URL}/task/addMyTask`,{id:id,task:mytask})
+  const addTask=(event)=>{
+      event.preventDefault();
+      console.log(mytask,id);
+        axios.put(`${process.env.REACT_APP_BASE_URL}/task/addMyTask`,{id:props.match.params.id,task:mytask,username:props.match.params.username})
         .then((result)=>{
-            mutate();
+          console.log(result);
+          //setMyTask(mytask)
+           mutate();
+           setMyTask("");
         }).catch((err)=>{
             console.log(err);
         })
      }
+     const submitHandlerMyTodo=(event)=>{
+      setMyTask(event.target.value)
+   }
 
-    const assignTask=()=>{
+    const assignTask=(event)=>{
+      event.preventDefault();
+      //event.target.reset();
         console.log("In assignTask")
         let listOfUser=[];
         selected1.forEach(element=>{
@@ -62,16 +69,24 @@ const Task=(props)=>{
           obj["username"]=element.label
           listOfUser.push(obj)
         })
-        console.log(listOfUser,props.match.params.id,assigntask)
-        axios.post(`${process.env.REACT_APP_BASE_URL}/task/delegateTask`,{listOfUser,id:props.match.params.id,task:assigntask}).then((res)=>{
+        console.log(listOfUser)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/task/delegateTask`,{listOfUser:listOfUser,id:props.match.params.id,task:assigntask}).then((res)=>{
           console.log(res)
-          
+          setAssignTask("");
+          console.log(selected1);
+    setselected1(null);
+    console.log(selected1);
+    mutate();
         }).catch((err)=>{
           console.log(err);
         })
     }
-
-   
+    const submitHandlerAssignTodo=(event)=>{
+      setAssignTask(event.target.value)
+   }
+//const dropdownHandler = (event)=>{
+  //setselected1(event.target.value)
+//}
         var MyTask=[] ;
         var AssignTask=[];
          MyTask=data?.myTask?.map((element,index)=>{
@@ -91,11 +106,10 @@ const Task=(props)=>{
                 <h2> Welcome {props.match.params.username} </h2>
               </div>
               <div className="task-grid" >
-              {}
                 <div className= "my-todo-column">
                   <h3>My tasks</h3>
-                <form>
-                 <input value={mytask} onChange={(event)=> setMyTask(event.target.value)} type="text" className="todo-input" /> 
+                <form >
+                 <input value={mytask}  onChange={submitHandlerMyTodo} type="text" className="todo-input" /> 
                  <button onClick={addTask} className="todo-button" type="submit">
                    <i className="fas fa-plus-square"></i>
                  </button>
@@ -104,20 +118,18 @@ const Task=(props)=>{
                   </div>
                 <div className="assign-todo-column">
                 <h3>Assign tasks</h3>
-                <form>
-                 <input value={assigntask} onChange={(event)=> setAssignTask(event.target.value)} type="text" className="todo-input" /> 
-                 
+                <form >
+                 <input value={assigntask} onChange={submitHandlerAssignTodo} type="text" className="todo-input" /> 
                  <div className="dropdown"> 
                  <Select
     multi
     options={listOfUsers}
-    onChange={(values) => setSelected1(values)}
+    onChange={(values) => setselected1(values)}
     className="react-select"
     placeholder="Assign Tasks ..."
   />
-
  </div>
- <button  className="todo-button" type="submit" onClick={assignTask}>
+ <button  onClick={assignTask} className="todo-button" type="submit" >
                    <i className="fas fa-plus-square"></i>
                  </button>
               </form> 
