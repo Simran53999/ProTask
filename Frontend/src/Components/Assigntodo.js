@@ -3,6 +3,7 @@ import axios from 'axios';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import './Todo.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Tooltip } from '@material-ui/core';
 
 const AssignTodo = (props) => {
     
@@ -31,9 +32,11 @@ const deleteTask=()=>{
 
     return(    
 <div className="todo">
+<Tooltip title = {props.Task} arrow placement="bottom-start">
     <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
-        {props.Task}
+    <div className="textContainer">{props.Task}</div>
     </li>
+    </Tooltip>
    
     <div className="progress">
           <ProgressBar variant="info" now={progress} label={`${progress}%`} />

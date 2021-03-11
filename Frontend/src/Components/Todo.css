@@ -6,6 +6,7 @@
   position: relative;
   left: 15%;
   background: white;
+  
   font-size: 1rem;
   color: black;
   display: flex;
@@ -96,4 +97,12 @@
   font-size: small;
   margin: 10px;
   border: rgb(194, 180, 180);
+}
+/*tooltip*/
+.textContainer {
+  display: block;
+  width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

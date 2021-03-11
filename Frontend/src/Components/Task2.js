@@ -8,6 +8,7 @@ import '../App.css';
 import Select from 'react-dropdown-select';
 import AssignTodo from './Assigntodo';
 import useSWR from "swr";
+import { Tooltip } from '@material-ui/core';
 
 const Task=(props)=>{
     
@@ -17,27 +18,35 @@ const Task=(props)=>{
     const [selected1,setselected1]=useState([]);
     const [listOfUsers,setlistOfUsers]=useState([]);
     
+    const fetcher=async url=>{
+      const res = await axios.get(url);
+    return res.data;
+  }
+
+    const {data,error,mutate}=useSWR(
+      `${process.env.REACT_APP_BASE_URL}/user/getUser/${props.match.params.id}`, fetcher)
+
+  
+
+
     useEffect(()=>{
       const id=(props.match.params.id)
       //const url=`${process.env.REACT_APP_BASE_URL}/user/getUser/${id}`;
           axios.get(`${process.env.REACT_APP_BASE_URL}/task/getAllUsers`)
           .then((res)=>{
+            mutate();
               setlistOfUsers(res.data);
           }).catch((err)=>{
              console.log(err);
           })
-  },[])
+  },[data])
+
   useEffect(()=>{
     setMyTask(props.mytask);
   },[])
 
-    const fetcher=async url=>{
-        const res = await axios.get(url);
-      return res.data;
-    }
+  
 
-    const {data,error,mutate}=useSWR(
-        `${process.env.REACT_APP_BASE_URL}/user/getUser/${props.match.params.id}`, fetcher)
     // if (error) return <div>failed to load</div>
      //if (!data) return <div>loading...</div>
     console.log(data);

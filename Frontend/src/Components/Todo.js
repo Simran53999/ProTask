@@ -4,6 +4,8 @@ import axios from 'axios';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import './Todo.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Tooltip } from '@material-ui/core';
+
 
 const Todo = (props) => {
  const [progress,setprogress]=useState(0)
@@ -50,25 +52,27 @@ const Todo = (props) => {
  }
     return(    
 <div className="todo">
+    <Tooltip title = {props.Task} arrow placement="bottom-start">
     <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
-        {props.Task}
+    <div className="textContainer">{props.Task}</div>
     </li>
+    </Tooltip>
 
     <input className="changeProgress"  placeholder='Edit Progress' disabled={status==="Open"?false:true} onChange={(event)=>setprogress(event.target.value)}></input>
-   
     <div className="edit">
         <button className="edit-btn" onClick={updateTask}>
         <i className="fas fa-tasks"></i>
         </button></div>
-   
     <div className="progress">
           <ProgressBar variant="info" now={progress} label={`${progress}%`} />
           </div>
     
     <div className="status">
+        <Tooltip title="Close Task">
     <button className="status-btn" onClick={closeTask}>
     <i className="fas fa-check"></i>
           </button>
+          </Tooltip>
           </div>
           <div className="delete">
           <button className="trash-btn" onClick={deleteTask}>
