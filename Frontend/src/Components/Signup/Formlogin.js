@@ -17,7 +17,6 @@ class Formlogin extends React.Component{
         {
         this.props.history.push({
              pathname:`/protask/${result.data._id}/${result.data.username}`,
-            
            })
         }  
        }).catch((err)=>{

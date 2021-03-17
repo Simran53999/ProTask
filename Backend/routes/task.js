@@ -67,7 +67,6 @@ router.put('/closeTask',(req,res)=>{
     var list=[]
     function UpdateAssignedTo(User){
         return new Promise((resolve,reject)=>{
-            
                 let i=User.myTask.findIndex(e=>e.Task===req.body.task)
                 if( User.myTask[i].status==="Closed")
                 User.myTask[i].status="Open"
@@ -79,7 +78,6 @@ router.put('/closeTask',(req,res)=>{
                 }).catch((err)=>{
                     reject(err)
                 })
-            
         })
     }
 
@@ -169,7 +167,6 @@ router.put('/updateTask',(req,res)=>{
             })
         })
     }
-
     Update();
 })
 
@@ -231,14 +228,15 @@ router.put('/deleteTask',(req,res)=>{
 })
 
 router.post('/delegateTask',(req,res)=>{
-      var list=[];
-      var updatedUsers=[];
-      
-      user.findOne({_id:req.body.id}).then((User)=>{
+var list=[];
+var updatedUsers=[];
+
+user.findOne({_id:req.body.id}).then((User)=>{
         var assignTask={
             Task:req.body.task,
             progress:0,
-            status:"Open"
+            status:"Open",
+            assignedTo:req.body.listOfUser[0].username
         }
         User.assignedTask.push(assignTask);
         User.save().then((response)=>{
@@ -246,15 +244,17 @@ router.post('/delegateTask',(req,res)=>{
                 list.push(SearchUser(u));
             })
             Promise.all(list).then((result)=>{
-           
                 result.forEach(u=>{
                     updatedUsers.push(UpdateUsers(u,response.username))
                 }) 
             })
             Promise.all(updatedUsers).then(()=>{
+                
                 res.status(200).send(response)
+                
           })
         })
+        //User.assignedTask.push(assignTask);
       })
       
 
@@ -286,13 +286,8 @@ router.post('/delegateTask',(req,res)=>{
                     console.log(result);
                   resolve(result) 
             })
-              
         })
       }
-
-     
-           
-      
 })
 
 module.exports=router;

@@ -37,7 +37,7 @@ const Todo = (props) => {
         setstatus("Closed")
       else  
       setstatus("Open")
-         props.mutate();
+         props.mutate(); //
      }).then((err)=>{
          console.log(err);
      })
@@ -57,6 +57,10 @@ const Todo = (props) => {
     <div className="textContainer">{props.Task}</div>
     </li>
     </Tooltip>
+
+    <div className="mytask-name"> 
+        
+        <text>Assigned By: {props.assignedBy}</text></div>
 
     <input className="changeProgress"  placeholder='Edit Progress' disabled={status==="Open"?false:true} onChange={(event)=>setprogress(event.target.value)}></input>
     <div className="edit">

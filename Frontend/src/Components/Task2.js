@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
-import Axios from 'axios';
 import Todo from './Todo';
 import './Task.css';
 import '../App.css';
@@ -26,9 +25,6 @@ const Task=(props)=>{
     const {data,error,mutate}=useSWR(
       `${process.env.REACT_APP_BASE_URL}/user/getUser/${props.match.params.id}`, fetcher)
 
-  
-
-
     useEffect(()=>{
       const id=(props.match.params.id)
       //const url=`${process.env.REACT_APP_BASE_URL}/user/getUser/${id}`;
@@ -44,8 +40,6 @@ const Task=(props)=>{
   useEffect(()=>{
     setMyTask(props.mytask);
   },[])
-
-  
 
     // if (error) return <div>failed to load</div>
      //if (!data) return <div>loading...</div>
@@ -83,7 +77,7 @@ const Task=(props)=>{
           console.log(res)
           setAssignTask("");
           console.log(selected1);
-    setselected1(null);
+    //setselected1(null);
     console.log(selected1);
     mutate();
         }).catch((err)=>{
@@ -99,11 +93,12 @@ const Task=(props)=>{
         var MyTask=[] ;
         var AssignTask=[];
          MyTask=data?.myTask?.map((element,index)=>{
-          return <Todo Task={element.Task} id={id} status={element.status} progress={element.progress}  mutate={mutate}/>
+          return <Todo Task={element.Task} id={id} status={element.status} progress={element.progress}  mutate={mutate} assignedBy={element.assignedBy}/>
         })
        
         AssignTask=data?.assignedTask?.map((element)=>{
-            return <AssignTodo Task={element.Task} id={id} status={element.status} progress={element.progress}  mutate={mutate}/>
+            return <AssignTodo Task={element.Task} id={id} status={element.status} progress={element.progress}  mutate={mutate} assignedTo={element.username}
+            assignedTo={element.assignedTo}/>
         })
         
         return(
@@ -131,11 +126,14 @@ const Task=(props)=>{
                  <input value={assigntask} onChange={submitHandlerAssignTodo} type="text" className="todo-input" /> 
                  <div className="dropdown"> 
                  <Select
-    multi
+    multi={false}
+    searchable={true}
+    keepSelectedInList={false}
+    clearable={true}
     options={listOfUsers}
     onChange={(values) => setselected1(values)}
     className="react-select"
-    placeholder="Assign Tasks ..."
+    placeholder="Assign Tasks..."
   />
  </div>
  <button  onClick={assignTask} className="todo-button" type="submit" >
@@ -149,8 +147,4 @@ const Task=(props)=>{
         )
     }
   
-
-
-
-
 export default withRouter(Task);

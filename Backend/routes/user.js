@@ -1,6 +1,5 @@
 var express=require('express');
 var router=express.Router({ mergeParams: true });
-
 var task=require('../Models/Task');
 var user=require('../Models/User');
 
@@ -10,7 +9,6 @@ router.post('/signup',(req,res)=>{
           res.send("User already Exists");
         else
         {
-            
             var User=new user({
                 email:req.body.email,
                 password:req.body.password,
@@ -31,7 +29,6 @@ router.post('/signup',(req,res)=>{
 });
 
 router.post('/login',(req,res)=>{
-    
     user.find({email:req.body.email,password:req.body.password}).then((result)=>{
         console.log(result)
         res.send(result[0]);

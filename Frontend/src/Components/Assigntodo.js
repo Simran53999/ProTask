@@ -37,7 +37,8 @@ const deleteTask=()=>{
     <div className="textContainer">{props.Task}</div>
     </li>
     </Tooltip>
-   
+    <div className="assigned-name"> 
+    <text>Assigned To: {props.assignedTo}</text></div>
     <div className="progress">
           <ProgressBar variant="info" now={progress} label={`${progress}%`} />
           </div>

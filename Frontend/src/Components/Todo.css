@@ -106,3 +106,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.assigned-name{
+  text-align: justify;
+}
+.mytask-name{
+  color: tomato;
+}
