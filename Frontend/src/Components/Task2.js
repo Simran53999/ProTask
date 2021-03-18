@@ -93,11 +93,12 @@ const Task=(props)=>{
         var MyTask=[] ;
         var AssignTask=[];
          MyTask=data?.myTask?.map((element,index)=>{
-          return <Todo Task={element.Task} id={props.match.params.id} status={element.status} progress={element.progress}  mutate={mutate} assignedBy={element.assignedBy}/>
+          return <Todo Task={element.Task} id={id} status={element.status} progress={element.progress}  mutate={mutate} assignedBy={element.assignedBy} 
+          assignedTo={element.assignedTo}/>
         })
   
         AssignTask=data?.assignedTask?.map((element)=>{
-            return <AssignTodo Task={element.Task} id={props.match.params.id} status={element.status} progress={element.progress}  mutate={mutate} assignedTo={element.username}
+            return <AssignTodo Task={element.Task} id={props.match.params.id} status={element.status} progress={element.progress}  mutate={mutate} assignedBy={element.username}
             assignedTo={element.assignedTo}/>
         })
         

@@ -25,7 +25,12 @@ const Todo = (props) => {
 
  const updateTask=()=>{
      axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`,{task:props.Task,progress}).then((result)=>{
-        setprogress(progress)
+        if (progress > 100)
+            setprogress(100)
+        else if (progress < 0)
+            setprogress(0)
+        else
+            setprogress(progress)
         props.mutate();
      }).catch((err)=>{
          console.log(err);
@@ -54,22 +59,32 @@ const Todo = (props) => {
         console.log(err)
     })
  }
+
+function assignCheck(){
+    if (props.assignedBy === props.assignedTo){
+        return "";
+    }
+    else
+        return "Assigned By: "+props.assignedBy;
+}
+
     return(    
 <div className="todo">
     <Tooltip title = {props.Task} arrow placement="bottom-start">
     <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
     <div className="textContainer">{props.Task}</div>
+    <div className="mytask-name">
+        <text>{assignCheck()}</text></div>
     </li>
     </Tooltip>
 
-    <div className="mytask-name"> 
-        
-        <text>Assigned By: {props.assignedBy}</text></div>
-
-    <input className="changeProgress"  placeholder='Edit Progress' disabled={status==="Open"?false:true} onChange={(event)=>setprogress(event.target.value)}></input>
+    <input type="number" min="0" max="100" className="changeProgress"  placeholder='Edit Progress' disabled={status==="Open"?false:true} onChange={(event)=>{
+        if (event.target.value > 100){setprogress(100);}
+        else if (event.target.value < 0){setprogress(0);}
+        else setprogress(event.target.value)}}></input>
     <div className="edit">
         <button className="edit-btn" onClick={updateTask}>
-        <i className="fas fa-tasks"></i>
+        <i className="fas fa-pencil-alt"></i>
         </button></div>
     <div className="progress">
           <ProgressBar variant="info" now={progress} label={`${progress}%`} />

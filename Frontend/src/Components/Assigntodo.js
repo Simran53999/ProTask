@@ -35,10 +35,11 @@ const deleteTask=()=>{
 <Tooltip title = {props.Task} arrow placement="bottom-start">
     <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
     <div className="textContainer">{props.Task}</div>
-    </li>
-    </Tooltip>
     <div className="assigned-name"> 
     <text>Assigned To: {props.assignedTo}</text></div>
+    </li>
+    </Tooltip>
+    
     <div className="progress">
           <ProgressBar variant="info" now={progress} label={`${progress}%`} />
           </div>
