@@ -14,6 +14,7 @@ const Todo = (props) => {
  //const [status,setstatus]=useState(props.status)
  const [inputProgress,setInputProgress]=useState(false)
  
+ console.log(props)
  useEffect(()=>{
     setstatus(props.status);
     setprogress(props.progress)
@@ -32,6 +33,7 @@ const Todo = (props) => {
  }
 
  const closeTask=()=>{
+     console.log(props.id)
      axios.put(`${process.env.REACT_APP_BASE_URL}/task/closeTask`,{task:props.Task,id:props.id}).then((res)=>{
         if(status==="Open")
         setstatus("Closed")
@@ -43,7 +45,9 @@ const Todo = (props) => {
      })
  }
 
+ 
  const deleteTask=()=>{
+     console.log(props.id);
     axios.put(`${process.env.REACT_APP_BASE_URL}/task/deleteTask`,{task:props.Task,id:props.id}).then((res)=>{
         props.mutate();
     }).catch((err)=>{

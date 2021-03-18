@@ -4,18 +4,22 @@ var router=express.Router({ mergeParams: true });
 var task=require('../Models/Task');
 var user=require('../Models/User');
 
-router.get('/getAllUsers',(req,res)=>{
-
+router.get('/getAllUsers/:username',(req,res)=>{
+ const  username=req.params['username'];
+ var listOfUser=[]
     user.find({}).then((result)=>{
         let c=1;
         console.log(result)
-        var listOfUser=result.map((u)=>{
+        result.forEach((u)=>{
+            if(u.username!==username){
             let obj={};
             obj['label']=u.username;
             obj['value']=c;
             c++;
-            return obj;
+            listOfUser.push(obj);
+            }
         })
+        console.log(listOfUser)
         res.send(listOfUser).status(200);
     }).catch((err)=>{
         console.log(err);
@@ -174,7 +178,6 @@ router.put('/deleteTask',(req,res)=>{
     var list=[]
     var deleteuser=[]
     user.find({"myTask.Task":req.body.task}).then((result)=>{
-        
         result.forEach(u=>list.push(deleteUser(u)))
  })
  Promise.all(list).then((rr)=>{
@@ -209,7 +212,7 @@ router.put('/deleteTask',(req,res)=>{
         return new Promise((resolve,reject)=>{
            let arr= User.myTask.filter(e=>e.Task!==req.body.task)
            User.myTask=arr;
-           console.log(User)
+           console.log(req.body.id)
             User.save().then((r)=>{
                 console.log(r)
                 resolve(r)
@@ -218,13 +221,6 @@ router.put('/deleteTask',(req,res)=>{
             })
         })
     }
-   
-    
-
-
-    
-
-    
 })
 
 router.post('/delegateTask',(req,res)=>{
