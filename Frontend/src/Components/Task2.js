@@ -107,6 +107,7 @@ const Task=(props)=>{
               <header>
               <h1>ProTask</h1> 
               </header>
+              <button className="logout-btn">Logout</button>
               <div className="welc">
                 <h2> Welcome {props.match.params.username} </h2>
               </div>

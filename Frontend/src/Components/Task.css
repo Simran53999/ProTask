@@ -9,3 +9,28 @@ h1 {
   font-size: 4rem;
   color: rgb(255, 255, 255);
 }
+.logout-btn {
+  color: rgb(255, 255, 255);
+  width: 10%;
+  height: 50px;
+  position: absolute;
+  bottom: 90%;
+  left: 88%;
+  font-size: 1.2rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  background: linear-gradient(
+    90deg,
+    rgb(39, 143, 255) 0%,
+    rgb(12, 99, 250) 100%
+  );
+}
+.logout-btn:hover {
+  cursor: pointer;
+  background: linear-gradient(
+    90deg,
+    rgb(39, 176, 255) 0%,
+    rgb(0, 232, 236) 100%
+  );
+  transition: all 0.4s ease-out;
+}

@@ -68,6 +68,16 @@ function assignCheck(){
         return "Assigned By: "+props.assignedBy;
 }
 
+const getToday=()=>{
+    let today = new Date();
+    today.setDate(today.getDate());
+    today.setTime(today.getTime());
+    const date = today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate();
+    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    const dateTime = date+' '+time;
+    return dateTime;
+}
+
     return(    
 <div className="todo">
     <Tooltip title = {props.Task} arrow placement="bottom-start">
@@ -77,10 +87,15 @@ function assignCheck(){
         <text>{assignCheck()}</text></div>
     </li>
     </Tooltip>
+    <Tooltip title = {props.Task} arrow placement="bottom-start">
+    <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
+    <div className="assign-tm"><text>Assigned at: {getToday()}</text></div>
+    </li>
+    </Tooltip>
 
     <input type="number" min="0" max="100" className="changeProgress"  placeholder='Edit Progress' disabled={status==="Open"?false:true} onChange={(event)=>{
-        if (event.target.value > 100){setprogress(100);}
-        else if (event.target.value < 0){setprogress(0);}
+        if (event.target.value > 100){alert("Too Big! Value should be between 0 to 100."); setprogress(0);}
+        else if (event.target.value < 0){alert("Too Small! Value should be between 0 to 100.");setprogress(0);}
         else setprogress(event.target.value)}}></input>
     <div className="edit">
         <button className="edit-btn" onClick={updateTask}>
