@@ -33,8 +33,9 @@ const deleteTask=()=>{
     return(    
 <div className="todo">
 <Tooltip title = {props.Task} arrow placement="bottom-start">
+    <li>
     <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
-    <div className="textContainer">{props.Task}</div>
+    <div className="textContainer">{props.Task}</div></li>
     <div className="assigned-name"> 
     <text>Assigned To: {props.assignedTo}</text></div>
     </li>

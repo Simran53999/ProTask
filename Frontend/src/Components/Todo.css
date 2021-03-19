@@ -130,11 +130,12 @@
   text-overflow: ellipsis;
 }
 .assigned-name{
-  font-size: small;
+  font-size: 10px;
   color: gray;
 }
 .mytask-name{
-  font-size: small;
+  font-size: 10px;
+  color: gray;
 }
 /* .fa-pencil-alt{
   content: '\f303';>>

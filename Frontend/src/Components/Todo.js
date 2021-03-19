@@ -81,14 +81,15 @@ const getToday=()=>{
     return(    
 <div className="todo">
     <Tooltip title = {props.Task} arrow placement="bottom-start">
+    <li>
     <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
-    <div className="textContainer">{props.Task}</div>
+    <div className="textContainer">{props.Task}</div></li>
     <div className="mytask-name">
         <text>{assignCheck()}</text></div>
     </li>
     </Tooltip>
     <Tooltip title = {props.Task} arrow placement="bottom-start">
-    <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
+    <li>
     <div className="assign-tm"><text>Assigned at: {getToday()}</text></div>
     </li>
     </Tooltip>
