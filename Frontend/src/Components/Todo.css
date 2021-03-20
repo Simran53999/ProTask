@@ -6,7 +6,7 @@
   position: relative;
   left: 8%;
   background: white;
-  
+  border-radius: 4px;
   font-size: 1rem;
   color: black;
   display: flex;

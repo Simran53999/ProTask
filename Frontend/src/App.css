@@ -6,7 +6,7 @@
 body {
   background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
   color: rgb(255, 255, 255);
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif!important;
 }
 header {
   font-size: 30px !important;
@@ -21,6 +21,7 @@ form {
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 4px;
 }
 
 form input {
@@ -28,6 +29,7 @@ form input {
   font-size: 2rem;
   border: none;
   background: white;
+  border-radius: 4px 0px 0px 4px;
 }
 .todo-input2 {
   background: white;
@@ -37,6 +39,7 @@ form button {
   font-size: 2rem;
   border: none;
   background: white;
+  border-radius: 0px 4px 4px 0px;
 }
 form button {
   color: #ff6f47;
@@ -49,6 +52,7 @@ form button:hover {
   color: white;
 }
 h2 {
+  padding-top: 5vh;
   color: white;
   display: flex;
   justify-content: center;
@@ -213,5 +217,5 @@ select {
 
 .assign-todo-column {
   background-color: transparent;
-  border-left: 3px solid #ff6f47;
+  border-left: 3px solid #ebe8e8;
 }

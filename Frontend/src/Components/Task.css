@@ -4,8 +4,10 @@ header {
   display: flex;
   justify-content: center !important;
   align-items: center;
+  font-weight: bold;
 }
 h1 {
   font-size: 4rem;
+  font-weight: bold;
   color: rgb(255, 255, 255);
 }

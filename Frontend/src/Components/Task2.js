@@ -4,12 +4,17 @@ import axios from 'axios';
 import Todo from './Todo';
 import './Task.css';
 import '../App.css';
+import { Grid } from "@material-ui/core";
+import { MainContainerStyles } from "../styles/homePageStyles";
 import Select from 'react-dropdown-select';
 import AssignTodo from './Assigntodo';
 import useSWR from "swr";
+import Header from "./Header";
 import { Tooltip } from '@material-ui/core';
 
 const Task=(props)=>{
+  const classes = MainContainerStyles();
+
     
     const [mytask,setMyTask]=useState('');
     const [assigntask,setAssignTask]=useState('');
@@ -103,10 +108,16 @@ const Task=(props)=>{
         })
         
         return(
+          <div className={classes.root}>
+          
+              <Grid item xs={12} className={classes.paperTop}>
+                  <Header {...props} />
+              </Grid>
+              
             <div className="Task">
-              <header>
+              {/* <header>
               <h1>ProTask</h1> 
-              </header>
+              </header> */}
               <div className="welc">
                 <h2> Welcome {props.match.params.username} </h2>
               </div>
@@ -145,6 +156,8 @@ const Task=(props)=>{
                 </div>
               </div>
             </div>  
+            
+            </div>
         )
     }
   
