@@ -119,7 +119,9 @@ export default function Sort(props){
       })
       
     return (
+        
         <div className="task-grid" >
+            
         <div className= "my-todo-column">
           <h3>My tasks</h3>
         <form >
