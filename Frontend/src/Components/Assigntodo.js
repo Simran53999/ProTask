@@ -9,6 +9,7 @@ const AssignTodo = (props) => {
     
  const [progress,setprogress]=useState(props.progress)
  const [status,setstatus]=useState(props.status)
+ let date = props.startDate?.split("T")
  
 
  const closeTask=()=>{
@@ -29,7 +30,7 @@ const deleteTask=()=>{
         console.log(err)
     })
  }
-
+console.log(typeof(props.startDate))
     return(    
 <div className="todo">
 <Tooltip title = {props.Task} arrow placement="bottom-start">
@@ -37,7 +38,9 @@ const deleteTask=()=>{
     <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
     <div className="textContainer">{props.Task}</div></li>
     <div className="assigned-name"> 
-    <text>Assigned To: {props.assignedTo}</text></div>
+    <text>Assigned To: {props.assignedTo}</text>
+    <text>Start On: {date!==undefined?date[0]:null}</text>
+    </div>
     </li>
     </Tooltip>
     

@@ -82,12 +82,12 @@ export default function Sort(props){
 
      MyTask=props.data?.myTask?.map((element,index)=>{
         return <Todo Task={element.Task} id={props.id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.assignedBy} 
-        assignedTo={element.assignedTo}/>
+        assignedTo={element.assignedTo} startDate={element.startDate} endDate={element.endDate}/>
       })
 
       AssignTask=props.data?.assignedTask?.map((element)=>{
           return <AssignTodo Task={element.Task} id={props.id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.username}
-          assignedTo={element.assignedTo}/>
+          assignedTo={element.assignedTo} startDate={element.startDate} endDate={element.endDate}/>
       })
       useEffect(() =>{
         const sortArray = type => {
