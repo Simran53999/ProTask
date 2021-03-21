@@ -119,7 +119,6 @@ router.put('/closeTask',(req,res)=>{
            })
        })
     }
-
     findUserOfTask();
 })
 
@@ -173,6 +172,61 @@ router.put('/updateTask',(req,res)=>{
         })
     }
     Update();
+})
+
+
+router.put('/updateDate',(req,res)=>{
+    var list=[];
+    function UpdateDateAssignedBy(){
+        return new Promise((resolve,reject)=>{
+            user.findOne({"assignedTask.Task":req.body.task}).then((result)=>{
+                if(result!=null)
+                {
+                let i=result.assignedTask.findIndex((e)=>e.Task===req.body.task)
+                result.assignedTask[i].startDate=req.body.startDate;
+                result.assignedTask[i].endDate=req.body.endDate;
+                result.save().then((r)=>{
+                    console.log(r);
+                    resolve(r);
+                }).catch((err)=>{
+                    reject(err);
+                })
+                }
+                else{
+                    resolve(result);
+                }
+            })
+        })
+    }
+
+    function saveDate(User){
+       return new Promise((resolve,reject)=>{
+           let i=User.myTask.findIndex((e)=>e.Task===req.body.task)
+           User.myTask[i].startDate=req.body.startDate;
+           User.myTask[i].endDate=req.body.endDate;
+           User.save().then((result)=>{
+               resolve(result)
+           }).catch((err)=>{
+               reject(err);
+           })
+       })
+    }
+    function UpdateDate(){
+        let User=UpdateDateAssignedBy();
+        User.then((result)=>{
+            user.find({"myTask.Task":req.body.task}).then((result)=>{
+                 if(result){ 
+                 result.forEach(e=>list.push(saveDate(e)))
+                 Promise.all(list).then((result)=>{
+                     res.send(result)
+                 }).catch((err)=>{
+                     res.send(err);
+                 })
+                }
+            })
+        })
+    }
+    UpdateDate();
 })
 
 router.put('/deleteTask',(req,res)=>{
@@ -233,7 +287,9 @@ user.findOne({_id:req.body.id}).then((User)=>{
             Task:req.body.task,
             progress:0,
             status:"Open",
-            assignedTo:req.body.listOfUser[0].username
+            assignedTo:req.body.listOfUser[0].username,
+            startDate:req.body.startDate,
+            endDate:req.body.endDate
         }
         User.assignedTask.push(assignTask);
         User.save().then((response)=>{

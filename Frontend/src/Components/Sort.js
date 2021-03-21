@@ -21,9 +21,13 @@ export default function Sort(props){
     const [listOfUsers,setlistOfUsers]=useState([]);
     const [Data, setData]=useState([]);
     const [sortType, setSortType] = useState('');
+    const [sortedMyTask,setSortedMyTask]=useState([]);
+    const [sortedAssignTask,setSortedAssignTask]=useState([]);
+    //const [sorted]
     let MyTask=[];
     let AssignTask=[];
-
+    
+    console.log(props.data)
     const addTask=(event)=>{
         event.preventDefault();
         console.log(mytask,id);
@@ -71,42 +75,49 @@ export default function Sort(props){
      }
 
      let data=props.useUser()
-
-     useEffect(()=>{
-         console.log(data.myTask)
-    let arr=data.myTask.sort((a,b)=>{
-    return b["_id"]-a["_id"];
-  })
-  console.log(arr)    
-},[data])  
-
-     MyTask=props.data?.myTask?.map((element,index)=>{
-        return <Todo Task={element.Task} id={props.id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.assignedBy} 
-        assignedTo={element.assignedTo}/>
-      })
+     useEffect(() =>{
+      console.log(sortType)
+      const sortArray = type => {
+         switch(type)
+         {
+           case "Task":
+             return "Task";
+           case "progress":
+             return "progress";
+           default :
+             return null;   
+         }
+        };
+        const sortProperty = sortArray(sortType[0]?.value);
+         const mtask = [...data?.myTask];
+         const assignTask=[...data?.assignedTask];
+        console.log(sortProperty,mtask) 
+        let sorted=[];let sortedAssignTask=[];
+        if(sortProperty==="Task")
+        { sorted=mtask.sort((b,a)=>b.Task>a.Task?1:-1);
+          sortedAssignTask=assignTask.sort((b,a)=>b.Task>a.Task?1:-1);
+        }
+        else if(sortProperty==="progress")
+        { sorted=mtask.sort((b,a)=>b.progress>a.progress?1:-1);
+          sortedAssignTask=assignTask.sort((b,a)=>b.progress>a.progress?1:-1); 
+        }  
+        else
+        { sorted=mtask
+          sortedAssignTask=assignTask
+        } 
+        console.log(sorted);
+        setSortedMyTask(sorted)
+        setSortedAssignTask(sortedAssignTask);      
+    }, [sortType,data]);
+   
+    
+    
 
       AssignTask=props.data?.assignedTask?.map((element)=>{
           return <AssignTodo Task={element.Task} id={props.id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.username}
-          assignedTo={element.assignedTo}/>
+          assignedTo={element.assignedTo} startDate={element.startDate} endDate={element.endDate}/>
       })
-      useEffect(() =>{
-        const sortArray = type => {
-          const types = {
-            progress: 'progress',
-            Task: 'Task',
-            status: 'status',
-          };
-          const sortProperty = types[type];
-           const mtask = data?.myTask;
-          const sorted = data?.myTask.sort((a, b) => b[sortProperty] - a[sortProperty]);
-          console.log(sorted);
-          setData(sorted);
-          // MyTask = Data;
-          console.log("hello haha", mtask);
-        };
-        sortArray(sortType);
-      }, [sortType]);
-
+      
     return (
         
         <div className="task-grid" >
@@ -119,8 +130,27 @@ export default function Sort(props){
 */}                 <button onClick={addTask} className="todo-button" type="submit">
            <i className="fas fa-plus-square"></i>
          </button>
+         <Select
+            multi={false}
+            searchable={true}
+            keepSelectedInList={false}
+            clearable={true}
+            options={[
+              {label:"progress",value:"progress"},
+              {label:"Task",value:"Task"}
+              ]
+            }
+            onChange={(values) => setSortType(values)}
+            className="react-select"
+            placeholder="Sort By..."                   
+         />
       </form>
-          {MyTask}
+          {sortedMyTask.map((element,index)=>{
+                return <Todo Task={element.Task} id={props.id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.assignedBy} 
+                assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate}
+                />
+              })    
+          }
           </div>
         <div className="assign-todo-column">
         <h3>Assign tasks</h3>
@@ -142,8 +172,13 @@ placeholder="Assign Tasks..."
            <i className="fas fa-plus-square"></i>
          </button>
       </form> 
-       {AssignTask}
-        </div>
+       {
+         sortedAssignTask.map((element,index)=>{
+          return <AssignTodo Task={element.Task} id={props.id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.username}
+          assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate}/>
+        })    
+      }
+      </div>
       </div>
     )
 }

@@ -3,6 +3,7 @@ import MultiSelect from "react-multi-select-component";
 import axios from 'axios';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import './Todo.css';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Tooltip } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
@@ -21,11 +22,12 @@ import "react-datepicker/dist/react-datepicker.css"; */
 
 const Todo = (props) => {
 
-
 //const [startDate, setStartDate] = useState(null);
- const [progress,setprogress]=useState(0)
+ const [progress,setprogress]=useState(props.progress)
  const [status,setstatus]=useState("Open")
-const [selectedDate, handleDateChange] = useState(new Date());
+//const [selectedDate, handleDateChange] = useState(new Date(new Date().toDateString()));
+const[startDate,setStartDate]=useState(new Date());
+const [endDate,setEndDate]=useState(new Date());
  //const [progress,setprogress]=useState(props.progress)
  //const [status,setstatus]=useState(props.status)
  const [inputProgress,setInputProgress]=useState(false)
@@ -35,13 +37,31 @@ const [selectedDate, handleDateChange] = useState(new Date());
    setSelectedDate(date);
  }; */
  
+ 
  console.log(props)
  useEffect(()=>{
     setstatus(props.status);
     setprogress(props.progress)
+    setStartDate(props.startDate)
+    setEndDate(props.endDate)
   },[])
+
+useEffect(()=>{
+  setprogress(props.progress)
+},[props.progress])
+ 
  const changeProgress=(e)=>{
     setprogress(e.target.value)
+ }
+
+ const updateDate=()=>{
+     axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateDate`,{task:props.Task,startDate,endDate}).then((result)=>{
+         setStartDate(startDate)
+         setEndDate(endDate)
+         props.mutate();
+     }).catch((err)=>{
+         console.log(err);
+     })
  }
 
  const updateTask=()=>{
@@ -71,9 +91,10 @@ const [selectedDate, handleDateChange] = useState(new Date());
      })
  }
 
+
  
  const deleteTask=()=>{
-     console.log(props.id);
+     
     axios.put(`${process.env.REACT_APP_BASE_URL}/task/deleteTask`,{task:props.Task,id:props.id}).then((res)=>{
         props.mutate();
     }).catch((err)=>{
@@ -151,15 +172,18 @@ const myTheme = createMuiTheme({
     <MuiThemeProvider theme={myTheme}>
   <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <DatePicker
-        autoOk
-        label="Start By:"
+        
+        label="Start By"
         clearable
         format="MM/dd"
-        disableFuture
-        value={selectedDate}
-        onChange={handleDateChange} />
-  </MuiPickersUtilsProvider>
-  </MuiThemeProvider>
+        disableFuture={false}
+        disablePast={true}
+        value={startDate}
+        onChange={setStartDate}
+        
+      />
+      
+ </MuiPickersUtilsProvider></MuiThemeProvider>
  </div>
  <div className="assign-tm">
 <MuiThemeProvider theme={myTheme}>
@@ -168,16 +192,18 @@ const myTheme = createMuiTheme({
         label="End By:"
         clearable
         format="MM/dd"
-        disableFuture
-        value={selectedDate}
-        onChange={handleDateChange}
+        minDate={startDate}
+        disableFuture={false}
+        disablePast={false}
+        value={endDate}
+        onChange={setEndDate}
       /></MuiPickersUtilsProvider>
 </MuiThemeProvider>
     </div>
 
           <div className="date">
         <Tooltip title="Save start & end date for task">
-    <button className="date-set" onClick={closeTask}>
+    <button className="date-set" onClick={updateDate}>
     <i className="far fa-calendar-plus"></i>
           </button>
           </Tooltip>

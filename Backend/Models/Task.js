@@ -8,7 +8,9 @@ var task=mongoose.Schema({
     status:{type:String,},
     assignedTo:{type:String},
     assignedBy:{type:String},
-    progress:{type:Number,default:0}
+    progress:{type:Number,default:0},
+    startDate:{type:Date},
+    endDate:{type:Date}
 });
 
 module.exports=task;
