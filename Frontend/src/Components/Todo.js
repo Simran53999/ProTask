@@ -5,9 +5,14 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import './Todo.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Tooltip } from '@material-ui/core';
+/* import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css"; */
 
 
 const Todo = (props) => {
+
+
+//const [startDate, setStartDate] = useState(null);
  const [progress,setprogress]=useState(0)
  const [status,setstatus]=useState("Open")
  //const [progress,setprogress]=useState(props.progress)
@@ -90,7 +95,11 @@ const getToday=()=>{
     </Tooltip>
     <Tooltip title = {props.Task} arrow placement="bottom-start">
     <li>
-    <div className="assign-tm"><text>Assigned at: {getToday()}</text></div>
+    <div className="assign-tm">
+{/*     <DatePicker selected={startDate} 
+    onChange={date => setStartDate(date)} /> */}
+{/*         <text>Created on: {getToday()}</text>
+ */}        </div>
     </li>
     </Tooltip>
 

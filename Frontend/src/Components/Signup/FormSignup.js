@@ -4,8 +4,6 @@ import validate from './validateInfo';
 import {Link, withRouter} from 'react-router-dom';
 import './FormSign.css';
 
-
-
 class SignUp extends React.Component{
     
     state={
