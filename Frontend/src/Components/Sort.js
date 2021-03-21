@@ -19,6 +19,8 @@ export default function Sort(props){
     const [id,setid]=useState('');
     const [selected1,setselected1]=useState([]);
     const [listOfUsers,setlistOfUsers]=useState([]);
+    const [Data, setData]=useState([]);
+    const [sortType, setSortType] = useState('');
     let MyTask=[];
     let AssignTask=[];
 
@@ -87,6 +89,24 @@ export default function Sort(props){
           return <AssignTodo Task={element.Task} id={props.id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.username}
           assignedTo={element.assignedTo}/>
       })
+      useEffect(() =>{
+        const sortArray = type => {
+          const types = {
+            progress: 'progress',
+            Task: 'Task',
+            status: 'status',
+          };
+          const sortProperty = types[type];
+           const mtask = data?.myTask;
+          const sorted = data?.myTask.sort((a, b) => b[sortProperty] - a[sortProperty]);
+          console.log(sorted);
+          setData(sorted);
+          // MyTask = Data;
+          console.log("hello haha", mtask);
+        };
+        sortArray(sortType);
+      }, [sortType]);
+
     return (
         <div className="task-grid" >
         <div className= "my-todo-column">

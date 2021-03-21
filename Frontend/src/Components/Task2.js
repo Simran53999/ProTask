@@ -54,7 +54,6 @@ const Task=(props)=>{
 //const Data=data.myTask
 //console.log(Data)  
 
-
 /* useEffect(()=>{
     data.myTask.sort((a,b)=>{
     return b["Task"]-a["Task"];
@@ -88,6 +87,14 @@ const Task=(props)=>{
               <div className="welc">
                 <h2> Welcome {props.match.params.username} </h2>
               </div>
+              {/* <div className="sort">
+                <select className="in-select" onChange={(e) => {setSortType(e.target.value)}}>
+                  <option value="" disabled selected>Sort By:</option>
+                  <option value="progress">Progress</option>
+                  <option value="Task">Task</option>
+                  <option value="status">Status</option>
+                </select>
+              </div> */}
                 <Sort username={props.match.params.username} id={props.match.params.id}
                 mutate={mutate} useUser={useUser}
                 data={data} listOfUsers={listOfUsers}/>
