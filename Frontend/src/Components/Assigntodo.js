@@ -3,13 +3,14 @@ import axios from 'axios';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import './Todo.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Tooltip } from '@material-ui/core';
+import { Toolbar, Tooltip } from '@material-ui/core';
 
 const AssignTodo = (props) => {
     
  const [progress,setprogress]=useState(props.progress)
  const [status,setstatus]=useState(props.status)
  let date = props.startDate?.split("T")
+ let edate = props.endDate?.split("T")
   
  useEffect(()=>{
     setprogress(progress);
@@ -33,6 +34,15 @@ const deleteTask=()=>{
         console.log(err)
     })
  }
+
+ function dateCheck(){
+    if (props.startDate === props.startDate){
+        return "";
+    }
+    else
+        return "Start on "+date!==undefined?date[0]:null;
+}
+
 console.log(typeof(props.startDate))
     return(    
 <div className="todo">
@@ -41,11 +51,17 @@ console.log(typeof(props.startDate))
     <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
     <div className="textContainer">{props.Task}</div></li>
     <div className="assigned-name"> 
-    <text>Assigned To: {props.assignedTo}</text>
-    <text>Start On: {date!==undefined?date[0]:null}</text>
+    <text>Assigned To: {props.assignedTo}</text> 
+    
     </div>
     </li>
     </Tooltip>
+    <div className="date-name">
+        
+            <li><text>Start On: {date!==undefined?date[0]:null}</text></li>
+          <li><text>End On: {edate!==undefined?edate[0]:null}</text>
+      </li>
+    </div>
     
     <div className="progress">
           <ProgressBar variant="info" now={progress} label={`${progress}%`} />

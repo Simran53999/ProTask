@@ -147,7 +147,8 @@ export default function Sort(props){
       </form>
           {sortedMyTask.map((element,index)=>{
                 return <Todo Task={element.Task} id={props.id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.assignedBy} 
-                assignedTo={element.assignedTo}/>
+                assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate}
+                />
               })    
           }
           </div>
@@ -174,10 +175,9 @@ placeholder="Assign Tasks..."
        {
          sortedAssignTask.map((element,index)=>{
           return <AssignTodo Task={element.Task} id={props.id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.username}
-          assignedTo={element.assignedTo}/>
+          assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate}/>
         })    
       }
-       
       </div>
       </div>
     )
