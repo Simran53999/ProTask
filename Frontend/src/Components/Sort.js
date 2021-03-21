@@ -113,10 +113,10 @@ export default function Sort(props){
     
     
 
-      AssignTask=props.data?.assignedTask?.map((element)=>{
+     /*  AssignTask=props.data?.assignedTask?.map((element)=>{
           return <AssignTodo Task={element.Task} id={props.id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.username}
           assignedTo={element.assignedTo} startDate={element.startDate} endDate={element.endDate}/>
-      })
+      }) */
       
     return (
         
