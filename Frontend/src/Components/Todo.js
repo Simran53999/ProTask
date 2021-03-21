@@ -12,6 +12,7 @@ import {
   KeyboardDatePicker,
   DatePicker 
 } from '@material-ui/pickers';
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 //import { DatePicker , MuiPickersUtilsProvider} from "@material-ui/pickers";
 //import DateFnsUtils from '@date-io/date-fns';
 /* import DatePicker from "react-datepicker";
@@ -88,6 +89,13 @@ function assignCheck(){
         return "Assigned By: "+props.assignedBy;
 }
 
+const myTheme = createMuiTheme({
+    typography:{
+        fontSize: 11
+    }
+  })
+
+// const { datePicker } = myTheme();
 /* const getToday=()=>{
     let today = new Date();
     today.setDate(today.getDate());
@@ -140,31 +148,36 @@ function assignCheck(){
 {/*         <text>Created on: {getToday()}</text>
  */}      
  <div className="assign-tm">
+    <MuiThemeProvider theme={myTheme}>
   <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <DatePicker
         autoOk
-        label="Start By"
+        label="Start By:"
         clearable
         format="MM/dd"
         disableFuture
         value={selectedDate}
-        onChange={handleDateChange}
-      />
-      
- </MuiPickersUtilsProvider>
+        onChange={handleDateChange} />
+  </MuiPickersUtilsProvider>
+  </MuiThemeProvider>
  </div>
+ <div className="assign-tm">
+<MuiThemeProvider theme={myTheme}>
  <MuiPickersUtilsProvider utils={DateFnsUtils}><DatePicker
         autoOk
-        label="End By"
+        label="End By:"
         clearable
         format="MM/dd"
         disableFuture
         value={selectedDate}
         onChange={handleDateChange}
       /></MuiPickersUtilsProvider>
-          <div className="status">
+</MuiThemeProvider>
+    </div>
+
+          <div className="date">
         <Tooltip title="Save start & end date for task">
-    <button className="status-btn" onClick={closeTask}>
+    <button className="date-set" onClick={closeTask}>
     <i className="far fa-calendar-plus"></i>
           </button>
           </Tooltip>
