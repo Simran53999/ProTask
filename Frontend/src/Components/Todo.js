@@ -3,6 +3,7 @@ import MultiSelect from "react-multi-select-component";
 import axios from 'axios';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import './Todo.css';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Tooltip } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
@@ -21,7 +22,7 @@ import "react-datepicker/dist/react-datepicker.css"; */
 const Todo = (props) => {
 
 //const [startDate, setStartDate] = useState(null);
- const [progress,setprogress]=useState(0)
+ const [progress,setprogress]=useState(props.progress)
  const [status,setstatus]=useState("Open")
 //const [selectedDate, handleDateChange] = useState(new Date(new Date().toDateString()));
 const[startDate,setStartDate]=useState(new Date());
@@ -44,6 +45,10 @@ const [endDate,setEndDate]=useState(new Date());
     setEndDate(props.endDate)
   },[])
 
+useEffect(()=>{
+  setprogress(props.progress)
+},[props.progress])
+ 
  const changeProgress=(e)=>{
     setprogress(e.target.value)
  }
@@ -88,7 +93,7 @@ const [endDate,setEndDate]=useState(new Date());
 
  
  const deleteTask=()=>{
-     console.log(props.id);
+     
     axios.put(`${process.env.REACT_APP_BASE_URL}/task/deleteTask`,{task:props.Task,id:props.id}).then((res)=>{
         props.mutate();
     }).catch((err)=>{
