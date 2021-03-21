@@ -5,6 +5,15 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import './Todo.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Tooltip } from '@material-ui/core';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+  DatePicker 
+} from '@material-ui/pickers';
+//import { DatePicker , MuiPickersUtilsProvider} from "@material-ui/pickers";
+//import DateFnsUtils from '@date-io/date-fns';
 /* import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; */
 
@@ -15,9 +24,15 @@ const Todo = (props) => {
 //const [startDate, setStartDate] = useState(null);
  const [progress,setprogress]=useState(0)
  const [status,setstatus]=useState("Open")
+const [selectedDate, handleDateChange] = useState(new Date());
  //const [progress,setprogress]=useState(props.progress)
  //const [status,setstatus]=useState(props.status)
  const [inputProgress,setInputProgress]=useState(false)
+ //const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+
+/*  const handleDateChange = (date) => {
+   setSelectedDate(date);
+ }; */
  
  console.log(props)
  useEffect(()=>{
@@ -73,7 +88,7 @@ function assignCheck(){
         return "Assigned By: "+props.assignedBy;
 }
 
-const getToday=()=>{
+/* const getToday=()=>{
     let today = new Date();
     today.setDate(today.getDate());
     today.setTime(today.getTime());
@@ -81,7 +96,7 @@ const getToday=()=>{
     const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     const dateTime = date+' '+time;
     return dateTime;
-}
+} */
 
     return(    
 <div className="todo">
@@ -93,16 +108,69 @@ const getToday=()=>{
         <text>{assignCheck()}</text></div>
     </li>
     </Tooltip>
-    <Tooltip title = {props.Task} arrow placement="bottom-start">
+{/*     <Tooltip title = {props.Task} arrow placement="bottom-start">
     <li>
     <div className="assign-tm">
-{/*     <DatePicker selected={startDate} 
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <DatePicker
+        autoOk
+        label="Clearable"
+        clearable
+        disableFuture
+        value={selectedDate}
+        onChange={handleDateChange}
+      />
+           <KeyboardDatePicker
+          margin="normal"
+          id="date-picker-dialog"
+          label="Date picker dialog"
+          format="MM/dd/yyyy"
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        /> 
+      </MuiPickersUtilsProvider>
+ </div>
+    </li>
+    </Tooltip> */}
+    {/*     <DatePicker selected={startDate} 
     onChange={date => setStartDate(date)} /> */}
 {/*         <text>Created on: {getToday()}</text>
- */}        </div>
-    </li>
-    </Tooltip>
-
+ */}      
+ <div className="assign-tm">
+  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <DatePicker
+        autoOk
+        label="Start By"
+        clearable
+        format="MM/dd"
+        disableFuture
+        value={selectedDate}
+        onChange={handleDateChange}
+      />
+      
+ </MuiPickersUtilsProvider>
+ </div>
+ <MuiPickersUtilsProvider utils={DateFnsUtils}><DatePicker
+        autoOk
+        label="End By"
+        clearable
+        format="MM/dd"
+        disableFuture
+        value={selectedDate}
+        onChange={handleDateChange}
+      /></MuiPickersUtilsProvider>
+          <div className="status">
+        <Tooltip title="Save start & end date for task">
+    <button className="status-btn" onClick={closeTask}>
+    <i className="far fa-calendar-plus"></i>
+          </button>
+          </Tooltip>
+          </div>
+ 
+      
     <input type="number" min="0" max="100" className="changeProgress"  placeholder='Edit Progress' disabled={status==="Open"?false:true} onChange={(event)=>{
         if (event.target.value > 100){alert("Too Big! Value should be between 0 to 100."); setprogress(0);}
         else if (event.target.value < 0){alert("Too Small! Value should be between 0 to 100.");setprogress(0);}
