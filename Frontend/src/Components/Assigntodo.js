@@ -9,8 +9,11 @@ const AssignTodo = (props) => {
     
  const [progress,setprogress]=useState(props.progress)
  const [status,setstatus]=useState(props.status)
+  
+ useEffect(()=>{
+    setprogress(progress);
+ },[props.progress])
  
-
  const closeTask=()=>{
     axios.put(`${process.env.REACT_APP_BASE_URL}/task/closeTask`,{task:props.Task,id:props.id}).then((res)=>{
         if(status==="Open")
