@@ -13,11 +13,12 @@ const AssignTodo = (props) => {
  let edate = props.endDate?.split("T")
   
  useEffect(()=>{
-    setprogress(progress);
- },[props.progress])
+    setprogress(props.progress);
+    setstatus(props.status)
+ },[props])
  
  const closeTask=()=>{
-    axios.put(`${process.env.REACT_APP_BASE_URL}/task/closeTask`,{task:props.Task,id:props.id}).then((res)=>{
+    axios.put(`${process.env.REACT_APP_BASE_URL}/task/closeTask`,{id:props.id}).then((res)=>{
         if(status==="Open")
            setstatus("Closed")
          else  
@@ -28,7 +29,7 @@ const AssignTodo = (props) => {
     })
 }
 const deleteTask=()=>{
-    axios.put(`${process.env.REACT_APP_BASE_URL}/task/deleteTask`,{task:props.Task,id:props.id}).then((res)=>{
+    axios.put(`${process.env.REACT_APP_BASE_URL}/task/deleteTask`,{id:props.id}).then((res)=>{
         props.mutate();
     }).catch((err)=>{
         console.log(err)

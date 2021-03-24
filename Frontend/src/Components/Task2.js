@@ -28,7 +28,7 @@ const Task=(props)=>{
   }
 
     const {data,error,mutate}=useSWR(
-      `${process.env.REACT_APP_BASE_URL}/user/getUser/${props.match.params.id}`, fetcher)
+      `${process.env.REACT_APP_BASE_URL}/user/getUser/${props.match.params.username}`, fetcher)
  /*      if (error) return <div>failed to load</div>
       if (!data) return <div>loading...</div> */
 

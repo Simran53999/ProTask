@@ -37,25 +37,20 @@ const [endDate,setEndDate]=useState(new Date());
    setSelectedDate(date);
  }; */
  
- 
- console.log(props)
- useEffect(()=>{
-    setstatus(props.status);
-    setprogress(props.progress)
-    setStartDate(props.startDate)
-    setEndDate(props.endDate)
-  },[])
 
 useEffect(()=>{
   setprogress(props.progress)
-},[props.progress])
+  setstatus(props.status)
+  setStartDate(props.startDate)
+  setEndDate(props.endDate)
+},[props])
  
  const changeProgress=(e)=>{
     setprogress(e.target.value)
  }
 
  const updateDate=()=>{
-     axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateDate`,{task:props.Task,startDate,endDate}).then((result)=>{
+     axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateDate`,{id:props.id,startDate,endDate}).then((result)=>{
          setStartDate(startDate)
          setEndDate(endDate)
          props.mutate();
@@ -65,7 +60,7 @@ useEffect(()=>{
  }
 
  const updateTask=()=>{
-     axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`,{task:props.Task,progress}).then((result)=>{
+     axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`,{id:props.id,progress}).then((result)=>{
         if (progress > 100)
             setprogress(100)
         else if (progress < 0)
@@ -112,20 +107,9 @@ function assignCheck(){
 
 const myTheme = createMuiTheme({
     typography:{
-        fontSize: 11
+        fontSize: 10
     }
   })
-
-// const { datePicker } = myTheme();
-/* const getToday=()=>{
-    let today = new Date();
-    today.setDate(today.getDate());
-    today.setTime(today.getTime());
-    const date = today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate();
-    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    const dateTime = date+' '+time;
-    return dateTime;
-} */
 
     return(    
 <div className="todo">
@@ -177,7 +161,7 @@ const myTheme = createMuiTheme({
         clearable
         format="MM/dd"
         disableFuture={false}
-        disablePast={true}
+        disablePast={false}
         value={startDate}
         onChange={setStartDate}
         

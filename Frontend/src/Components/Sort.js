@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
@@ -59,7 +58,8 @@ export default function Sort(props){
             listOfUser.push(obj)
           })
           console.log(listOfUser)
-          axios.post(`${process.env.REACT_APP_BASE_URL}/task/delegateTask`,{listOfUser:listOfUser,id:props.id,task:assigntask}).then((res)=>{
+          axios.post(`${process.env.REACT_APP_BASE_URL}/task/delegateTask`,{listOfUser:listOfUser,task:assigntask,username:props.username})
+          .then((res)=>{
             console.log(res)
             setAssignTask("");
             console.log(selected1);
@@ -74,7 +74,6 @@ export default function Sort(props){
         setAssignTask(event.target.value)
      }
 
-     let data=props.useUser()
      useEffect(() =>{
       console.log(sortType)
       const sortArray = type => {
@@ -89,17 +88,17 @@ export default function Sort(props){
          }
         };
         const sortProperty = sortArray(sortType[0]?.value);
-         const mtask = [...data?.myTask];
-         const assignTask=[...data?.assignedTask];
-        console.log(sortProperty,mtask) 
+         const mtask = [...props.data?.myTask];
+         const assignTask=[...props.data?.assignedTask];
+         console.log(mtask)
         let sorted=[];let sortedAssignTask=[];
         if(sortProperty==="Task")
         { sorted=mtask.sort((b,a)=>b.Task>a.Task?1:-1);
           sortedAssignTask=assignTask.sort((b,a)=>b.Task>a.Task?1:-1);
         }
         else if(sortProperty==="progress")
-        { sorted=mtask.sort((b,a)=>b.progress>a.progress?1:-1);
-          sortedAssignTask=assignTask.sort((b,a)=>b.progress>a.progress?1:-1); 
+        { sorted=mtask.sort((b,a)=>b.progress<a.progress?1:-1);
+          sortedAssignTask=assignTask.sort((b,a)=>b.progress<a.progress?1:-1); 
         }  
         else
         { sorted=mtask
@@ -108,16 +107,8 @@ export default function Sort(props){
         console.log(sorted);
         setSortedMyTask(sorted)
         setSortedAssignTask(sortedAssignTask);      
-    }, [sortType,data]);
+    }, [sortType,props.data]);
    
-    
-    
-
-     /*  AssignTask=props.data?.assignedTask?.map((element)=>{
-          return <AssignTodo Task={element.Task} id={props.id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.username}
-          assignedTo={element.assignedTo} startDate={element.startDate} endDate={element.endDate}/>
-      }) */
-      
     return (
         
         <div className="task-grid" >
@@ -146,7 +137,7 @@ export default function Sort(props){
          />
       </form>
           {sortedMyTask.map((element,index)=>{
-                return <Todo Task={element.Task} id={props.id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.assignedBy} 
+                return <Todo Task={element.Task} id={element._id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.assignedBy} 
                 assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate}
                 />
               })    
@@ -174,7 +165,7 @@ placeholder="Assign Tasks..."
       </form> 
        {
          sortedAssignTask.map((element,index)=>{
-          return <AssignTodo Task={element.Task} id={props.id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.username}
+          return <AssignTodo Task={element.Task} id={element._id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.username}
           assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate}/>
         })    
       }
