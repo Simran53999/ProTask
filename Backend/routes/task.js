@@ -73,6 +73,19 @@ router.put('/updateTask',(req,res)=>{
     })
 })
 
+router.put('/changeTaskName',(req,res)=>{
+    task.findOne({_id:req.body.id}).then((Task)=>{
+        Task.Task=req.body.taskName;
+        Task.save().then((result)=>{
+            console.log(result)
+            res.send(result)
+        }).catch((error)=>{
+            res.send(error)
+        })
+    }).catch((error)=>{
+        res.send(error);
+    })
+})
 
 router.put('/updateDate',(req,res)=>{
     task.findOne({_id:req.body.id}).then((Task)=>{
