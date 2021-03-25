@@ -22,12 +22,18 @@ import "react-datepicker/dist/react-datepicker.css"; */
 
 const Todo = (props) => {
 
+//references--
+let taskNameInput = null;
+
+//Hooks--
 //const [startDate, setStartDate] = useState(null);
  const [progress,setprogress]=useState(props.progress)
  const [status,setstatus]=useState("Open")
 //const [selectedDate, handleDateChange] = useState(new Date(new Date().toDateString()));
 const[startDate,setStartDate]=useState(new Date());
 const [endDate,setEndDate]=useState(new Date());
+const [taskName, setTaskName] = useState(props.Task)
+const [taskNameIsEditable, setTaskNameIsEditable] = useState(false);
  //const [progress,setprogress]=useState(props.progress)
  //const [status,setstatus]=useState(props.status)
  const [inputProgress,setInputProgress]=useState(false)
@@ -59,7 +65,8 @@ useEffect(()=>{
      })
  }
 
- const updateTask=()=>{
+ const updateTask=(event)=>{
+  if(event.target.value!=null){
      axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`,{id:props.id,progress}).then((result)=>{
         if (progress > 100)
             setprogress(100)
@@ -71,6 +78,24 @@ useEffect(()=>{
      }).catch((err)=>{
          console.log(err);
      })
+   }
+ }
+ 
+  const updateTaskOnEnter=(event)=>{
+    if(event.key==='Enter' && event.target.value!=null){
+     axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`,{id:props.id,progress}).then((result)=>{
+        if (progress > 100)
+            setprogress(100)
+        else if (progress < 0)
+            setprogress(0)
+        else
+            setprogress(progress)
+        props.mutate();
+        event.target.value = '';
+     }).catch((err)=>{
+         console.log(err);
+     })
+   }
  }
 
  const closeTask=()=>{
@@ -86,7 +111,46 @@ useEffect(()=>{
      })
  }
 
+const changeTaskNameOnEnter = (event,id) => {
+  if(setTaskNameIsEditable && event.key==='Enter'){
+    setTaskName(event.target.value);
+    setTaskNameIsEditable(!taskNameIsEditable);
+    axios
+    .put(`${process.env.REACT_APP_BASE_URL}/task/changeTaskName`,{id:props.id,taskName:event.target.value})
+    .then((result)=>{
+        console.log('updated task name');
+        props.mutate();
+     })
+    .catch((err)=>{
+         console.log(err);
+     })
+  }
+  else{
+    console.log('won\'t update task name');
+  }
+}
 
+const changeTaskNameOnFocusOut = (event,id) => {
+  console.log('on focus out')
+  console.log(event.target.value)
+  console.log(event);
+  if(taskNameIsEditable){
+    setTaskName(event.target.value);
+    setTaskNameIsEditable(!taskNameIsEditable);
+    axios
+    .put(`${process.env.REACT_APP_BASE_URL}/task/changeTaskName`,{id:props.id,taskName:event.target.value})
+    .then((result)=>{
+        console.log('updated task name');
+        props.mutate();
+     })
+    .catch((err)=>{
+         console.log(err);
+     })
+  }
+  else{
+    console.log('won\'t update task name');
+  }
+}
  
  const deleteTask=()=>{
      
@@ -113,45 +177,35 @@ const myTheme = createMuiTheme({
 
     return(    
 <div className="todo">
-    <Tooltip title = {props.Task} arrow placement="bottom-start">
-    <li>
-    <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
-    <div className="textContainer">{props.Task}</div></li>
+
+  <div className="edit">
+    <Tooltip title = 'Edit Task Name' enterDelay={700}>
+      <button className="edit-btn" onClick={(event)=>{setTaskNameIsEditable(!taskNameIsEditable);taskNameInput.focus();}}>
+        <i className="fas fa-pencil-alt"/>
+      </button>
+    </Tooltip>
+  </div>
+  
+  <Tooltip title = {props.Task} arrow placement="bottom-start">
+  <li>
+  <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
+    <div className="textContainer mh2">
+      <input 
+        value={(taskNameIsEditable)?null:taskName} 
+        className={`taskName ${(status=='Open')?'':'completed'}`}
+        ref={(input) => { taskNameInput = input; }}
+        // onDoubleClick={event => setTaskNameIsEditable(!taskNameIsEditable)}  
+        onKeyPress={event => changeTaskNameOnEnter(event,props.id)} 
+        onBlur={event => changeTaskNameOnFocusOut(event,props.id)} 
+        />
+    </div>
+  </li>
+    
     <div className="mytask-name">
         <text>{assignCheck()}</text></div>
     </li>
     </Tooltip>
-{/*     <Tooltip title = {props.Task} arrow placement="bottom-start">
-    <li>
-    <div className="assign-tm">
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-    <DatePicker
-        autoOk
-        label="Clearable"
-        clearable
-        disableFuture
-        value={selectedDate}
-        onChange={handleDateChange}
-      />
-           <KeyboardDatePicker
-          margin="normal"
-          id="date-picker-dialog"
-          label="Date picker dialog"
-          format="MM/dd/yyyy"
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        /> 
-      </MuiPickersUtilsProvider>
- </div>
-    </li>
-    </Tooltip> */}
-    {/*     <DatePicker selected={startDate} 
-    onChange={date => setStartDate(date)} /> */}
-{/*         <text>Created on: {getToday()}</text>
- */}      
+     
  <div className="assign-tm">
     <MuiThemeProvider theme={myTheme}>
   <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -193,8 +247,9 @@ const myTheme = createMuiTheme({
           </Tooltip>
           </div>
  
-      
-    <input type="number" min="0" max="100" className="changeProgress"  placeholder='Edit Progress' disabled={status==="Open"?false:true} onChange={(event)=>{
+     
+    {
+    /*<input type="number" min="0" max="100" className="changeProgress"  placeholder='Edit Progress' disabled={status==="Open"?false:true} onChange={(event)=>{
         if (event.target.value > 100){alert("Too Big! Value should be between 0 to 100."); setprogress(0);}
         else if (event.target.value < 0){alert("Too Small! Value should be between 0 to 100.");setprogress(0);}
         else setprogress(event.target.value)}}></input>
@@ -204,20 +259,51 @@ const myTheme = createMuiTheme({
         </button></div>
     <div className="progress">
           <ProgressBar variant="info" now={progress} label={`${progress}%`} />
-          </div>
+          </div>*/
+    }
+    
+    <input 
+      type="number" min="0" max="100" 
+      className="changeProgress"  
+      placeholder='Edit Progress' 
+      disabled={status==="Open"?false:true} 
+      onChange={(event)=>{ 
+        if (event.target.value <= 100 && event.target.value >= 0)
+          setprogress(event.target.value); 
+        else 
+          event.target.value = progress;
+        }} 
+      onBlur={event => {updateTask(event);event.target.value = '';}} 
+      onKeyPress={event => {updateTaskOnEnter(event);}}
+      />
+    <div className="progress">
+          <ProgressBar variant="info" now={progress} label={`${progress}%`} />
+    </div>
     
     <div className="status">
-        <Tooltip title="Close Task">
-    <button className="status-btn" onClick={closeTask}>
-    <i className="fas fa-check"></i>
-          </button>
-          </Tooltip>
-          </div>
-          <div className="delete">
-          <button className="trash-btn" onClick={deleteTask}>
-        <i className="fas fa-trash"></i>
+      <Tooltip title={(status==='Open')?'Close Task':'Open Task'}>
+        <button className="status-btn" onClick={closeTask}>
+          <i className={(status==='Open')?'fa fa-lock ma2':'fa fa-unlock ma2'} />
         </button>
+      </Tooltip>
+    </div>
+    
+      <div  onClick={deleteTask}>
+        <div className='trashBin'>
+          <div className='trashBinLid'>
+            <div className='trashBinHandle'></div>
+            <div className='trashBinCover'></div>
+          </div>
+          <div className='trashBinCan'>
+            <div className='trashBinCanLine'></div>
+            <div className='trashBinCanLine'></div>
+            <div className='trashBinCanLine'></div>
+          </div>
         </div>
+        {/*<button className="trash-btn">
+          <i className="fas fa-trash"></i>
+        </button>*/}
+      </div>
     </div>
    
     );
