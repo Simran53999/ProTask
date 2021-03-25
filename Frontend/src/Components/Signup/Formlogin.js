@@ -65,6 +65,9 @@ class Formlogin extends React.Component{
         <button className='form-input-btn' type='submit' onClick={this.Submit}>
           Login
         </button>
+        <span className='form-input-login'>
+          Don't have an account? <Link to="/"><button className="login-btn" >Sign Up here</button></Link>
+        </span>
         </div>
     </div>
     </div>
