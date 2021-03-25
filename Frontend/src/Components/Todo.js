@@ -55,31 +55,38 @@ useEffect(()=>{
     setprogress(e.target.value)
  }
 
- const updateDate=()=>{
-     axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateDate`,{id:props.id,startDate,endDate}).then((result)=>{
-         setStartDate(startDate)
-         setEndDate(endDate)
-         props.mutate();
-     }).catch((err)=>{
-         console.log(err);
-     })
- }
+  const updateDate=(startDate, endDate)=>{
+    console.log(startDate);
+    console.log(endDate);
+      if(startDate!==null && endDate!==null){
+         axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateDate`,{id:props.id,startDate,endDate}).then((result)=>{
+             setStartDate(startDate)
+             setEndDate(endDate)
+             props.mutate();
+         }).catch((err)=>{
+             console.log(err);
+         })
+      }
+      else{
+        console.log('conditions not acceptable');
+      }
+  }
 
- const updateTask=(event)=>{
-  if(event.target.value!=null){
-     axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`,{id:props.id,progress}).then((result)=>{
-        if (progress > 100)
-            setprogress(100)
-        else if (progress < 0)
-            setprogress(0)
-        else
-            setprogress(progress)
-        props.mutate();
-     }).catch((err)=>{
-         console.log(err);
-     })
-   }
- }
+  const updateTask=(event)=>{
+    if(event.target.value!=null){
+       axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`,{id:props.id,progress}).then((result)=>{
+          if (progress > 100)
+              setprogress(100)
+          else if (progress < 0)
+              setprogress(0)
+          else
+              setprogress(progress)
+          props.mutate();
+       }).catch((err)=>{
+           console.log(err);
+       })
+    }
+  }
  
   const updateTaskOnEnter=(event)=>{
     if(event.key==='Enter' && event.target.value!=null){
@@ -96,7 +103,7 @@ useEffect(()=>{
          console.log(err);
      })
    }
- }
+  }
 
  const closeTask=()=>{
      console.log(props.id)
@@ -175,7 +182,7 @@ const myTheme = createMuiTheme({
     }
   })
 
-    return(    
+return(    
 <div className="todo">
 
   <div className="edit">
@@ -210,15 +217,14 @@ const myTheme = createMuiTheme({
     <MuiThemeProvider theme={myTheme}>
   <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <DatePicker
-        
-        label="Start By"
+        label="Start Date"
         clearable
         format="MM/dd"
+        minDate={Date()}
         disableFuture={false}
         disablePast={false}
         value={startDate}
-        onChange={setStartDate}
-        
+        onChange={value=>{value.setHours(0);value.setMinutes(0);value.setSeconds(0);console.log(value);setStartDate(value);updateDate(value,endDate);}}
       />
       
  </MuiPickersUtilsProvider></MuiThemeProvider>
@@ -227,25 +233,25 @@ const myTheme = createMuiTheme({
 <MuiThemeProvider theme={myTheme}>
  <MuiPickersUtilsProvider utils={DateFnsUtils}><DatePicker
         autoOk
-        label="End By:"
+        label="End Date"
         clearable
         format="MM/dd"
-        minDate={startDate}
+        minDate={startDate??Date()}
         disableFuture={false}
         disablePast={false}
         value={endDate}
-        onChange={setEndDate}
+        onChange={value=>{value.setHours(23);value.setMinutes(59);value.setSeconds(59);console.log(value);setEndDate(value);updateDate(startDate,value);}}
       /></MuiPickersUtilsProvider>
 </MuiThemeProvider>
     </div>
 
-          <div className="date">
-        <Tooltip title="Save start & end date for task">
-    <button className="date-set" onClick={updateDate}>
-    <i className="far fa-calendar-plus"></i>
-          </button>
-          </Tooltip>
-          </div>
+  {/*<div className="date">
+    <Tooltip title="Save start & end date for task">
+      <button className="date-set" onClick={updateDate}>
+        <i className="far fa-calendar-plus" />
+      </button>
+    </Tooltip>
+  </div>*/}
  
      
     {
