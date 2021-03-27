@@ -55,7 +55,7 @@ export default function Header(props) {
                     </IconButton>
                 </MenuItem> */}
                 
-                <Link to="/login">
+                <Link to="/">
                 <Button className={classes.logoutbtn}
                     //color="primary"
                                         children="Log Out"

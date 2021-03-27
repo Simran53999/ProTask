@@ -204,7 +204,11 @@ input[type=number] {
 }
 
 .taskName {
-  border: none;
+  max-width: 85%;
+}
+.taskName:focus{
+  border:none;
+  outline: none;
 }
 
 .trashBin{
