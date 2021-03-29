@@ -41,7 +41,6 @@ class Formlogin extends React.Component{
           </header>
           <img className='form-img' src='img/img-2.png' alt='spaceship' />
         </div>
-        
         <div className='form-content-right'>
           <div className='form' >
             <h1>
@@ -78,6 +77,9 @@ class Formlogin extends React.Component{
             <button className='form-input-btn' type='submit' onClick={this.Submit}>
               Login
             </button>
+            <span className='form-input-login'>
+              Don't have an account? <Link to="/"><button className="login-btn" >Sign Up here</button></Link>
+            </span>
           </div>
         </div>
       </div>

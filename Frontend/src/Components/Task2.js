@@ -10,17 +10,18 @@ import Select from 'react-dropdown-select';
 import AssignTodo from './Assigntodo';
 import useSWR from "swr";
 import Header from "./Header";
-/* import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; */
-
+import {AppBar, Tabs, Tab} from '@material-ui/core';
 import { Tooltip } from '@material-ui/core';
 import Sort from './Sort';
 
 const Task=(props)=>{
   const classes = MainContainerStyles();
- // const [Data,setData] = useState([]);
+  // const [Data,setData] = useState([]);
   const [startDate, setStartDate] = useState(null);
-    const [listOfUsers,setlistOfUsers]=useState([]);
+  const [listOfUsers,setlistOfUsers]=useState([]);
+  const [tab,setTab]=useState("myTask");
+  const [component,setComponent]=useState("")
+
     
     const fetcher=async url=>{
       const res = await axios.get(url);
@@ -29,14 +30,10 @@ const Task=(props)=>{
 
     const {data,error,mutate}=useSWR(
       `${process.env.REACT_APP_BASE_URL}/user/getUser/${props.match.params.username}`, fetcher)
- /*      if (error) return <div>failed to load</div>
-      if (!data) return <div>loading...</div> */
 
       function useUser () {
         const { data, error } = useSWR(`${process.env.REACT_APP_BASE_URL}/user/getUser/${props.match.params.id}`, fetcher)
-      
         return data
-      
       }
 
     useEffect(()=>{
@@ -44,13 +41,12 @@ const Task=(props)=>{
       //const url=`${process.env.REACT_APP_BASE_URL}/user/getUser/${id}`;
           axios.get(`${process.env.REACT_APP_BASE_URL}/task/getAllUsers/${props.match.params.username}`)
           .then((res)=>{
-            mutate();
            // console.log(Data)
               setlistOfUsers(res.data);
           }).catch((err)=>{
              console.log(err);
           })
-  },[data])
+  },[])
 //const Data=data.myTask
 //console.log(Data)  
 
@@ -64,29 +60,19 @@ const Task=(props)=>{
      if (!data) return <div>loading...</div>
     console.log(data);
 
-
-
- 
-//const dropdownHandler = (event)=>{
-  //setselected1(event.target.value)
-//}
-
-
-        
         return(
           <div className={classes.root}>
-          
               <Grid item xs={12} className={classes.paperTop}>
-                  <Header {...props} />
+                  <Header {...props} 
+                  setTab={setTab}/>
               </Grid>
-              
             <div className="Task">
               {/* <header>
               <h1>ProTask</h1> 
               </header> */}
               <div className="welc">
                 <h2> Welcome {props.match.params.username} </h2>
-              </div>
+              </div>    
               {/* <div className="sort">
                 <select className="in-select" onChange={(e) => {setSortType(e.target.value)}}>
                   <option value="" disabled selected>Sort By:</option>
@@ -95,9 +81,11 @@ const Task=(props)=>{
                   <option value="status">Status</option>
                 </select>
               </div> */}
-                <Sort username={props.match.params.username} id={props.match.params.id}
+                <Sort username={props.match.params.username} 
+                id={props.match.params.id}
                 mutate={mutate} useUser={useUser}
-                data={data} listOfUsers={listOfUsers}/>
+                data={data} listOfUsers={listOfUsers}
+                tab={tab}/>
             </div>  
             
             </div>

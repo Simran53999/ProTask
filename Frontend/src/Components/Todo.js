@@ -14,6 +14,7 @@ import {
   DatePicker 
 } from '@material-ui/pickers';
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+//hello
 //import { DatePicker , MuiPickersUtilsProvider} from "@material-ui/pickers";
 //import DateFnsUtils from '@date-io/date-fns';
 /* import DatePicker from "react-datepicker";
@@ -49,6 +50,7 @@ useEffect(()=>{
   setstatus(props.status)
   setStartDate(props.startDate)
   setEndDate(props.endDate)
+  setTaskName(props.Task)
 },[props])
  
  const changeProgress=(e)=>{

@@ -24,6 +24,19 @@ router.get('/getAllUsers/:username',(req,res)=>{
     })
 })
 
+router.get('/getAllTask/:username',(req,res)=>{
+    const username=req.params['username'];
+    task.find({}).then((tasks)=>{ 
+        let allTask =[];
+        tasks.forEach(t=>{
+            if(t.assignedTo===username || t.assignedBy===username)
+             allTask.push(t); 
+        })
+        res.send(allTask)
+    }).catch((error)=>{
+        res.send(error)
+    })
+})
 
 router.put('/addMyTask',(req,res)=>{
     var Task=new task({
