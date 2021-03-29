@@ -10,6 +10,7 @@ import Select from 'react-dropdown-select';
 import AssignTodo from './Assigntodo';
 import useSWR from "swr";
 import Header from "./Header";
+import Dashboard from './Dashboard';
 
 export default function Sort(props){
 
@@ -46,6 +47,8 @@ export default function Sort(props){
      useEffect(()=>{
         setMyTask(props.mytask);
       },[])
+
+
 
      const assignTask=(event)=>{
         event.preventDefault();
@@ -106,19 +109,18 @@ export default function Sort(props){
         } 
         console.log(sorted);
         setSortedMyTask(sorted)
-        setSortedAssignTask(sortedAssignTask);      
-    }, [sortType,props.data]);
-   
+        setSortedAssignTask(sortedAssignTask);   
+    }, [sortType,props.data,props.tab]);
+
     return (
         
-        <div className="task-grid" >
-            
-        <div className= "my-todo-column">
+        <div>
+          { props.tab==="myTask" &&       
+           <div className= "my-todo-column">
           <h3>My tasks</h3>
         <form >
          <input value={mytask}  onChange={submitHandlerMyTodo} type="text" className="todo-input" /> 
-{/*                  <DatePicker selected={startDate} onChange={date => setStartDate(date)} />
-*/}                 <button onClick={addTask} className="todo-button" type="submit">
+              <button onClick={addTask} className="todo-button" type="submit">
            <i className="fas fa-plus-square"></i>
          </button>
          <Select
@@ -142,8 +144,9 @@ export default function Sort(props){
                 />
               })    
           }
-          </div>
-        <div className="assign-todo-column">
+          </div>}
+       { props.tab === "assignTask" &&
+         <div className="assign-todo-column">
         <h3>Assign tasks</h3>
         <form >
          <input value={assigntask} onChange={submitHandlerAssignTodo} type="text" className="todo-input" /> 
@@ -169,7 +172,11 @@ placeholder="Assign Tasks..."
           assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate}/>
         })    
       }
-      </div>
+      </div>}
+        {props.tab === "dashboardTask" &&
+        <Dashboard username={props.username}
+
+        data ={props.data}/>}
       </div>
     )
 }

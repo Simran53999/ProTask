@@ -49,6 +49,7 @@ useEffect(()=>{
   setstatus(props.status)
   setStartDate(props.startDate)
   setEndDate(props.endDate)
+  setTaskName(props.Task)
 },[props])
  
  const changeProgress=(e)=>{
@@ -200,7 +201,6 @@ const myTheme = createMuiTheme({
         />
     </div>
   </li>
-    
     <div className="mytask-name">
         <text>{assignCheck()}</text></div>
     </li>

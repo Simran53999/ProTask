@@ -3,7 +3,9 @@ import { BorderBottom, FormatUnderlined } from "@material-ui/icons";
 
 export const headerUseStyles = makeStyles((theme) => ({
     flexGrow: {
-        flexGrow: 1,
+        //flexGrow: 5,
+        //backgroundColor:"transparent",
+
     },
     logoutbtn:{
         color: "white",
@@ -28,10 +30,10 @@ export const headerUseStyles = makeStyles((theme) => ({
     },
     heading:{
         fontSize: "4rem",
-        minHeight: "7vh",
+        minHeight: "4vh",
         display: "flex",
         alignItems: "center",
-        paddingLeft: "82vh",
+        //paddingLeft: "82vh",
         color: "rgb(255, 255, 255)",
         fontFamily: "Poppins ",
         fontWeight: "bold",
@@ -79,4 +81,17 @@ export const MainContainerStyles = makeStyles((theme) => ({
         height: "64px",
        // borderBottom: "1px solid orange",
     },
+    navBar:{
+     width:"60% ",
+     backgroundColor:"transparent",
+     //height:"50px",
+     padding :"10px"
+
+    }
+}));
+
+export const AppBarStyles = makeStyles((theme) => ({
+  backgroundColor:{
+
+  }
 }));
