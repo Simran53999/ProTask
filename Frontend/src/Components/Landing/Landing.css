@@ -17,22 +17,22 @@
 	padding-top: 3%;
 }
 .projectName{
-	margin-right: 30%;
+	
 }
 
 .sep1{
-	max-width:50%;
+	min-width:40vw;
 }
 
 .sep2{
-	max-width:30%;
+	min-width:30vw;
 }
 
 .redirectButtons{
 	display:flex;
 	flex-direction: row;
 	justify-content: space-around;
-	min-width: 10%;
+	min-width: 10vw;
 }
 
 .redirectButton {
