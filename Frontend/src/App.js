@@ -9,6 +9,7 @@ import {
 import Formlogin from "./Components/Signup/Formlogin";
 import SignUp from './Components/Signup/FormSignup';
 import Task from "./Components/Task2";
+import Landing from "./Components/Landing/Landing"
 
 function App() {
 return (
@@ -17,7 +18,8 @@ return (
         <Switch>
           <Route path="/protask/:id/:username" component={Task}/>
           <Route path="/login"><Formlogin/></Route>
-          <Route path="/"><SignUp/></Route>
+          <Route path="/signup"><SignUp/></Route>
+          <Route path="/"><Landing/></Route>
         </Switch>
       </Router>
     </div>

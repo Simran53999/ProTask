@@ -33,7 +33,9 @@ class SignUp extends React.Component{
     render(){
         return(
           <div className='form-container'>
-          <span className='close-btn'>×</span>
+          
+            <span className='close-btn'><Link to="/">×</Link></span>
+          
           <div className='form-content-left'>
           <header>
     <h1>ProTask</h1>

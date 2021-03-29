@@ -127,7 +127,16 @@
   font-size: 10px;
   margin: 10px;
   border: rgb(194, 180, 180);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
   -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
 /*tooltip*/
 .textContainer {
@@ -195,7 +204,11 @@
 }
 
 .taskName {
-  border: none;
+  max-width: 85%;
+}
+.taskName:focus{
+  border:none;
+  outline: none;
 }
 
 .trashBin{

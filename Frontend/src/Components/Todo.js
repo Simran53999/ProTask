@@ -56,31 +56,38 @@ useEffect(()=>{
     setprogress(e.target.value)
  }
 
- const updateDate=()=>{
-     axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateDate`,{id:props.id,startDate,endDate}).then((result)=>{
-         setStartDate(startDate)
-         setEndDate(endDate)
-         props.mutate();
-     }).catch((err)=>{
-         console.log(err);
-     })
- }
+  const updateDate=(startDate, endDate)=>{
+    console.log(startDate);
+    console.log(endDate);
+      if(startDate!==null && endDate!==null){
+         axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateDate`,{id:props.id,startDate,endDate}).then((result)=>{
+             setStartDate(startDate)
+             setEndDate(endDate)
+             props.mutate();
+         }).catch((err)=>{
+             console.log(err);
+         })
+      }
+      else{
+        console.log('conditions not acceptable');
+      }
+  }
 
- const updateTask=(event)=>{
-  if(event.target.value!=null){
-     axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`,{id:props.id,progress}).then((result)=>{
-        if (progress > 100)
-            setprogress(100)
-        else if (progress < 0)
-            setprogress(0)
-        else
-            setprogress(progress)
-        props.mutate();
-     }).catch((err)=>{
-         console.log(err);
-     })
-   }
- }
+  const updateTask=(event)=>{
+    if(event.target.value!=null){
+       axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`,{id:props.id,progress}).then((result)=>{
+          if (progress > 100)
+              setprogress(100)
+          else if (progress < 0)
+              setprogress(0)
+          else
+              setprogress(progress)
+          props.mutate();
+       }).catch((err)=>{
+           console.log(err);
+       })
+    }
+  }
  
   const updateTaskOnEnter=(event)=>{
     if(event.key==='Enter' && event.target.value!=null){
@@ -97,7 +104,7 @@ useEffect(()=>{
          console.log(err);
      })
    }
- }
+  }
 
  const closeTask=()=>{
      console.log(props.id)
@@ -176,91 +183,74 @@ const myTheme = createMuiTheme({
     }
   })
 
-    return(    
-<div className="todo">
-
-  <div className="edit">
-    <Tooltip title = 'Edit Task Name' enterDelay={700}>
-      <button className="edit-btn" onClick={(event)=>{setTaskNameIsEditable(!taskNameIsEditable);taskNameInput.focus();}}>
-        <i className="fas fa-pencil-alt"/>
-      </button>
-    </Tooltip>
-  </div>
-  
-  <Tooltip title = {props.Task} arrow placement="bottom-start">
-  <li>
-  <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
-    <div className="textContainer mh2">
-      <input 
-        value={(taskNameIsEditable)?null:taskName} 
-        className={`taskName ${(status=='Open')?'':'completed'}`}
-        ref={(input) => { taskNameInput = input; }}
-        // onDoubleClick={event => setTaskNameIsEditable(!taskNameIsEditable)}  
-        onKeyPress={event => changeTaskNameOnEnter(event,props.id)} 
-        onBlur={event => changeTaskNameOnFocusOut(event,props.id)} 
-        />
-    </div>
-  </li>
-    <div className="mytask-name">
-        <text>{assignCheck()}</text></div>
-    </li>
-    </Tooltip>
-     
- <div className="assign-tm">
-    <MuiThemeProvider theme={myTheme}>
-  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <DatePicker
-        
-        label="Start By"
-        clearable
-        format="MM/dd"
-        disableFuture={false}
-        disablePast={false}
-        value={startDate}
-        onChange={setStartDate}
-        
-      />
-      
- </MuiPickersUtilsProvider></MuiThemeProvider>
- </div>
- <div className="assign-tm">
-<MuiThemeProvider theme={myTheme}>
- <MuiPickersUtilsProvider utils={DateFnsUtils}><DatePicker
-        autoOk
-        label="End By:"
-        clearable
-        format="MM/dd"
-        minDate={startDate}
-        disableFuture={false}
-        disablePast={false}
-        value={endDate}
-        onChange={setEndDate}
-      /></MuiPickersUtilsProvider>
-</MuiThemeProvider>
-    </div>
-
-          <div className="date">
-        <Tooltip title="Save start & end date for task">
-    <button className="date-set" onClick={updateDate}>
-    <i className="far fa-calendar-plus"></i>
-          </button>
-          </Tooltip>
-          </div>
- 
-     
-    {
-    /*<input type="number" min="0" max="100" className="changeProgress"  placeholder='Edit Progress' disabled={status==="Open"?false:true} onChange={(event)=>{
-        if (event.target.value > 100){alert("Too Big! Value should be between 0 to 100."); setprogress(0);}
-        else if (event.target.value < 0){alert("Too Small! Value should be between 0 to 100.");setprogress(0);}
-        else setprogress(event.target.value)}}></input>
+return(    
+  <div className="todo">
+    {/*Edit TaskName Button*/}
     <div className="edit">
-        <button className="edit-btn" onClick={updateTask}>
-        <i className="fas fa-pencil-alt"></i>
-        </button></div>
-    <div className="progress">
-          <ProgressBar variant="info" now={progress} label={`${progress}%`} />
-          </div>*/
-    }
+      <Tooltip title = 'Edit Task Name' enterDelay={700}>
+        <button className="edit-btn" onClick={(event)=>{setTaskNameIsEditable(!taskNameIsEditable);taskNameInput.focus();}}>
+          <i className="fas fa-pencil-alt"/>
+        </button>
+      </Tooltip>
+    </div>
+    {/*TaskName*/}
+    <Tooltip title = {props.Task} arrow placement="bottom-start" enterDelay={300}>
+      <div>
+        <div className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
+          <div className="textContainer mh2">
+            <input 
+              value={(taskNameIsEditable)?null:taskName}
+              style={{border:`${(taskNameIsEditable)?'1px solid black':'none'}`}}
+              className={`taskName ${(status=='Open')?'':'completed'}`}
+              ref={(input) => { taskNameInput = input; }}
+              // onDoubleClick={event => setTaskNameIsEditable(!taskNameIsEditable)}  
+              onKeyPress={event => changeTaskNameOnEnter(event,props.id)} 
+              onBlur={event => changeTaskNameOnFocusOut(event,props.id)} 
+              />
+          </div>
+        </div>
+        <div className="mytask-name">
+          <text>
+            {assignCheck()}
+          </text>
+        </div>
+      </div>
+    </Tooltip>
+     
+    <div className="assign-tm">
+      <MuiThemeProvider theme={myTheme}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <DatePicker
+          label="Start Date"
+          clearable
+          format="MM/dd"
+          minDate={startDate??Date()}
+          disableFuture={false}
+          disablePast={false}
+          value={startDate}
+          onChange={value=>{value.setHours(0);value.setMinutes(0);value.setSeconds(0);console.log(value);setStartDate(value);updateDate(value,endDate);}}
+          />
+        </MuiPickersUtilsProvider>
+      </MuiThemeProvider>
+    </div>
+    
+    <div className="assign-tm">
+      <MuiThemeProvider theme={myTheme}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <DatePicker
+            autoOk
+            label="End Date"
+            clearable
+            format="MM/dd"
+            minDate={startDate??Date()}
+            disableFuture={false}
+            disablePast={false}
+            value={endDate}
+            onChange={value=>{value.setHours(23);value.setMinutes(59);value.setSeconds(59);console.log(value);setEndDate(value);updateDate(startDate,value);}}
+          />
+        </MuiPickersUtilsProvider>
+      </MuiThemeProvider>
+    </div>
     
     <input 
       type="number" min="0" max="100" 
@@ -277,7 +267,7 @@ const myTheme = createMuiTheme({
       onKeyPress={event => {updateTaskOnEnter(event);}}
       />
     <div className="progress">
-          <ProgressBar variant="info" now={progress} label={`${progress}%`} />
+      <ProgressBar variant="info" now={progress} label={`${progress}%`} />
     </div>
     
     <div className="status">
@@ -288,7 +278,8 @@ const myTheme = createMuiTheme({
       </Tooltip>
     </div>
     
-      <div  onClick={deleteTask}>
+    <Tooltip title={'Delete Task'} enterDelay={700}>
+      <div onClick={deleteTask}>
         <div className='trashBin'>
           <div className='trashBinLid'>
             <div className='trashBinHandle'></div>
@@ -300,12 +291,10 @@ const myTheme = createMuiTheme({
             <div className='trashBinCanLine'></div>
           </div>
         </div>
-        {/*<button className="trash-btn">
-          <i className="fas fa-trash"></i>
-        </button>*/}
       </div>
-    </div>
-   
-    );
+    </Tooltip>
+    
+  </div>
+);
 };
 export default Todo;

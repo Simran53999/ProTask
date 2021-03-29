@@ -35,7 +35,17 @@ export default function Header(props) {
           onClick={()=>props.setTab("myTask")} />
           <Tab label="Assign Task" 
           onClick={()=> props.setTab("assignTask")} />
-                <Link to="/login">
+                
+               
+{/*                 <MenuItem>
+                    <IconButton className="">
+                        <Badge badgeContent={3} color="orange">
+                            <Notifications color="#17a2b8" />
+                        </Badge>
+                    </IconButton>
+                </MenuItem> */}
+                
+                <Link to="/">
                 <Button className={classes.logoutbtn}
                     children="Log Out"
                     disableElevation
