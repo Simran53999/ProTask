@@ -41,7 +41,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/ProTask",{useNewUrlParser:true,useUn
     app.listen(8000);
     
     //mailer============================
-	cron.schedule('* 8,16 * * *' ,() =>{
+	cron.schedule('0 8,16 * * *' ,() =>{
 		
 		console.log('cron working');
 		var username_to_useremail = {};
@@ -66,12 +66,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/ProTask",{useNewUrlParser:true,useUn
 				}
 			})
 			.then((tmp)=>{
-				console.log('reached Tasks');
 				
 				for(var entry in username_to_email){
-					console.log(entry);
-					console.log(username_to_useremail[entry]);
-					console.log(username_to_email[entry]);
 					
 					if(username_to_email[entry]!==''){
 						transport
@@ -93,8 +89,6 @@ mongoose.connect("mongodb://127.0.0.1:27017/ProTask",{useNewUrlParser:true,useUn
 						}
 					}
 				}
-				
-				console.log(process.env.MAILER_EMAIL);
 			})
 		})
 	});

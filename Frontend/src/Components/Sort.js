@@ -112,71 +112,87 @@ export default function Sort(props){
         setSortedAssignTask(sortedAssignTask);   
     }, [sortType,props.data,props.tab]);
 
-    return (
-        
-        <div>
-          { props.tab==="myTask" &&       
-           <div className= "my-todo-column">
+  return (
+    <div>
+      { props.tab==="myTask" &&       
+        <div className= "my-todo-column">
           <h3>My tasks</h3>
-        <form >
-         <input value={mytask}  onChange={submitHandlerMyTodo} type="text" className="todo-input" /> 
-              <button onClick={addTask} className="todo-button" type="submit">
-           <i className="fas fa-plus-square"></i>
-         </button>
-         <Select
-            multi={false}
-            searchable={true}
-            keepSelectedInList={false}
-            clearable={true}
-            options={[
-              {label:"progress",value:"progress"},
-              {label:"Task",value:"Task"}
-              ]
-            }
-            onChange={(values) => setSortType(values)}
-            className="react-select"
-            placeholder="Sort By..."                   
-         />
-      </form>
+          <form >
+            <input 
+              value={mytask}  
+              onChange={submitHandlerMyTodo} 
+              type="text" 
+              className="todo-input" 
+            /> 
+            <button onClick={addTask} className="todo-button" type="submit">
+              <i className="fas fa-plus-square"></i>
+            </button>
+            <Select
+              multi={false}
+              searchable={true}
+              keepSelectedInList={false}
+              clearable={true}
+              options={[
+                {label:"progress",value:"progress"},
+                {label:"Task",value:"Task"}
+                ]
+              }
+              onChange={(values) => setSortType(values)}
+              className="react-select"
+              placeholder="Sort By..."                   
+            />
+          </form>
           {sortedMyTask.map((element,index)=>{
-                return <Todo Task={element.Task} id={element._id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.assignedBy} 
-                assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate}
-                />
-              })    
-          }
-          </div>}
-       { props.tab === "assignTask" &&
-         <div className="assign-todo-column">
-        <h3>Assign tasks</h3>
-        <form >
-         <input value={assigntask} onChange={submitHandlerAssignTodo} type="text" className="todo-input" /> 
-         <div className="dropdown"> 
-         <Select
-multi={false}
-searchable={true}
-keepSelectedInList={false}
-clearable={true}
-options={props.listOfUsers}
-onChange={(values) => setselected1(values)}
-className="react-select"
-placeholder="Assign Tasks..."
-/>
-</div>
-<button  onClick={assignTask} className="todo-button" type="submit" >
-           <i className="fas fa-plus-square"></i>
-         </button>
-      </form> 
-       {
-         sortedAssignTask.map((element,index)=>{
-          return <AssignTodo Task={element.Task} id={element._id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.username}
-          assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate}/>
-        })    
+            return <Todo Task={element.Task} id={element._id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.assignedBy} 
+            assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate}
+            />
+          })}
+        </div>
       }
-      </div>}
-        {props.tab === "dashboardTask" &&
-        <Dashboard username={props.username}
-
-        data ={props.data}/>}
-      </div>
-    )
+      { props.tab === "assignTask" &&
+        <div className="assign-todo-column">
+          <h3>Assign tasks</h3>
+          <form >
+            <input value={assigntask} onChange={submitHandlerAssignTodo} type="text" className="todo-input" /> 
+            <div className="dropdown"> 
+              <Select
+                multi={false}
+                searchable={true}
+                keepSelectedInList={false}
+                clearable={true}
+                options={props.listOfUsers}
+                onChange={(values) => setselected1(values)}
+                className="react-select"
+                placeholder="Assign Tasks..."
+              />
+            </div>
+            <button  onClick={assignTask} className="todo-button" type="submit" >
+              <i className="fas fa-plus-square"></i>
+            </button>
+          </form> 
+          {
+            sortedAssignTask.map((element,index)=>{
+              return <AssignTodo 
+                        Task={element.Task} 
+                        id={element._id} 
+                        status={element.status} 
+                        progress={element.progress}  
+                        mutate={props.mutate} 
+                        assignedBy={element.username}
+                        assignedTo={element.assignedTo} 
+                        endDate={element.endDate} 
+                        startDate={element.startDate}
+                      />
+            })    
+          }
+        </div>
+      }
+      {props.tab === "dashboardTask" &&
+        <Dashboard 
+          username={props.username}
+          data ={props.data}
+        />
+      }
+    </div>
+  )
 }

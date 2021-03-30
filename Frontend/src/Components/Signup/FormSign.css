@@ -44,7 +44,7 @@ body {
 
 .form-img {
   width: 35%;
-  height: 29%;
+  /*height: 29%;*/
   position: absolute;
   top: 52%;
   left: 50%;
@@ -94,6 +94,42 @@ body {
   color: rgb(255, 255, 255);
 }
 
+.dont-show-error:{
+  display: none;
+}
+
+.error-div {
+  display: flex;
+  justify-content: space-between;
+  width:80%;
+  align-items: center;
+  background: rgba(255, 220, 224, 0.6);
+  /*outline: red solid 1px;*/
+  box-shadow: 0 0 0 1px red;
+  border-radius: 5px;
+  margin-bottom: 5%;
+}
+
+.error-div-msg{
+  padding-top:2%;
+  padding-left: 4%;
+  color: rgb(164, 96, 107);
+}
+
+.error-div-button{
+  background: none;
+  outline:none;
+  width: 10%;
+  height: 100%;
+  color: rgb(164, 96, 107);
+  text-align: center;
+  padding-top: 2%;
+}
+
+.error-div-button:hover{
+  cursor: pointer;
+}
+
 .form-inputs {
   margin-bottom: 0.5rem;
   width: 80%;
@@ -121,6 +157,10 @@ body {
   height: 40px;
   width: 100%;
   border: none;
+}
+
+.form-input-error{
+  outline: red solid 1px;
 }
 
 .form-input::placeholder {

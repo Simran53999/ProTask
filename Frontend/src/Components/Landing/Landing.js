@@ -10,6 +10,7 @@ const Landing = () => {
 	return(
 		<div className='landingBG'>
 			<div className='heading'>
+				<span className='sep1'></span>
 				<img alt='logo' src={checked} className='headingimg'/>
 				<h1 className='projectName'>ProTask</h1>
 				<span className='sep2'></span>
