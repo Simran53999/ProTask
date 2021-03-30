@@ -45,42 +45,58 @@ const deleteTask=()=>{
 }
 
 console.log(typeof(props.startDate))
-    return(    
-<div className="todo">
-<Tooltip title = {props.Task} arrow placement="bottom-start">
-    <li>
-    <li className= {`todo-item${status==="Open"?"Open":"Closed"}`}>
-    <div className="textContainer">{props.Task}</div></li>
-    <div className="assigned-name"> 
-    <text>Assigned To: {props.assignedTo}</text> 
-    
-    </div>
-    </li>
-    </Tooltip>
-    <div className="date-name">
-        
-            <li><text>Start On: {date!==undefined?date[0]:null}</text></li>
-          <li><text>End On: {edate!==undefined?edate[0]:null}</text>
-      </li>
-    </div>
-    
-    <div className="progress">
-          <ProgressBar variant="info" now={progress} label={`${progress}%`} />
+  return(    
+    <div className="todo">
+      <Tooltip title = {props.Task} arrow placement="bottom-start">
+        <div className="textContainer">
+          <div className={`todo-item${status==="Open"?"Open":"Closed"}`}>
+            {props.Task}
           </div>
-    
-    <div className="status">
-    <button className="status-btn" onClick={closeTask}>
-    <i className="fas fa-check" ></i>
-
-          </button>
+          <div className="assigned-name"> 
+            <text>
+              Assigned To: {props.assignedTo}
+            </text> 
           </div>
-          <div className="delete">
-          <button className="trash-btn" onClick={deleteTask}>
-        <i className="fas fa-trash"></i>
-        </button>
         </div>
+      </Tooltip>
+      <div className="date-name">
+        <div>
+          <text>
+            Start On: {date!==undefined?date[0]:null}
+          </text>
+        </div>
+        <div>
+          <text>
+            End On: {edate!==undefined?edate[0]:null}
+          </text>
+        </div>
+      </div>
+      <div className="progress">
+        <ProgressBar variant="info" now={progress} label={`${progress}%`} />
+      </div>
+      <div className="status">
+      <Tooltip title={(status==='Open')?'Close Task':'Open Task'}>
+        <button className="status-btn" onClick={closeTask}>
+          <i className={(status==='Open')?'fa fa-lock ma2':'fa fa-unlock ma2'} />
+        </button>
+      </Tooltip>
     </div>
-   
-    );
+      <Tooltip title={'Delete Task'} enterDelay={700}>
+      <div onClick={deleteTask}>
+        <div className='trashBin'>
+          <div className='trashBinLid'>
+            <div className='trashBinHandle'></div>
+            <div className='trashBinCover'></div>
+          </div>
+          <div className='trashBinCan'>
+            <div className='trashBinCanLine'></div>
+            <div className='trashBinCanLine'></div>
+            <div className='trashBinCanLine'></div>
+          </div>
+        </div>
+      </div>
+    </Tooltip>
+    </div>
+  );
 };
 export default AssignTodo;

@@ -41,7 +41,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/ProTask",{useNewUrlParser:true,useUn
     app.listen(8000);
     
     //mailer============================
-	cron.schedule('* 8,16 * * *' ,() =>{
+	cron.schedule('0 8,16 * * *' ,() =>{
 		
 		console.log('cron working');
 		var username_to_useremail = {};

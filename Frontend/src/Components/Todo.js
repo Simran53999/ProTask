@@ -229,7 +229,14 @@ return(
           disableFuture={false}
           disablePast={false}
           value={startDate}
-          onChange={value=>{value.setHours(0);value.setMinutes(0);value.setSeconds(0);console.log(value);setStartDate(value);updateDate(value,endDate);}}
+          onChange={value=>{
+            if(value!==null){
+              value.setHours(0);value.setMinutes(0);value.setSeconds(0);
+              console.log(value);
+              setStartDate(value);
+              updateDate(value,endDate);
+            }
+          }}
           />
         </MuiPickersUtilsProvider>
       </MuiThemeProvider>
@@ -247,7 +254,14 @@ return(
             disableFuture={false}
             disablePast={false}
             value={endDate}
-            onChange={value=>{value.setHours(23);value.setMinutes(59);value.setSeconds(59);console.log(value);setEndDate(value);updateDate(startDate,value);}}
+            onChange={value=>{
+              if(value!==null){
+                value.setHours(23);value.setMinutes(59);value.setSeconds(59);
+                console.log(value);
+                setEndDate(value);
+                updateDate(startDate,value);
+              }
+            }}
           />
         </MuiPickersUtilsProvider>
       </MuiThemeProvider>

@@ -8,22 +8,36 @@ router.post('/signup',(req,res)=>{
   console.log(validator.validate(req.body.email));
   if(validator.validate(req.body.email)){
     user
-    .findOne({email:req.body.email}).then((result)=>{
+    .findOne({username:req.body.username}).then((result)=>{
       if(result)
         res.status(409).send({error: "User already Exists"});
       else{
-        var User=new user({
+        var User = new user({
             email:req.body.email,
             password:req.body.password,
             username:req.body.username,
         });
-        User.save().then((result)=>{
-            console.log("User Created");
-            console.log(result);
-            res.status(201).send(result);
-        }).catch((err)=>{
-            res.status(500).send(err)
-        });
+        user
+        .findOne({email:req.body.email})
+        .then((response)=>{
+          if(response){
+            res.status(409).send({error: "User already Exists"});
+          }
+          else{
+            User.save()
+            .then((result)=>{
+                console.log("User Created");
+                console.log(result);
+                res.status(201).send(result);
+            })
+            .catch((err)=>{
+                res.status(500).send(err)
+            });
+          }
+        })
+        .catch((err)=>{
+          res.status(500).send(err);
+        })
       }  
     })
     .catch((err)=>{

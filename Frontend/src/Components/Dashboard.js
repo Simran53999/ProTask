@@ -51,14 +51,23 @@ const Dashboard = (props) =>{
   }, [sortType,props.data]); */
 
   return(
-<div> 
-  {sortedDashBoardTask.map((element,index)=>{
-      return <DashboardTask Task={element.Task} id={element._id} status={element.status} progress={element.progress}  assignedBy={element.assignedBy} 
-      assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate}
-      />
-    })    
-}</div>
-   
+    <div className="dashCard1"> 
+      {sortedDashBoardTask.map((element,index)=>{
+          return( 
+            <DashboardTask 
+              Task={element.Task} 
+              id={element._id} 
+              status={element.status} 
+              progress={element.progress}  
+              assignedBy={element.assignedBy} 
+              assignedTo={element.assignedTo} 
+              endDate={element.endDate} 
+              startDate={element.startDate}
+            />
+          );
+        })    
+      }
+    </div>
   )
 }
 export default Dashboard;

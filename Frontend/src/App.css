@@ -217,9 +217,17 @@ select {
 
 .my-todo-column {
   background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
 }
 
 .assign-todo-column {
   background-color: transparent;
   border-left: 3px solid #ebe8e8;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
 }
