@@ -1,3 +1,4 @@
+import { colors } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { BorderBottom, FormatUnderlined } from "@material-ui/icons";
 
@@ -5,7 +6,6 @@ export const headerUseStyles = makeStyles((theme) => ({
     flexGrow: {
         //flexGrow: 5,
         //backgroundColor:"transparent",
-
     },
     logoutbtn:{
         color: "white",
@@ -29,15 +29,26 @@ export const headerUseStyles = makeStyles((theme) => ({
           }
     },
     heading:{
-        fontSize: "4rem",
+        fontSize: "3.5rem",
         minHeight: "4vh",
         display: "flex",
-        alignItems: "center",
+        //alignItems: "center",
         //paddingLeft: "82vh",
+        //marginRight:"50px",
+        position:"relative",
+        right:"20%",
         color: "rgb(255, 255, 255)",
         fontFamily: "Poppins ",
         fontWeight: "bold",
-    }
+        '&:label':{
+          fontWeight: "bold",
+          fontSize: "4rem"
+        }
+    },
+   /*  tabLabel:{
+      fontSize:"2rem",
+      color:"rgb(255, 255, 255)"
+    } */
 /*     logoutbtn: {
         animation: "hover",
         backgroundColor: "#ff6f47",
@@ -79,7 +90,7 @@ export const MainContainerStyles = makeStyles((theme) => ({
     },
     paperTop: {
         height: "64px",
-       // borderBottom: "1px solid orange",
+       //borderBottom: "1px solid orange",
     },
     navBar:{
      width:"60% ",
