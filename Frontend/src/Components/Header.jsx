@@ -12,7 +12,7 @@ import {
     colors
 } from "@material-ui/core";
 import { Notifications } from "@material-ui/icons";
-//import logo_atssa from "../assets/atssa_logo.svg";
+import logo from '../Utils/logo.png'
 //import DownloadIcon from "@material-ui/icons/GetApp";
 import * as useStyles from "../styles/homePageStyles";
 import {Link, withRouter} from 'react-router-dom';
@@ -42,29 +42,36 @@ export default function Header(props) {
         overrides:{
             MuiTabs:{
                 root:{
-                    //width:"150%",
+                    width:"60%",
+                    display:"flex",
                     //marginRight:"5%"
                 },
                 indicator:{
                     backgroundColor:"white",
                     height: "2px",
-                    top:"59px",
+                    top:"90%",
+                    outline:"none"
                     //width:"10px"
                 },
                 flexContainer:{
                     display:"flex",
-                    paddingRight:"20%"
+                    justifyContent:"space-around",
+                    width:"100%"
                 }
                 
             },
             MuiTab:{
                 root:{
+                    
                     textTransform:"none",
-                    fontSize:"2.3rem",
-                    marginRight:"5%"
+                    fontSize:"2vw",
+                    textAlign:"center",
+                    '&:focus':{
+                      outline:"none",  
+                    },
                     //color:"rgb(255, 255, 255)",
                     //textColorPrimary:"rgb(255, 255, 255)"
-                } ,
+                },
                 textColorInherit:{
                     //opacity:"3"
                 }
@@ -83,8 +90,9 @@ export default function Header(props) {
             },
             MuiToolbar:{
                 root:{
+                    width: "90%",
                     display:"flex",
-                    justifyContent:"space-evenly",
+                    justifyContent:"space-around",
                     //variant: "dense"
                 },
                 disableGutters:["false"]
@@ -109,76 +117,37 @@ export default function Header(props) {
         <MuiThemeProvider theme={appBarTheme}>
             <AppBar position="static" >
                 <Toolbar >
-                {/*  <img src='img/img-2.png' alt='spaceship' width="16%"  />*/}
-                  <div className={classes.heading} >
-                    <text>  ProTask </text>
-                    </div> 
-                    <Tabs  value={selectedTab} onChange={handleChange}>
-          <Tab  label={<span style={{ color: 'rgb(255, 255, 255)' }}>Dashboard</span>}
-          onClick={()=>props.setTab("dashboardTask")} />
-          <Tab label="My Task"
-          onClick={()=>props.setTab("myTask")} />
-          <Tab label="Assign Task" 
-          onClick={()=> props.setTab("assignTask")} />
-                </Tabs>
-{/*                 <MenuItem>
-                    <IconButton className="">
-                        <Badge badgeContent={3} color="orange">
-                            <Notifications color="#17a2b8" />
-                        </Badge>
-                    </IconButton>
-                </MenuItem> */}
+                    <div style={{width:"20%",display:"flex"}}>
+                        <img src={logo} alt="Logo" style={{width:"25%",height:"auto",paddingBottom:"5%"}} />
+                        <text style={{paddingLeft:"5%",fontSize:"3.5vw"}}>ProTask</text>
+                    </div>
+                    
+                    <Tabs value={selectedTab} onChange={handleChange}>
+                        <Tab  
+                            label="DashBoard"
+                            style={{minWidth:"20px"}}
+                            onClick={()=>props.setTab("dashboardTask")} 
+                        />
+                        <Tab 
+                            label="My Task"
+                            style={{minWidth:"20px"}}
+                            onClick={()=>props.setTab("myTask")} 
+                        />
+                        <Tab 
+                            label="Assign Task" 
+                            style={{minWidth:"20px"}}
+                            onClick={()=> props.setTab("assignTask")} 
+                        />
+                    </Tabs>
                 
-                <Link to="/">
-                <Button className={classes.logoutbtn}
-                    children="Log Out"
-                    disableElevation
-                   // InputProps={{ disableUnderline: true }}
-                    //onClick={handleLogout}
-                />
-                </Link>
-            </Toolbar>
+                    <Link to="/">
+                        <Button className={classes.logoutbtn}
+                            children="Log Out"
+                            disableElevation
+                        />
+                    </Link>
+                </Toolbar>
             </AppBar>
-            </MuiThemeProvider>
+        </MuiThemeProvider>
     );
-//   const classes = useStyles.headerUseStyles();
-//   return (
-//     <div>
-//       <AppBar 
-//         style={{minHeight:"10vh", background: "#ffa340"}} 
-//         className='appbar'
-//       >
-//         <Toolbar>
-//           <div className={classes.heading}>
-//             <h1>ProTask</h1>
-//           </div>
-     
-//           <Tab 
-//             label="DashBoard" 
-//             className="tab-text"
-//             onClick={()=>props.setTab("dashboardTask")} 
-//           />
-//           <Tab 
-//             label="My Task"
-//             className="tab-text"
-//             onClick={()=>props.setTab("myTask")} 
-//           />
-//           <Tab 
-//             label="Assign Task" 
-//             className="tab-text"
-//             onClick={()=> props.setTab("assignTask")} 
-//           />
-          
-//           <Link to="/">
-//             <Button 
-//               className={classes.logoutbtn}
-//               children="Log Out"
-//               className="tab-text"
-//               disableElevation
-//             />
-//           </Link>
-//         </Toolbar>
-//       </AppBar>
-//     </div>
-//   );
 }

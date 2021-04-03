@@ -12,24 +12,26 @@ export const headerUseStyles = makeStyles((theme) => ({
         backgroundColor: "#17a2b8",
         transition: "all 0.3s ease",
         cursor: "pointer",
+        width:"7vw",
         //border: "0px solid #f2f5f7",
         //backgroundColor: "#17a2b8",
         //color: "white",
         //fontSize: "1.2rem",
         fontFamily: "Poppins ",
         fontWeight: "bold",
+        fontSize:"1vw",
         borderBottom:"none",
         '&:hover' :{
             backgroundColor: "#ff6f47",
             color: "white",
-            borderBottomColor:"transparent"
+            borderBottom:"transparent",
         },
         '&:label': {
             textTransform: 'capitalize',
           }
     },
     heading:{
-        fontSize: "3.5rem",
+        fontSize: "3.5vw",
         minHeight: "4vh",
         display: "flex",
         //alignItems: "center",
