@@ -44,7 +44,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/ProTask",{useNewUrlParser:true,useUn
     app.listen(8000);
     
     //mailer============================
-	cron.schedule('0 8,16 * * *' ,() =>{
+	cron.schedule('0 8 * * *' ,() =>{
 		
 		console.log('cron working');
 		var username_to_useremail = {};
@@ -63,7 +63,14 @@ mongoose.connect("mongodb://127.0.0.1:27017/ProTask",{useNewUrlParser:true,useUn
 			.find({})
 			.then((Tasks) =>{
 				for(i=0;i<Tasks.length;i++){
-					if(Tasks[i].endDate!=null){
+					var tmp1 = new Date(Tasks[i].endDate);
+					var tmp2 = new Date();
+					console.log(tmp1);
+					console.log(tmp2);
+					tmp2.setMinutes(tmp2.getMinutes()-tmp2.getTimezoneOffset());
+					console.log(tmp2);
+					console.log(tmp1.getTime()-tmp2.getTime());
+					if(Tasks[i].endDate!=null && (tmp1.getTime()-tmp2.getTime()<=172800000)){
 						username_to_email[Tasks[i].assignedTo] += " Task: "+ Tasks[i].Task + "<br/>      End By: " + Tasks[i].endDate.toString().substr(0,10) + '<br/>';
 					}
 				}
@@ -71,7 +78,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/ProTask",{useNewUrlParser:true,useUn
 			.then((tmp)=>{
 				
 				for(var entry in username_to_email){
-					
+					console.log(entry);
+					console.log(username_to_useremail[entry]);
 					if(username_to_email[entry]!==''){
 						transport
 						.sendMail({

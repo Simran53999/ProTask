@@ -101,6 +101,13 @@ router.put('/changeTaskName',(req,res)=>{
 })
 
 router.put('/updateDate',(req,res)=>{
+    console.log(process.env.TZ);
+    var d = new Date();
+    console.log(d);
+    console.log(d.getTimezoneOffset());
+    console.log(req.body.startDate);
+    console.log(req.body.endDate);
+    console.log(typeof req.body.startDate);
     task.findOne({_id:req.body.id}).then((Task)=>{
         Task.startDate=req.body.startDate;
         Task.endDate=req.body.endDate;

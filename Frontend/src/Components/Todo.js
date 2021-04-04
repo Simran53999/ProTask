@@ -25,13 +25,14 @@ const Todo = (props) => {
 
 //references--
 let taskNameInput = null;
+// console.log(props);
 
 //Hooks--
 //const [startDate, setStartDate] = useState(null);
  const [progress,setprogress]=useState(props.progress)
  const [status,setstatus]=useState("Open")
 //const [selectedDate, handleDateChange] = useState(new Date(new Date().toDateString()));
-const[startDate,setStartDate]=useState(new Date());
+const [startDate,setStartDate]=useState(new Date());
 const [endDate,setEndDate]=useState(new Date());
 const [taskName, setTaskName] = useState(props.Task)
 const [taskNameIsEditable, setTaskNameIsEditable] = useState(false);
@@ -52,27 +53,41 @@ useEffect(()=>{
   setEndDate(props.endDate)
   setTaskName(props.Task)
 },[props])
- 
+
  const changeProgress=(e)=>{
     setprogress(e.target.value)
  }
 
-  const updateDate=(startDate, endDate)=>{
-    console.log(startDate);
-    console.log(endDate);
-      if(startDate!==null && endDate!==null){
-         axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateDate`,{id:props.id,startDate,endDate}).then((result)=>{
-             setStartDate(startDate)
-             setEndDate(endDate)
-             props.mutate();
-         }).catch((err)=>{
-             console.log(err);
-         })
-      }
-      else{
-        console.log('conditions not acceptable');
-      }
+const updateDate=(stDate, enDate, upd)=>{
+  // console.log(new Date());
+  // console.log('inside updateDate');
+  // console.log(typeof stDate);
+  // console.log(stDate);
+  // console.log(typeof enDate);
+  // console.log(enDate);
+  
+  if(upd){
+    //.replace(/-/g, '\/').replace(/T.+/, '')
+    // console.log('enDate');
+    // console.log(enDate);
+    enDate.setMinutes(enDate.getMinutes()-enDate.getTimezoneOffset());
+    // console.log(enDate);
   }
+  else{
+    // console.log('stDate');
+    // console.log(stDate);
+    stDate.setMinutes(stDate.getMinutes()-stDate.getTimezoneOffset());
+    // console.log(stDate);
+  }
+  
+  axios
+    .put(`${process.env.REACT_APP_BASE_URL}/task/updateDate`,{id:props.id,startDate:stDate,endDate:enDate}).then((result)=>{
+      props.mutate();
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+}
 
   const updateTask=(event)=>{
     if(event.target.value!=null){
@@ -225,16 +240,19 @@ return(
           label="Start Date"
           clearable
           format="MM/dd"
-          minDate={startDate??Date()}
           disableFuture={false}
           disablePast={false}
           value={startDate}
           onChange={value=>{
             if(value!==null){
-              value.setHours(0);value.setMinutes(0);value.setSeconds(0);
               console.log(value);
+                value.setHours(0);
+                value.setMinutes(0);
+                value.setSeconds(0);
               setStartDate(value);
-              updateDate(value,endDate);
+              // tmp.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset());
+              updateDate(value,endDate,false);
+              // updateDate();
             }
           }}
           />
@@ -246,7 +264,6 @@ return(
       <MuiThemeProvider theme={myTheme}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <DatePicker
-            autoOk
             label="End Date"
             clearable
             format="MM/dd"
@@ -256,10 +273,14 @@ return(
             value={endDate}
             onChange={value=>{
               if(value!==null){
-                value.setHours(23);value.setMinutes(59);value.setSeconds(59);
-                console.log(value);
+                value.setHours(17);
+                value.setMinutes(30);
+                value.setSeconds(0);
                 setEndDate(value);
-                updateDate(startDate,value);
+                var tmp = value;
+                // tmp.setMinutes(tmp.getMinutes()-tmp.getTimezoneOffset());
+                updateDate(startDate,value,true);
+                // updateDate();
               }
             }}
           />
