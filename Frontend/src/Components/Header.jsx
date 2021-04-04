@@ -99,11 +99,10 @@ export default function Header(props) {
 
       })
 
-      const [selectedTab, setSelectedTab] = React.useState(0);
-
-      const handleChange = (event, newValue) => {
+const [selectedTab, setSelectedTab] = React.useState(0);
+const handleChange = (event, newValue) => {
         setSelectedTab(newValue);
-      };
+};
 
     return (
         <MuiThemeProvider theme={appBarTheme}>
@@ -113,7 +112,7 @@ export default function Header(props) {
                   <div className={classes.heading} >
                     <text>  ProTask </text>
                     </div> 
-                    <Tabs  value={selectedTab} onChange={handleChange}>
+                    <Tabs  style={{minWidth:'500px'}} value={selectedTab} onChange={handleChange}>
           <Tab  label={<span style={{ color: 'rgb(255, 255, 255)' }}>Dashboard</span>}
           onClick={()=>props.setTab("dashboardTask")} />
           <Tab label="My Task"

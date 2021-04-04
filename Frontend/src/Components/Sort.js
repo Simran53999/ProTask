@@ -11,6 +11,14 @@ import AssignTodo from './Assigntodo';
 import useSWR from "swr";
 import Header from "./Header";
 import Dashboard from './Dashboard';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+  DatePicker 
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 export default function Sort(props){
 
@@ -23,6 +31,7 @@ export default function Sort(props){
     const [sortType, setSortType] = useState('');
     const [sortedMyTask,setSortedMyTask]=useState([]);
     const [sortedAssignTask,setSortedAssignTask]=useState([]);
+    const[expectedendDate,setexpectedendDate]=useState(new Date());
     //const [sorted]
     let MyTask=[];
     let AssignTask=[];
@@ -46,6 +55,7 @@ export default function Sort(props){
      }
      useEffect(()=>{
         setMyTask(props.mytask);
+        setexpectedendDate(props.expectedendDate);
       },[])
 
 
@@ -60,8 +70,9 @@ export default function Sort(props){
             obj["username"]=element.label
             listOfUser.push(obj)
           })
+         // let  correctDate = new Date("10:56:00") + expectedendDate;
           console.log(listOfUser)
-          axios.post(`${process.env.REACT_APP_BASE_URL}/task/delegateTask`,{listOfUser:listOfUser,task:assigntask,username:props.username})
+          axios.post(`${process.env.REACT_APP_BASE_URL}/task/delegateTask`,{listOfUser:listOfUser,task:assigntask,username:props.username,expectedEndDate:expectedendDate})
           .then((res)=>{
             console.log(res)
             setAssignTask("");
@@ -112,6 +123,11 @@ export default function Sort(props){
         setSortedAssignTask(sortedAssignTask);   
     }, [sortType,props.data,props.tab]);
 
+    const myTheme = createMuiTheme({
+      typography:{
+          fontSize: 10
+      }
+    })
   return (
     <div>
       { props.tab==="myTask" &&       
@@ -144,7 +160,7 @@ export default function Sort(props){
           </form>
           {sortedMyTask.map((element,index)=>{
             return <Todo Task={element.Task} id={element._id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.assignedBy} 
-            assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate}
+            assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate} 
             />
           })}
         </div>
@@ -166,6 +182,23 @@ export default function Sort(props){
                 placeholder="Assign Tasks..."
               />
             </div>
+            <div className="assign-tm">
+      <MuiThemeProvider theme={myTheme}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <DatePicker
+          label="Expected End Date"
+          clearable
+          //format="MM/dd"
+          //minDate={startDate??Date()}
+          disableFuture={false}
+          disablePast={true}
+          value={expectedendDate}
+          onChange={setexpectedendDate}
+          autoOk
+          />
+        </MuiPickersUtilsProvider>
+      </MuiThemeProvider>
+    </div>
             <button  onClick={assignTask} className="todo-button" type="submit" >
               <i className="fas fa-plus-square"></i>
             </button>
@@ -182,8 +215,9 @@ export default function Sort(props){
                         assignedTo={element.assignedTo} 
                         endDate={element.endDate} 
                         startDate={element.startDate}
+                        expectedendDate={element.expectedEndDate}
                       />
-            })    
+            }) 
           }
         </div>
       }

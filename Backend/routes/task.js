@@ -131,7 +131,8 @@ router.post('/delegateTask',(req,res)=>{
        status:"Open",
        progress:0,
        assignedTo:req.body.listOfUser[0].username,
-       assignedBy:req.body.username
+       assignedBy:req.body.username,
+       expectedEndDate:req.body.expectedEndDate
    })
    Task.save().then(result=>{
     res.send(result)

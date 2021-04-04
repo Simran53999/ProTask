@@ -11,7 +11,7 @@ const AssignTodo = (props) => {
  const [status,setstatus]=useState(props.status)
  let date = props.startDate?.split("T")
  let edate = props.endDate?.split("T")
-  
+let eedate = props.expectedendDate?.split("T")
  useEffect(()=>{
     setprogress(props.progress);
     setstatus(props.status)
@@ -60,6 +60,11 @@ console.log(typeof(props.startDate))
         </div>
       </Tooltip>
       <div className="date-name">
+        <div>
+          <text>
+            Expected End Date : {eedate!==undefined?eedate[0]:null}
+          </text>
+        </div>
         <div>
           <text>
             Start On: {date!==undefined?date[0]:null}

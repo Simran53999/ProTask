@@ -12,7 +12,6 @@ var schema=new Schema({//object for Schema class
 
 schema.pre('save',function(next){
 	var User=this;
-	
 	if(User.isModified()){
       bcrypt.genSalt(10,(err,salt)=>{
       	bcrypt.hash(User.password,salt,(err,hash)=>{

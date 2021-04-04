@@ -202,7 +202,7 @@ return(
             <input 
               value={(taskNameIsEditable)?null:taskName}
               style={{border:`${(taskNameIsEditable)?'1px solid black':'none'}`}}
-              className={`taskName ${(status=='Open')?'':'completed'}`}
+              className={`taskName ${(status==='Open')?'':'completed'}`}
               ref={(input) => { taskNameInput = input; }}
               // onDoubleClick={event => setTaskNameIsEditable(!taskNameIsEditable)}  
               onKeyPress={event => changeTaskNameOnEnter(event,props.id)} 
@@ -308,7 +308,6 @@ return(
         </div>
       </div>
     </Tooltip>
-    
   </div>
 );
 };

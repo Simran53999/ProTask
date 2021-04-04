@@ -10,10 +10,12 @@ const cron = require('node-cron');
 
 var userRoutes=require('./routes/user');
 var taskRoutes=require('./routes/task');
+var subtaskRoutes = require('./routes/subtask');
 
 //mailer============================
 var user=require('./Models/User');
 var task=require('./Models/Task');
+var subtask = require('./Models/Subtask');
 let transport = nodemailer.createTransport({
 	service: 'gmail',
 	auth: {
@@ -35,6 +37,7 @@ mongoose.Promise=global.Promise;
 
 app.use('/user',userRoutes);
 app.use('/task',taskRoutes);
+app.use('/subtask',subtaskRoutes);
 
 mongoose.connect("mongodb://127.0.0.1:27017/ProTask",{useNewUrlParser:true,useUnifiedTopology:true})
 .then(()=>{
