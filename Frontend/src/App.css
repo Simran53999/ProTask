@@ -35,7 +35,7 @@ form input {
   background: white;
   border-radius: 4px 0px 0px 4px;
 }
-.todo-input2 {
+.todo-input{
   background: white;
 }
 form button {
@@ -146,7 +146,7 @@ h3 {
   font-family: "Poppins", sans-serif;
   font-size: small !important;
   cursor: pointer !important;
-  width: 9rem !important;
+  width: 10.5rem !important;
 }
 
 .multi-select {

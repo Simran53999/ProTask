@@ -123,9 +123,31 @@ export default function Sort(props){
         setSortedAssignTask(sortedAssignTask);   
     }, [sortType,props.data,props.tab]);
 
-    const myTheme = createMuiTheme({
+    const datePickerTheme = createMuiTheme({
+      overrides:{
+MuiFormControl:{
+  root:{
+
+  }
+},
+MuiTextField:{
+  root:{
+    height:"64px"
+  }
+},
+MuiInputLabel:{
+  root:{
+    marginTop:"10px"
+  }
+},
+MuiInput:{
+  root:{
+    marginTop:"20px"
+  }
+}
+      },
       typography:{
-          fontSize: 10
+          fontSize: 12
       }
     })
   return (
@@ -182,8 +204,8 @@ export default function Sort(props){
                 placeholder="Assign Tasks..."
               />
             </div>
-            <div className="assign-tm">
-      <MuiThemeProvider theme={myTheme}>
+            <div className="assign-exp-date">
+      <MuiThemeProvider theme={datePickerTheme}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <DatePicker
           label="Expected End Date"

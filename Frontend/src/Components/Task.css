@@ -19,3 +19,13 @@ h1 {
 .in-select {
   padding-left: 5px;
 }
+
+.assign-exp-date{
+  
+
+  width: 15%;
+
+  position: relative;
+
+  background-color: white;
+}
