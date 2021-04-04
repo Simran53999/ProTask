@@ -196,6 +196,26 @@ function assignCheck(){
 const myTheme = createMuiTheme({
     typography:{
         fontSize: 10
+    },
+    overrides:{
+      MuiInputBase:{
+        input:{
+          marginTop:"0.5rem",
+          // borderBottom:"5px"
+          // position:"relative",
+          // top:"5%"
+        }
+      },
+      MuiInputLabel:{
+        shrink:{
+          marginTop:"0.5rem"
+        }
+      },
+      MuiInput:{
+        underline:{
+          marginBottom:"0.5rem"
+        }
+      }
     }
   })
 
