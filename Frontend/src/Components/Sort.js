@@ -127,7 +127,7 @@ export default function Sort(props){
       overrides:{
       MuiInputBase:{
         input:{
-          marginTop:"0.8rem",
+          marginTop:"1.6vh",
           // borderBottom:"5px"
           // position:"relative",
           // top:"5%"
@@ -140,15 +140,15 @@ export default function Sort(props){
       },
       MuiInputLabel:{
         root:{
-          marginLeft:"0.5rem"
+          marginLeft:"0.8vw"
         },
         shrink:{
-          marginTop:"0.5rem",
+          marginTop:"1vh",
         }
       },
       MuiInput:{
         root:{
-          marginLeft:"0.5rem"
+          marginLeft:"0.8vw"
         },
         // underline:{
         //   marginBottom:"0.5rem"

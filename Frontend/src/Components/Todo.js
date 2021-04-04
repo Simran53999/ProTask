@@ -200,7 +200,7 @@ const myTheme = createMuiTheme({
     overrides:{
       MuiInputBase:{
         input:{
-          marginTop:"0.5rem",
+          marginTop:"1vh",
           // borderBottom:"5px"
           // position:"relative",
           // top:"5%"
@@ -208,12 +208,12 @@ const myTheme = createMuiTheme({
       },
       MuiInputLabel:{
         shrink:{
-          marginTop:"0.5rem"
+          marginTop:"1vh"
         }
       },
       MuiInput:{
         underline:{
-          marginBottom:"0.5rem"
+          marginBottom:"1vh"
         }
       }
     }
