@@ -31,9 +31,9 @@ const Landing = () => {
 				
 				<div className='card card2'>
 					<div className='c2imgs'>
-						<img alt="photo" src={ cogwheel } className='c2img1 ' />
-						<img alt="photo" src={ cogwheel } className='c2img2 ' />
-						<img alt="photo" src={ cogwheel } className='c2img3 ' />
+						<img alt="photo" src={ cogwheel } className='c2img1' />
+						<img alt="photo" src={ cogwheel } className='c2img2' />
+						<img alt="photo" src={ cogwheel } className='c2img3' />
 					</div>
 					
 					<div className='c2cnt'>
@@ -43,7 +43,7 @@ const Landing = () => {
 				</div>
 				
 				<div className='card card3'>
-					<div className='c3imgs'>
+					{/*<div className='c3imgs'>
 						<div className='c3img1cnt c3imgcnt'>
 							<img alt="photo" src={tm1} className='c3img'/>
 							<p className='c3imgtxt'>Saksham<br/>Tewari</p>
@@ -57,7 +57,7 @@ const Landing = () => {
 					<div className='c3cnt'>
 						<p className='cardh1'>Our Team</p>
 						<p></p>
-					</div>
+					</div>*/}
 				</div>
 			</div>
 		</div>

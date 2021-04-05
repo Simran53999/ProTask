@@ -11,11 +11,13 @@ const cron = require('node-cron');
 var userRoutes=require('./routes/user');
 var taskRoutes=require('./routes/task');
 var subtaskRoutes = require('./routes/subtask');
+// var tokenRoutes = require('./routes/token');
 
 //mailer============================
 var user=require('./Models/User');
 var task=require('./Models/Task');
 var subtask = require('./Models/Subtask');
+var token = require('./Models/Token');
 let transport = nodemailer.createTransport({
 	service: 'gmail',
 	auth: {
@@ -83,7 +85,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/ProTask",{useNewUrlParser:true,useUn
 					if(username_to_email[entry]!==''){
 						transport
 						.sendMail({
-							from: process.env.MAILER_EMAIL,
+							from: {name:'ProTask Reminder',address:process.env.MAILER_EMAIL},
 							to: username_to_useremail[entry],
 							subject: 'Assigned Tasks',
 							html: username_to_email[entry]
