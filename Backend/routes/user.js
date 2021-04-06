@@ -3,6 +3,7 @@ var router=express.Router({ mergeParams: true });
 var validator = require("email-validator");
 const nodemailer = require('nodemailer');
 var crypto = require('crypto');
+require('dotenv').config()
 var task=require('../Models/Task');
 var user=require('../Models/User');
 var token = require('../Models/Token');
@@ -88,6 +89,7 @@ router.post('/signup',(req,res)=>{
                     return res.status(500).send({error:'Server Error. Please click on resend.'});
                   }
                   else{
+                    console.log('Verification link sent');
                     return res.status(200).send({error:`A verification email has been sent to ${req.body.email}`});
                   }
                 });
@@ -225,24 +227,30 @@ router.post('/resend', (req,res)=>{
         Token.save()
         .then((result)=>{
           var transporter = nodemailer.createTransport({ 
-            service: 'gmail', 
+            service: 'gmail',
+            port: 465,
             auth: {
                 user: process.env.MAILER_EMAIL,
                 pass: process.env.MAILER_PASSWORD
               },
+              tls:{
+                secureProtocol: "TLSv1_method",
+              }
           });
           console.log(req.headers.host);
           var mailOptions = { 
-            from: {name:'ProTask Verifier', address:process.env.MAILER_EMAIL}, 
+            from: {name:'ProTask Verifier', address:'scheduletest9@gmail.com'}, 
             to: user.email, 
             subject: 'Account Verification Link', text: 'Hello '+ user.username +',\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/user' + '\/confirmation\/' + user.email + '\/' + result.token + '\n\nThank You!\n' 
           };
           transporter
           .sendMail(mailOptions, function (err,info) {
             if (err) { 
+              console.log(err);
               return res.status(500).send({error:'Server Error. Please click on resend.'});
             }
             else{
+              console.log('Verification link sent');
               return res.status(200).send({error:`A verification email has been sent to ${user.email}`});
             }
           });

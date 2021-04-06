@@ -125,27 +125,36 @@ export default function Sort(props){
 
     const datePickerTheme = createMuiTheme({
       overrides:{
-MuiFormControl:{
-  root:{
-
-  }
-},
-MuiTextField:{
-  root:{
-    height:"64px"
-  }
-},
-MuiInputLabel:{
-  root:{
-    marginTop:"10px"
-  }
-},
-MuiInput:{
-  root:{
-    marginTop:"20px"
-  }
-}
+      MuiInputBase:{
+        input:{
+          marginTop:"1.6vh",
+          // borderBottom:"5px"
+          // position:"relative",
+          // top:"5%"
+        }
       },
+      MuiFormControl:{
+        root:{
+          height:"4rem"
+        }
+      },
+      MuiInputLabel:{
+        root:{
+          marginLeft:"0.8vw"
+        },
+        shrink:{
+          marginTop:"1vh",
+        }
+      },
+      MuiInput:{
+        root:{
+          marginLeft:"0.8vw"
+        },
+        // underline:{
+        //   marginBottom:"0.5rem"
+        // }
+      }
+    },
       typography:{
           fontSize: 12
       }
