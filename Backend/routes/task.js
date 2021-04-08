@@ -45,6 +45,7 @@ router.put('/addMyTask',(req,res)=>{
         progress:0,
         assignedBy:req.body.username,
         assignedTo:req.body.username,
+        expectedEndDate:req.body.expectedEndDate,
         createdOn:req.body.datetime
     }); 
     Task.save().then((response)=>{

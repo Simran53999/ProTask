@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import axios from 'axios';
 import DashboardTask from "./DashboardTask";
+import Select from 'react-dropdown-select';
+import './DashBoard.css';
 
 const Dashboard = (props) =>{
     const [allTask, setAllTask] = useState([]);
@@ -51,10 +53,28 @@ const Dashboard = (props) =>{
   }, [sortType,props.data]); */
 
   return(
-    <div className="dashCard1"> 
-      {sortedDashBoardTask.map((element,index)=>{
-          return( 
-            <DashboardTask 
+    <div>
+   
+            <div className="dash-sort-button">
+            <Select 
+              multi={false}
+              searchable={true}
+              keepSelectedInList={false}
+              clearable={true}
+              options={[
+                {label:"progress",value:"progress"},
+                {label:"Task",value:"Task"}
+                ]
+              }
+              onChange={(values) => setSortType(values)}
+              placeholder="Sort By..."                   
+            />
+            </div>
+            <div className="dashCard1"> 
+            
+              {sortedDashBoardTask.map((element,index)=>{
+                return( 
+                <DashboardTask 
               Task={element.Task} 
               id={element._id} 
               status={element.status} 
@@ -67,6 +87,7 @@ const Dashboard = (props) =>{
           );
         })    
       }
+    </div>
     </div>
   )
 }

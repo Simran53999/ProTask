@@ -37,7 +37,6 @@ const Task=(props)=>{
       }
 
     useEffect(()=>{
-      const id=(props.match.params.id)
       //const url=`${process.env.REACT_APP_BASE_URL}/user/getUser/${id}`;
           axios.get(`${process.env.REACT_APP_BASE_URL}/task/getAllUsers/${props.match.params.username}`)
           .then((res)=>{
