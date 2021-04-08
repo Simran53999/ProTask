@@ -20,7 +20,7 @@ const Task=(props)=>{
   const [startDate, setStartDate] = useState(null);
   const [listOfUsers,setlistOfUsers]=useState([]);
   const [tab,setTab]=useState("myTask");
-  const [component,setComponent]=useState("")
+  const [component,setComponent]=useState("");
 
     
     const fetcher=async url=>{
@@ -62,7 +62,7 @@ const Task=(props)=>{
 
         return(
           <div className={classes.root}>
-              <Grid item xs={12} className={classes.paperTop}>
+              <Grid item xs={12} className={classes.paperTop} style={{paddingBottom:'10%'}}>
                   <Header {...props} 
                   setTab={setTab}/>
               </Grid>
@@ -70,9 +70,9 @@ const Task=(props)=>{
               {/* <header>
               <h1>ProTask</h1> 
               </header> */}
-              <div className="welc">
+              {/*<div className="welc">
                 <h2> Welcome {props.match.params.username} </h2>
-              </div>    
+              </div>   */} 
               {/* <div className="sort">
                 <select className="in-select" onChange={(e) => {setSortType(e.target.value)}}>
                   <option value="" disabled selected>Sort By:</option>

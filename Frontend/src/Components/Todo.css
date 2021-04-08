@@ -20,8 +20,16 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  transition: all 1s ease;
+  transition: all 0.4s;
+  
+  transform: scale(1);
 }
+
+.todo:hover{
+  transition: all 0.4s;
+  transform: scale(1.02);
+}
+
 .todo-itemOpen {
   color: rgb(12, 12, 12);
   position: relative;
@@ -277,4 +285,24 @@ input[type=number] {
   height: 10px;
   width: 1px;
   background: white;
+}
+
+.colorCode0{
+  background: linear-gradient(90deg, rgba(112, 219, 219, 1) 0%, rgba(255,255,255,1) 100%);
+  /*rgba(75, 192, 192, 1)*/
+}
+
+.colorCode1{
+  background: linear-gradient(90deg, rgba(255, 217, 122, 1) 0%, rgba(255,255,255,1) 100%);
+  /*rgba(255, 206, 86, 1)*/
+}
+
+.colorCode2{
+  background: linear-gradient(90deg, rgba(255, 125, 152, 1) 0%, rgba(255,255,255,1) 100%);
+  /*rgba(255, 99, 132, 0.8)*/
+}
+
+.colorCode3{
+  background: linear-gradient(90deg, rgba(172, 130, 255, 1) 0%, rgba(255,255,255,1) 100%);
+  /*rgba(153, 102, 255, 1)*/
 }

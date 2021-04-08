@@ -10,7 +10,7 @@ import Select from 'react-dropdown-select';
 import AssignTodo from './Assigntodo';
 import useSWR from "swr";
 import Header from "./Header";
-import Dashboard from './Dashboard';
+import Dashboard from './Dashboard/Dashboard';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -21,6 +21,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 export default function Sort(props){
+    // console.log(props.data);
 
     const [mytask,setMyTask]=useState('');
     const [assigntask,setAssignTask]=useState('');
@@ -31,7 +32,7 @@ export default function Sort(props){
     const [sortType, setSortType] = useState('');
     const [sortedMyTask,setSortedMyTask]=useState([]);
     const [sortedAssignTask,setSortedAssignTask]=useState([]);
-    const[expectedendDate,setexpectedendDate]=useState(new Date());
+    const [expectedendDate,setexpectedendDate]=useState(new Date());
     //const [sorted]
     let MyTask=[];
     let AssignTask=[];
@@ -256,6 +257,8 @@ export default function Sort(props){
         <Dashboard 
           username={props.username}
           data ={props.data}
+          listOfUsers={props.listOfUsers}
+          mutate={props.mutate}
         />
       }
     </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import './Todo.css';
+import '../Todo.css';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Toolbar, Tooltip } from '@material-ui/core';
@@ -9,8 +9,8 @@ const DashboardTask = (props) => {
     let edate = props.endDate?.split("T")
 
     return(
-        <div className="todo">
-            <Tooltip title = {props.Task} arrow placement="bottom-start">
+        <div className={`todo colorCode${props.colorCode}`}>
+            <Tooltip title = {props.Task} arrow placement="bottom-start" enterDelay={500}>
                 <li>
                     <li className= {`todo-item${props.status==="Open"?"Open":"Closed"}`}>
                         <div className="textContainer">
