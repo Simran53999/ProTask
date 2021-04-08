@@ -5,6 +5,14 @@ var task=require('../Models/Task');
 var user=require('../Models/User');
 var subtask=require('../Models/Subtask');
 
+router.get('/getAllSubTask/:id',(req,res)=>{
+    subtask.find({Taskid:req.params["id"]}).then((Subtask)=>{
+        res.send(Subtask);
+    }).catch((err)=>{
+        res.send(err);
+    })
+});
+
 router.put('/addSubTask',(req,res)=>{
     var Subtask=new subtask({
         Subtask:req.body.subtask,
@@ -52,7 +60,7 @@ router.put('/updateSubTask',(req,res)=>{
 
 router.put('/changeSubTaskName',(req,res)=>{
     subtask.findOne({_id:req.body.id}).then((Subtask)=>{
-        Subtask.Subtask=req.body.taskName;
+        Subtask.Subtask=req.body.subtaskName;
         Subtask.save().then((result)=>{
             console.log(result)
             res.send(result)

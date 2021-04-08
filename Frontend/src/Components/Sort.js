@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import Todo from './Todo';
 import './Task.css';
 import '../App.css';
-import { Grid } from "@material-ui/core";
-import { MainContainerStyles } from "../styles/homePageStyles";
 import Select from 'react-dropdown-select';
 import AssignTodo from './Assigntodo';
 import useSWR from "swr";
@@ -13,8 +10,6 @@ import Header from "./Header";
 import Dashboard from './Dashboard/Dashboard';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
   DatePicker 
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -27,7 +22,6 @@ export default function Sort(props){
     const [assigntask,setAssignTask]=useState('');
     const [id,setid]=useState('');
     const [selected1,setselected1]=useState([]);
-    const [listOfUsers,setlistOfUsers]=useState([]);
     const [Data, setData]=useState([]);
     const [sortType, setSortType] = useState('');
     const [sortedMyTask,setSortedMyTask]=useState([]);
@@ -87,9 +81,8 @@ export default function Sort(props){
       }
       const submitHandlerAssignTodo=(event)=>{
         setAssignTask(event.target.value)
-     }
-
-     useEffect(() =>{
+      }    
+    useEffect(() =>{
       console.log(sortType)
       const sortArray = type => {
          switch(type)
@@ -191,8 +184,8 @@ export default function Sort(props){
             />
           </form>
           {sortedMyTask.map((element,index)=>{
-            return <Todo Task={element.Task} id={element._id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.assignedBy} 
-            assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate} 
+            return <Todo username={props.username} Task={element.Task} id={element._id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.assignedBy} 
+            assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate}  expectedendDate={element.expectedEndDate}
             />
           })}
         </div>

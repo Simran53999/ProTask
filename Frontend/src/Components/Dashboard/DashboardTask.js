@@ -8,6 +8,15 @@ const DashboardTask = (props) => {
     let date = props.startDate?.split("T")
     let edate = props.endDate?.split("T")
 
+    function nameCheck(){
+        if (props.assignedBy === props.assignedTo){
+            return "";
+        }
+        else if(props.assignedBy!==props.assignedTo){
+            return "Assigned By: "+props.assignedBy;
+        }
+    }
+    console.log(props.assignedBy)
     return(
         <div className={`todo colorCode${props.colorCode}`}>
             <Tooltip title = {props.Task} arrow placement="bottom-start" enterDelay={500}>
@@ -18,7 +27,7 @@ const DashboardTask = (props) => {
                         </div>
                     </li>
                     <div className="assigned-name"> 
-                        <text>Assigned To: {props.assignedTo}</text>
+                        <text>{nameCheck}</text>
                     </div>
                 </li>
             </Tooltip>

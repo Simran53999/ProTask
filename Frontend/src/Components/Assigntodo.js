@@ -4,6 +4,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import './Todo.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Toolbar, Tooltip } from '@material-ui/core';
+import { withRouter } from "react-router-dom";
 
 const AssignTodo = (props) => {
     
@@ -43,6 +44,11 @@ const deleteTask=()=>{
     else
         return "Start on "+date!==undefined?date[0]:null;
 }
+const goToSubtask = () => {
+  props.history.push({
+    pathname: `/${props.id}/${props.Task}`,
+  });
+};
 
 console.log(typeof(props.startDate))
   return(    
@@ -101,7 +107,14 @@ console.log(typeof(props.startDate))
         </div>
       </div>
     </Tooltip>
+    <div className="status">
+        <Tooltip title={"Add Subtasks"} enterDelay={700}>
+          <button className="status-btn" onClick={goToSubtask}>
+            <i className="fas fa-tasks" />
+          </button>
+        </Tooltip>
+      </div>
     </div>
   );
 };
-export default AssignTodo;
+export default  withRouter(AssignTodo);
