@@ -110,9 +110,29 @@ body {
   margin-bottom: 5%;
 }
 
+.verification-div{
+  display: flex;
+  justify-content: space-around;
+  width:80%;
+  align-items: center;
+  background: rgba(247, 218, 0,0.3);
+  /*outline: red solid 1px;*/
+  box-shadow: 0 0 0 1px yellow;
+  border-radius: 5px;
+  margin-bottom: 5%;
+  padding-right: 2%;
+}
+
 .error-div-msg{
   padding-top:2%;
   padding-left: 4%;
+  color: rgb(164, 96, 107);
+}
+
+.verification-div-msg{
+  padding-top:2%;
+  padding-left: 4%;
+  font-size: 1vw;
   color: rgb(164, 96, 107);
 }
 
@@ -128,6 +148,21 @@ body {
 
 .error-div-button:hover{
   cursor: pointer;
+}
+
+.verification-div-button{
+  background: rgba(255, 204, 0, 1);
+  outline:none;
+  width: 30%;
+  height: auto;
+  color: rgb(164, 96, 107);
+  text-align: center;
+  font-size: 70%;
+  border-radius: 5px;
+}
+
+.verification-div-button:hover{
+  cursor:pointer;
 }
 
 .form-inputs {

@@ -9,11 +9,12 @@ class Formlogin extends React.Component{
     email:'',
     password:'',
     error: false,
-    errorMsg: false
+    verification: false,
+    errorMsg: false,
+    errorMsgContent:'',
   }
     
   Submit=()=>{
-     console.log(this.state)
      axios
      .post(`${process.env.REACT_APP_BASE_URL}/user/login`,{email:this.state.email,password:this.state.password})
      .then((result)=>{
@@ -25,10 +26,31 @@ class Formlogin extends React.Component{
         }  
      })
      .catch((err)=>{
-        this.setState({error: true});
-        this.setState({errorMsg: true});
+        if(err.response.data.status===401){
+          this.setState({error: false});
+          this.setState({verification: true});
+          this.setState({errorMsg: true});
+          this.setState({errorMsgContent:'Email not verified. Please check your email for the verification link.'});
+        }
+        else{
+          this.setState({verification: false});
+          this.setState({error: true});
+          this.setState({errorMsg: true});
+          this.setState({errorMsgContent:'Incorrect Email or Password'});
+        }
         console.log(err);
      })
+  }
+  
+  onResend=()=>{
+    axios
+    .post(`${process.env.REACT_APP_BASE_URL}/user/resend`,{email:this.state.email})
+    .then((res)=>{
+      this.setState({errorMsgContent:'Verification link sent'});
+    })
+    .catch((err)=>{
+      this.setState({errorMsgContent:`${err.response.data.error}`});
+    });
   }
 
   render(){
@@ -46,10 +68,14 @@ class Formlogin extends React.Component{
             <h1>
               Login:
             </h1>
-            <div className='error-div' style={{display: this.state.errorMsg ? 'flex' : 'none' }}>
-              <label className='error-div-msg'>Incorrect UserName or Password.</label>
-              <div className='error-div-button' onClick={()=>{this.setState({errorMsg: false})}}>x</div>
-            </div>
+            <div className='error-div' style={{display: (this.state.errorMsg && this.state.error) ? 'flex' : 'none' }}>
+                <label className='error-div-msg'>{this.state.errorMsgContent}</label>
+                <div className='error-div-button' onClick={()=>{this.setState({errorMsg: false})}}>x</div>
+              </div>
+              <div className='verification-div' style={{display: (this.state.errorMsg && this.state.verification)?'flex':'none'}}>
+                <label className='verification-div-msg'>{this.state.errorMsgContent}</label>
+                <div className='verification-div-button' onClick={()=>{this.onResend()}} >Resend</div>
+              </div>
             <div className='form-inputs'>
               <label className='form-label'>Email</label>
               <input
