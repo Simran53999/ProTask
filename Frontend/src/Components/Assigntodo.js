@@ -47,6 +47,7 @@ const deleteTask=()=>{
 const goToSubtask = () => {
   props.history.push({
     pathname: `/${props.id}/${props.Task}`,
+    state:{taskProgress:progress,},
   });
 };
 

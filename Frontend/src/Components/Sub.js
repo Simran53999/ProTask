@@ -5,30 +5,56 @@ import "./Todo.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Tooltip } from "@material-ui/core";
 
+
 const Sub = (props) =>{
 
     let subtaskNameInput = null;
-     const [subtaskProgress,setSubtaskProgress]=useState(props.subtaskProgress)
+     const [subtaskInitialProgress,setSubtaskInitialProgress]=useState(props.subtaskProgress)
+     const [subtaskFinalProgress,setSubtaskFinalProgress]=useState(props.subtaskProgress)
      const [subtaskStatus,setSubtaskStatus]=useState("Open")
     const [subtaskName, setSubtaskName] = useState(props.Subtask)
     const [subtaskNameIsEditable, setSubtaskNameIsEditable] = useState(false);
 
     useEffect(()=>{
-        setSubtaskProgress(props.subtaskProgress)
+        setSubtaskInitialProgress(props.subtaskProgress)
+        setSubtaskFinalProgress(props.subtaskProgress)
         setSubtaskStatus(props.subtaskStatus)
         setSubtaskName(props.Subtask)
       },[props])
 
 const updateSubtask=(event)=>{
+  
         if(event.target.value!=null){
-           axios.put(`${process.env.REACT_APP_BASE_URL}/subtask/updateSubTask`,{id:props.id,progress:subtaskProgress}).then((result)=>{
-              if (subtaskProgress > 100)
-                  setSubtaskProgress(100)
-              else if (subtaskProgress < 0)
-                  setSubtaskProgress(0)
+          let taskprogress=0;
+           axios.put(`${process.env.REACT_APP_BASE_URL}/subtask/updateSubTask`,{id:props.id,progress:subtaskFinalProgress}).then((result)=>{
+            let finalProgress=subtaskFinalProgress;
+            let initialProgress=subtaskInitialProgress; 
+            if (finalProgress > 100)
+                 finalProgress=100
+              else if (finalProgress < 0)
+                  finalProgress=0;
               else
-                  setSubtaskProgress(subtaskProgress)
-              props.mutate();
+                  finalProgress=subtaskFinalProgress
+                  let progressDifference=finalProgress-initialProgress;
+                 initialProgress=finalProgress
+                 let progress=(progressDifference/(props.numberOfSubtask))
+                 console.log(progress)
+                 taskprogress=props.taskProgress+progress;
+                 console.log(taskprogress)
+                 axios
+                 .put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`, {
+                   id: props.taskid,
+                   progress:taskprogress,
+                 })
+                 .then((result) => {
+                   setSubtaskFinalProgress(finalProgress)
+                   setSubtaskInitialProgress(initialProgress)
+                   props.setcalculateTaskProgress(taskprogress)
+                   props.mutate();
+                 })
+                 .catch((err) => {
+                   console.log(err);
+                 });
            }).catch((err)=>{
                console.log(err);
            })
@@ -37,16 +63,30 @@ const updateSubtask=(event)=>{
 
 const updateSubtaskOnEnter=(event)=>{
         if(event.key==='Enter' && event.target.value!=null){
-         axios.put(`${process.env.REACT_APP_BASE_URL}/subtask/updateSubTask`,{id:props.id,progress:subtaskProgress}).then((result)=>{
-            if (subtaskProgress > 100)
-                setSubtaskProgress(100)
-            else if (subtaskProgress < 0)
-                setSubtaskProgress(0)
+         axios.put(`${process.env.REACT_APP_BASE_URL}/subtask/updateSubTask`,{id:props.id,progress:subtaskFinalProgress}).then((result)=>{
+            if (subtaskFinalProgress > 100)
+                setSubtaskFinalProgress(100)
+            else if (subtaskFinalProgress < 0)
+                setSubtaskFinalProgress(0)
             else
-                setSubtaskProgress(subtaskProgress)
-            props.mutate();
-            event.target.value = '';
-         }).catch((err)=>{
+                setSubtaskFinalProgress(subtaskFinalProgress)
+            let progressDifference=subtaskFinalProgress-subtaskInitialProgress;
+            setSubtaskInitialProgress(subtaskFinalProgress)
+                let progress=progressDifference/(props.numberOfSubtask*100)
+                let taskprogress=props.taskProgress+progress;
+                axios
+                .put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`, {
+                  id: props.taskid,
+                  progress:taskprogress,
+                })
+                .then((result) => {
+                  props.mutate();
+                  event.target.value = '';
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+          }).catch((err)=>{
              console.log(err);
          })
        }
@@ -148,15 +188,15 @@ const updateSubtaskOnEnter=(event)=>{
       disabled={subtaskStatus==="Open"?false:true} 
       onChange={(event)=>{ 
         if (event.target.value <= 100 && event.target.value >= 0)
-          setSubtaskProgress(event.target.value); 
+          setSubtaskFinalProgress(event.target.value); 
         else 
-          event.target.value = subtaskProgress;
+          event.target.value = subtaskFinalProgress;
         }} 
       onBlur={event => {updateSubtask(event);event.target.value = '';}} 
       onKeyPress={event => {updateSubtaskOnEnter(event);}}
       />
     <div className="progress">
-      <ProgressBar variant="info" now={subtaskProgress} label={`${subtaskProgress}%`} />
+      <ProgressBar variant="info" now={subtaskFinalProgress} label={`${subtaskFinalProgress}%`} />
     </div>
     
     <div className="status">

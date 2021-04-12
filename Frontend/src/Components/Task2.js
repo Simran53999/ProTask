@@ -81,6 +81,7 @@ const Task=(props)=>{
                 </select>
               </div> */}
                 <Sort username={props.match.params.username} 
+                userid={props.match.params.id}
                 id={props.match.params.id}
                 mutate={mutate} useUser={useUser}
                 data={data} listOfUsers={listOfUsers}

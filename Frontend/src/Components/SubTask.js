@@ -4,13 +4,16 @@ import useSWR from "swr";
 import axios from 'axios';
 import Sub from './Sub';
 import Select from 'react-dropdown-select';
+import ProgressBar from "react-bootstrap/ProgressBar";
+import "./Todo.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const SubTask=(props)=>{
 console.log(props)
     const [subtask,setsubtask]=useState("");
     const [sortType, setSortType] = useState('');
     const [sortedSubtask,setSortedSubtask]=useState([]);
-
+    const [calculateTaskProgress,setcalculateTaskProgress]=useState(props.taskProgress)
 /*     const fetcher=async url=>{
         const res = await axios.get(url);
         console.log(res)
@@ -70,6 +73,9 @@ if (!data) return <div>loading...</div> */
 return(
     <div className= "my-todo-column">
     <h3>{props.taskname}</h3>
+  {/*   <div className="progress">
+        <ProgressBar variant="info" now={calculateTaskProgress} label={`${calculateTaskProgress}%`} />
+      </div> */}
     <form >
       <input 
         value={subtask}  
@@ -96,7 +102,12 @@ return(
             />
       </form>
       {sortedSubtask.map((element)=>{
-        return <Sub Subtask={element.Subtask} id={element._id} subtaskStatus={element.status} subtaskProgress={element.progress} mutate={props.mutate}/>
+        return <Sub Subtask={element.Subtask} 
+        numberOfSubtask={sortedSubtask.length} taskProgress={calculateTaskProgress} 
+        setcalculateTaskProgress={setcalculateTaskProgress}
+        id={element._id} subtaskStatus={element.status} 
+        subtaskProgress={element.progress} mutate={props.mutate}
+        taskid={props.taskid}/>
       })}
       </div>
 )

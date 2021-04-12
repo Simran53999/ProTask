@@ -207,7 +207,7 @@ const Todo = (props) => {
  const goToSubtask = () => {
     history.push({
       pathname: `/${props.id}/${taskName}`,
-      state:{/* taskProgress:props.progress,setTaskProgress:setprogress,updateTaskProgress:updateTask */taskProgress:progress,},
+      state:{taskProgress:progress,taskStartDate:startDate,taskEndDate:endDate,taskStatus:status,taskExpectedEndDate:eedate!==undefined?eedate[0] : ""},
     });
   };
   const myTheme = createMuiTheme({

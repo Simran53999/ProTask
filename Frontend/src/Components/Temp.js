@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { withRouter, useLocation, use } from "react-router-dom";
+import { withRouter, useLocation, Link} from "react-router-dom";
 import useSWR from "swr";
 import axios from "axios";
 import SubTask from "./SubTask";
+import * as useStyles from "../styles/homePageStyles";
+import {
+  Button,
+} from "@material-ui/core";
+
 
 const Temp = (props) => {
+  const classes = useStyles.headerUseStyles();
   const location=useLocation();
   console.log(location)
   const fetcher = async (url) => {
@@ -29,8 +35,14 @@ const Temp = (props) => {
         data={data}
         taskid={props.match.params.id}
         taskname={props.match.params.taskName}
-        {...props.location.state}
+        taskProgress={props.location.state.taskProgress}
       />
+                        {/*   <Link to="/">
+                        <Button className={classes.logoutbtn}
+                            children="Log Out"
+                            disableElevation
+                        />
+                    </Link> */}
     </div>
   );
 };
