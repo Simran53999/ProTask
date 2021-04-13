@@ -58,12 +58,13 @@ router.post('/signup',(req,res)=>{
               email:req.body.email,
               password:req.body.password,
               username:req.body.username,
-              isVerified:false,
+              isVerified:true,//should be false if email verification is to be enabled
             });
             
             User.save()
             .then((result)=>{
-              var d = new Date();
+              res.status(200).send({error: 'User has been registered. Please Login.'})
+              /*var d = new Date();
               d.setMinutes(d.getMinutes()-d.getTimezoneOffset());
               console.log(d);
               var Token = new token({ _userId: User._id, token: crypto.randomBytes(16).toString('hex'), expireAt: d });
@@ -97,7 +98,7 @@ router.post('/signup',(req,res)=>{
               .catch((err)=>{
                 console.log(err);
                 res.status(500).send({error:'Server Error. Please Try Again'});
-              });
+              });*/
             })
             .catch((err)=>{
               res.status(500).send({error:'Server Error. Please Try Again'});

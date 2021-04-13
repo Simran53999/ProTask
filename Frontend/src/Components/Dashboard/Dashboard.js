@@ -20,6 +20,16 @@ const Dashboard = (props) =>{
     const [assTaskStatUpdate, setAssTaskStatUpdate] = useState(false);
     const [myTasksColorCode, setMyTasksColorCode] = useState([]);
     const [assTasksColorCode, setAssTasksColorCode] = useState([]);
+    
+    const [myTaskDisplayTitle, setMyTaskDisplayTitle] = useState('All Tasks');
+    const [assTaskDisplayTitle, setAssTaskDisplayTitle] = useState('All Tasks');
+    const [myTaskDisplayTitleId, setMyTaskDisplayTitleId] = useState('');
+    const [assTaskDisplayTitleId, setAssTaskDisplayTitleId] = useState('');
+    const [myTaskSubTasks, setMyTaskSubTasks] = useState([]);
+    const [assTaskSubTasks, setAssTaskSubTasks] = useState([]);
+    const [myTaskSubTasksData, setMyTaskSubTasksData] = useState([]);
+    const [assTaskSubTasksData, setAssTaskSubTasksData] = useState([]);
+    const [tasksToSubTasksMap, setTasksToSubTasksMap] = useState({});
 
     useEffect(() => {
    		axios
@@ -40,18 +50,94 @@ const Dashboard = (props) =>{
     			}
     		})
     		setFinalAssTasks(tmp2);
-    		console.log('1st use effect');
+    		// console.log('1st use effect');
     		setMyTaskStatType('Progress');
     		setAssTaskStatType('Progress');
-         })
-   		.catch((err)=>{
-             console.log(err);
+        
+        var tmp_map = {};
+        
+        res.data.map(async(element,index)=>{
+          await axios
+            .get(`${process.env.REACT_APP_BASE_URL}/subtask/getAllSubTask/${element._id}`)
+            .then((result)=>{
+              var tmp_arr=[];
+              if(result.data.length>0)
+                result.data.map((ele,ind)=>{
+                  tmp_arr.push({SubTask:ele.Subtask, progress:ele.progress,status:ele.status,id:ele._id});
+                })
+              
+              tmp_map[element._id] = tmp_arr;
+            })
+            .then((result2)=>{
+              setTasksToSubTasksMap(tmp_map)
+            })
         })
+        
+        
+        
+      })
+   		.catch((err)=>{
+            console.log(err);
+      })
   	},[props.data])
   	
+    useEffect(()=>{
+      console.log('updated');
+      console.log(tasksToSubTasksMap);
+    },[tasksToSubTasksMap])
+    
+    useEffect(()=>{
+      var tmp1 = [], data = [0,0,0];
+      
+      if(tasksToSubTasksMap[myTaskDisplayTitleId])
+        tasksToSubTasksMap[myTaskDisplayTitleId].map((element,index)=>{
+          tmp1.push(element);
+        })
+      
+      tmp1.sort((a,b)=>(a.progress>b.progress)?1:-1);
+      
+      tmp1.map((element,index)=>{
+        if(element.progress>=70)
+          data[0]++;
+        else if(element.progress>=40)
+          data[1]++;
+        else
+          data[2]++;
+      })
+      
+      setMyTaskSubTasksData(data);
+      setMyTaskSubTasks(tmp1);
+      
+    },[myTaskDisplayTitleId])
+    
+    useEffect(()=>{
+      var tmp1 = [], data = [0,0,0];
+      
+      if(tasksToSubTasksMap[assTaskDisplayTitleId])
+        tasksToSubTasksMap[assTaskDisplayTitleId].map((element,index)=>{
+          tmp1.push(element);
+        })
+      
+      tmp1.sort((a,b)=>(a.progress>b.progress)?1:-1);
+      
+      tmp1.map((element,index)=>{
+        if(element.progress>=70)
+          data[0]++;
+        else if(element.progress>=40)
+          data[1]++;
+        else
+          data[2]++;
+      })
+      
+      setAssTaskSubTasksData(data);
+      setAssTaskSubTasks(tmp1);
+      
+    },[assTaskDisplayTitleId])
+    
   	useEffect(()=>{
-  		console.log(myTaskStatType);
+  		// console.log(myTaskStatType);
   		var tmp = [].concat(finalMyTasks);
+      // console.log(tmp);
   		var labels = ['','',''];
   		var colorCode = [];
   		var data = [0,0,0];
@@ -93,8 +179,8 @@ const Dashboard = (props) =>{
   			labels[2] = '< 2 days';
   			labels.push(['Undecided']);
   			data.push([0]);
-  			console.log(labels);
-  			console.log(data);
+  			// console.log(labels);
+  			// console.log(data);
   			tmp.map((element,index)=>{
   				
   				if(element.endDate===null){
@@ -191,7 +277,7 @@ const Dashboard = (props) =>{
   	},[myTaskStatType])
   	
   	useEffect(()=>{
-  		console.log(finalAssTasks);
+  		// console.log(finalAssTasks);
   		var tmp = [].concat(finalAssTasks);
   		var labels = ['','',''];
   		var data = [0,0,0];
@@ -234,8 +320,8 @@ const Dashboard = (props) =>{
   			labels[2] = '< 2 days';
   			labels.push(['Undecided']);
   			data.push([0]);
-  			console.log(labels);
-  			console.log(data);
+  			// console.log(labels);
+  			// console.log(data);
   			tmp.map((element,index)=>{
   				
   				if(element.endDate===null){
@@ -345,7 +431,7 @@ const Dashboard = (props) =>{
 	  				return element;
 	  		})
 	  	}
-  		console.log(tmp);
+  		// console.log(tmp);
   		setFinalAssTasks(tmp);
   		setAssTaskStatUpdate(!assTaskStatUpdate);
   	},[assTaskFilterType])
@@ -360,7 +446,7 @@ const Dashboard = (props) =>{
 	    <div className="dashboard-myTask">
 	    	<div className="dashboard-myTask-statOps">
 	    		<div 
-	    			className={`dashboard-statOps-ops ${(myTaskStatType==='Progress')?'statOps-selected':''}`} 
+	    			className={`dashboard-statOps-ops ${(myTaskStatType==='Progress' || myTaskDisplayTitle!=='All Tasks')?'statOps-selected':''}`} 
 	    			onClick={()=>setMyTaskStatType('Progress')}
 	    		>
 	    			Progress
@@ -368,24 +454,27 @@ const Dashboard = (props) =>{
 	    		<div 
 	    			className={`dashboard-statOps-ops ${(myTaskStatType==='ExpectedEndDate')?'statOps-selected':''}`} 
 	    			onClick={()=>setMyTaskStatType('ExpectedEndDate')}
+            style={{display:(myTaskDisplayTitle==='All Tasks')?'flex':'none'}}
 	    		>
 	    			End Date
 	    		</div>
 	    		<div 
 	    			className={`dashboard-statOps-ops ${(myTaskStatType==='Ratio')?'statOps-selected':''}`} 
 	    			onClick={()=>setMyTaskStatType('Ratio')}
+            style={{display:(myTaskDisplayTitle==='All Tasks')?'flex':'none'}}
 	    		>
 	    			Ratio
 	    		</div>
+          
 	    	</div>
 	    	<div className="dashboard-myTask-stat">
-	    		{(myTaskStatType==='Progress')&&
+	    		{((myTaskStatType==='Progress') || (myTaskDisplayTitle!=='All Tasks'))&&
 		    		<Bar 
 		    			data={{
-		    				labels: myTaskStatLabel,//["80-100%","40-80%","0-40%"],
+		    				labels: (myTaskDisplayTitle==='All Tasks')?myTaskStatLabel:['70-100%','40-70%','0-40%'],//["80-100%","40-80%","0-40%"],
 		    				datasets: [
 		    					{
-		    						data: myTaskStatData,//[30,60,20],
+		    						data: (myTaskDisplayTitle==='All Tasks')?myTaskStatData:myTaskSubTasksData,//[30,60,20],
 		    						fill: true,
 		    						backgroundColor: ["rgba(75, 192, 192, 1)","rgba(255, 206, 86, 1)","rgba(255, 99, 132, 1)"]
 		    					},
@@ -419,7 +508,7 @@ const Dashboard = (props) =>{
 		    			}}
 		    		/>
 		    	}
-		    	{(myTaskStatType==='ExpectedEndDate')&&
+		    	{((myTaskStatType==='ExpectedEndDate') && (myTaskDisplayTitle==='All Tasks'))&&
 		    		<HorizontalBar 
 		    			data={{
 		    				labels: myTaskStatLabel,//["80-100%","40-80%","0-40%"],
@@ -468,7 +557,7 @@ const Dashboard = (props) =>{
 		    			}}
 		    		/>
 		    	}
-		    	{(myTaskStatType==='Ratio')&&
+		    	{((myTaskStatType==='Ratio') && (myTaskDisplayTitle==='All Tasks'))&&
 		    		<Doughnut 
 		    			data={{
 		    				labels: myTaskStatLabel,//["80-100%","40-80%","0-40%"],
@@ -500,24 +589,62 @@ const Dashboard = (props) =>{
 		    	}
 	    	</div>
 	    	<div className="dashboard-myTask-overview">
-	    		{
-	    			finalMyTasks.map((element,index)=>{
-	    				// console.log(element);
-	          			return( 
-				            <DashboardTask 
-				              Task={element.Task} 
-				              id={element._id} 
-				              status={element.status} 
-				              progress={element.progress}  
-				              assignedBy={element.assignedBy} 
-				              assignedTo={element.assignedTo} 
-				              endDate={element.endDate} 
-				              startDate={element.startDate}
-				              colorCode={myTasksColorCode[index]}
-				            />
-	          			);
+          <div className='dashboard-myTask-overview-heading'>
+            <div 
+              className="dashboard-myTask-overview-back"
+            >
+              <i class="fa fa-arrow-left" aria-hidden="true"
+                style={{color:(myTaskDisplayTitle==='All Tasks')?'gray':'white', cursor:'pointer'}}
+                onClick={()=>{setMyTaskDisplayTitle('All Tasks')}}
+              />
+            </div>
+            <div className="dashboard-myTask-overview-title">
+              {myTaskDisplayTitle}
+            </div>
+          </div>
+          <hr style={{margin:0, padding:0, width:'85%', backgroundColor:'white'}} />
+          <div className="dashboard-myTask-overview-tasks">
+  	    		{
+              (myTaskDisplayTitle==='All Tasks') &&
+  	    			finalMyTasks.map((element,index)=>{
+          			return( 
+			            <DashboardTask 
+			              Task={element.Task} 
+			              id={element._id} 
+			              status={element.status} 
+			              progress={element.progress}  
+			              assignedBy={element.assignedBy} 
+			              assignedTo={element.assignedTo} 
+			              endDate={element.endDate} 
+			              startDate={element.startDate}
+			              colorCode={myTasksColorCode[index]}
+                    titleChange={setMyTaskDisplayTitle}
+                    idChange={setMyTaskDisplayTitleId}
+			            />
+          			);
 	        		})    
-      			}
+        		}
+            {
+              (myTaskDisplayTitle!=='All Tasks') &&
+              myTaskSubTasks.map((element,index)=>{
+                return(
+                  <DashboardTask
+                    Task = {element.SubTask}
+                    id = {element.id}
+                    status = {element.status}
+                    progress = {element.progress}
+                    assignedBy={''} 
+                    assignedTo={''} 
+                    endDate={null} 
+                    startDate={null}
+                    colorCode={(element.progress>=70)?0:((element.progress>=40)?1:2)}
+                    titleChange={(val)=>{}}
+                    idChange={(val)=>{}}
+                  />
+                );
+              })
+            }
+          </div>
 	    	</div>
 	    </div>
 	    <div className="dashboard-head">
@@ -543,7 +670,7 @@ const Dashboard = (props) =>{
 	    <div className="dashboard-assTask">
 	    	<div className="dashboard-assTask-statOps">
 	    		<div 
-	    			className={`dashboard-statOps-ops ${(assTaskStatType==='Progress')?'statOps-selected':''}`} 
+	    			className={`dashboard-statOps-ops ${(assTaskStatType==='Progress' || assTaskDisplayTitle!=='All Tasks')?'statOps-selected':''}`} 
 	    			onClick={()=>setAssTaskStatType('Progress')}
 	    		>
 	    			Progress
@@ -551,24 +678,26 @@ const Dashboard = (props) =>{
 	    		<div 
 	    			className={`dashboard-statOps-ops ${(assTaskStatType==='ExpectedEndDate')?'statOps-selected':''}`} 
 	    			onClick={()=>setAssTaskStatType('ExpectedEndDate')}
+            style={{display:(assTaskDisplayTitle==='All Tasks')?'flex':'none'}}
 	    		>
 	    			Expected End Date
 	    		</div>
 	    		<div 
 	    			className={`dashboard-statOps-ops ${(assTaskStatType==='Ratio')?'statOps-selected':''}`} 
 	    			onClick={()=>setAssTaskStatType('Ratio')}
+            style={{display:(assTaskDisplayTitle==='All Tasks')?'flex':'none'}}
 	    		>
 	    			Ratio
 	    		</div>
 	    	</div>
 	    	<div className="dashboard-assTask-stat">
-	    		{(assTaskStatType==='Progress')&&
+	    		{(assTaskStatType==='Progress' || assTaskDisplayTitle!=='All Tasks')&&
 		    		<Bar 
 		    			data={{
-		    				labels: assTaskStatLabel,
+		    				labels: (assTaskDisplayTitle==='All Tasks')?assTaskStatLabel:['70-100%','40-70%','0-40%'],
 		    				datasets: [
 		    					{
-		    						data: assTaskStatData,
+		    						data: (assTaskDisplayTitle==='All Tasks')?assTaskStatData:assTaskSubTasksData,
 		    						fill: true,
 		    						backgroundColor: ["rgba(75, 192, 192, 1)","rgba(255, 206, 86, 1)","rgba(255, 99, 132, 1)"]
 		    					},
@@ -602,7 +731,7 @@ const Dashboard = (props) =>{
 		    			}}
 		    		/>
 		    	}
-		    	{(assTaskStatType==='ExpectedEndDate')&&
+		    	{(assTaskStatType==='ExpectedEndDate' && assTaskDisplayTitle==='All Tasks')&&
 		    		<HorizontalBar 
 		    			data={{
 		    				labels: assTaskStatLabel,//["80-100%","40-80%","0-40%"],
@@ -651,7 +780,7 @@ const Dashboard = (props) =>{
 		    			}}
 		    		/>
 		    	}
-		    	{(assTaskStatType==='Ratio')&&
+		    	{(assTaskStatType==='Ratio' && assTaskDisplayTitle==='All Tasks')&&
 		    		<Doughnut 
 		    			data={{
 		    				labels: assTaskStatLabel,//["80-100%","40-80%","0-40%"],
@@ -683,23 +812,61 @@ const Dashboard = (props) =>{
 		    	}
 	    	</div>
 	    	<div className="dashboard-assTask-overview">
-	    		{
-	    			finalAssTasks.map((element,index)=>{
-	          			return( 
-				            <DashboardTask 
-				              Task={element.Task} 
-				              id={element._id} 
-				              status={element.status} 
-				              progress={element.progress}  
-				              assignedBy={element.assignedBy} 
-				              assignedTo={element.assignedTo} 
-				              endDate={element.endDate} 
-				              startDate={element.startDate}
-				              colorCode={assTasksColorCode[index]}
-				            />
-	          			);
-	        		})    
-      			}
+          <div className='dashboard-assTask-overview-heading'>
+            <div 
+              className="dashboard-assTask-overview-back"
+            >
+              <i class="fa fa-arrow-left" aria-hidden="true"
+                style={{color:(assTaskDisplayTitle==='All Tasks')?'gray':'white', cursor:'pointer'}}
+                onClick={()=>{setAssTaskDisplayTitle('All Tasks')}}
+              />
+            </div>
+            <div className="dashboard-assTask-overview-title">
+              {assTaskDisplayTitle}
+            </div>
+          </div>
+          <hr style={{margin:0, padding:0, width:'85%', backgroundColor:'white'}} />
+          <div className="dashboard-assTask-overview-tasks">
+  	    		{ (assTaskDisplayTitle==='All Tasks') && 
+  	    			finalAssTasks.map((element,index)=>{
+          			return( 
+  		            <DashboardTask 
+  		              Task={element.Task} 
+  		              id={element._id} 
+  		              status={element.status} 
+  		              progress={element.progress}  
+  		              assignedBy={element.assignedBy} 
+  		              assignedTo={element.assignedTo} 
+  		              endDate={element.endDate} 
+  		              startDate={element.startDate}
+  		              colorCode={assTasksColorCode[index]}
+                    titleChange={setAssTaskDisplayTitle}
+                    idChange={setAssTaskDisplayTitleId}
+  		            />
+          			);
+          		})    
+        		}
+            {
+              (assTaskDisplayTitle!=='All Tasks') &&
+              assTaskSubTasks.map((element,index)=>{
+                return(
+                  <DashboardTask
+                    Task = {element.SubTask}
+                    id = {element.id}
+                    status = {element.status}
+                    progress = {element.progress}
+                    assignedBy={''} 
+                    assignedTo={''} 
+                    endDate={null} 
+                    startDate={null}
+                    colorCode={(element.progress>=70)?0:((element.progress>=40)?1:2)}
+                    titleChange={(val)=>{}}
+                    idChange={(val)=>{}}
+                  />
+                );
+              })
+            }
+          </div>
 	    	</div>
 	    </div>
     </div>

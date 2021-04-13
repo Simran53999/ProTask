@@ -10,7 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const SubTask=(props)=>{
 console.log(props)
-    const [subtask,setsubtask]=useState("");
+    const [subtask,setsubtask]=useState('');
     const [sortType, setSortType] = useState('');
     const [sortedSubtask,setSortedSubtask]=useState([]);
     const [calculateTaskProgress,setcalculateTaskProgress]=useState(props.taskProgress)

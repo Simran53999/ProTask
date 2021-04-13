@@ -42,24 +42,11 @@ const Todo = (props) => {
   };
 
   const updateDate = (stDate, enDate, upd) => {
-    // console.log(new Date());
-    // console.log('inside updateDate');
-    // console.log(typeof stDate);
-    // console.log(stDate);
-    // console.log(typeof enDate);
-    // console.log(enDate);
 
     if (upd) {
-      //.replace(/-/g, '\/').replace(/T.+/, '')
-      // console.log('enDate');
-      // console.log(enDate);
       enDate.setMinutes(enDate.getMinutes() - enDate.getTimezoneOffset());
-      // console.log(enDate);
     } else {
-      // console.log('stDate');
-      // console.log(stDate);
       stDate.setMinutes(stDate.getMinutes() - stDate.getTimezoneOffset());
-      // console.log(stDate);
     }
 
     axios

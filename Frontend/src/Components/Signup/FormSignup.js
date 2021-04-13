@@ -90,7 +90,7 @@ class SignUp extends React.Component{
               </div>
               <div className='verification-div' style={{display: (this.state.errorMsg && this.state.verification)?'flex':'none'}}>
                 <label className='verification-div-msg'>{this.state.errorMsgContent}</label>
-                <div className='verification-div-button' onClick={()=>{this.onResend()}}>Resend</div>
+                {/*<div className='verification-div-button' onClick={()=>{this.onResend()}}>Resend</div>*/}{/*uncomment for email verification resend*/}
               </div>
               <div className='form-inputs'>
                 <label className='form-label'>Username</label>
