@@ -72,10 +72,6 @@ if (!data) return <div>loading...</div> */
 
 return(
     <div className= "my-todo-column">
-    <h3>{props.taskname}</h3>
-  {/*   <div className="progress">
-        <ProgressBar variant="info" now={calculateTaskProgress} label={`${calculateTaskProgress}%`} />
-      </div> */}
     <form >
       <input 
         value={subtask}  
