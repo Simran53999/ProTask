@@ -14,6 +14,13 @@ console.log(props)
     const [sortType, setSortType] = useState('');
     const [sortedSubtask,setSortedSubtask]=useState([]);
     const [calculateTaskProgress,setcalculateTaskProgress]=useState(props.taskProgress)
+    const [numberOfSubtask,setnumberOfSubtask]=useState(0);
+    let sdate = props.date?.split("T")
+    console.log(props.date)
+    console.log(sdate);
+    let sedate = props.edate?.split("T")
+    console.log(sedate)
+   let seedate = props.eedate?.split("T")
 /*     const fetcher=async url=>{
         const res = await axios.get(url);
         console.log(res)
@@ -65,23 +72,57 @@ useEffect(() =>{
       sortedSubTask=stask
     } 
     setSortedSubtask(sortedSubTask) 
+/*     let progress = 0;
+    sortedSubtask.forEach(i=>
+      progress+=i.progress/sortedSubtask.length)
+      console.log(progress)
+    setcalculateTaskProgress(progress) */
 }, [sortType,props.data]);
 
+useEffect(()=>{
+axios.put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`, {
+  id: props.taskid,
+  progress:props.taskProgress,
+})
+.then((result) => {
+
+}).catch((err)=>{
+  console.log(err)
+})},[props.taskProgress]); 
 /* if (error) return <div>failed to load</div>
 if (!data) return <div>loading...</div> */
 
 return(
     <div className= "my-todo-column">
     <h3>{props.taskname}</h3>
-  {/*   <div className="progress">
-        <ProgressBar variant="info" now={calculateTaskProgress} label={`${calculateTaskProgress}%`} />
-      </div> */}
+  <div className="progress">
+        <ProgressBar variant="info" now={props.taskProgress} label={`${props.taskProgress}%`} />
+        </div>
+        <div className="date-name">
+        <div>
+          <text>
+            Expected End Date : {seedate!==undefined?seedate[0]:null}
+          </text>
+        </div>
+        <div>
+          <text>
+            Start On: {sdate!==undefined?sdate[0]:null}
+          </text>
+        </div>
+        <div>
+          <text>
+            End On: {sedate!==undefined?sedate[0]:null}
+          </text>
+        </div>
+      </div>
+      
     <form >
       <input 
         value={subtask}  
         onChange={submitHandlerSubTask} 
         type="text" 
         className="todo-input" 
+        placeholder="Add Subtasks..."
       /> 
       <button onClick={addSubTask} className="todo-button" type="submit">
         <i className="fas fa-plus-square"></i>

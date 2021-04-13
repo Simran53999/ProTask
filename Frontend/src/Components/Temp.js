@@ -28,22 +28,29 @@ const Temp = (props) => {
   },[location]); */
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
+  let progress = 0;
+  data.forEach(i=>
+    progress+=i.progress/data.length)
+    console.log(progress)
   return (
     <div>
+       <Button className={classes.goBackToTaskBtn}
+                        onClick={() => props.history.goBack()}
+                            children="Go Back"
+                            disableElevation
+                        />
       <SubTask
         mutate={mutate}
         data={data}
         taskid={props.match.params.id}
         taskname={props.match.params.taskName}
-        taskProgress={props.location.state.taskProgress}
+        taskProgress={progress}
+        date={props.match.params.taskStartDate}
+        edate={props.taskEndDate}
+        eedate={props.taskExpectedEndDate}
+        status={props.taskStatus}
       />
-                        {/*   <Link to="/">
-                        <Button className={classes.logoutbtn}
-                            children="Log Out"
-                            disableElevation
-                        />
-                    </Link> */}
     </div>
   );
 };
-export default Temp;
+export default withRouter(Temp);

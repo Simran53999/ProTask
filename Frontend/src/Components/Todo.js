@@ -28,6 +28,7 @@ const Todo = (props) => {
   /*  const handleDateChange = (date) => {
    setSelectedDate(date);
  }; */
+
  let eedate = props.expectedendDate?.split("T")
   useEffect(() => {
     setprogress(props.progress);
@@ -76,7 +77,7 @@ const Todo = (props) => {
       });
   };
 
-  const updateTask = (event) => {
+/*   const updateTask = (event) => {
     if (event.target.value != null) {
       axios
         .put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`, {
@@ -93,9 +94,9 @@ const Todo = (props) => {
           console.log(err);
         });
     }
-  };
+  }; */
 
-  const updateTaskOnEnter = (event) => {
+/*   const updateTaskOnEnter = (event) => {
     if (event.key === "Enter" && event.target.value != null) {
       axios
         .put(`${process.env.REACT_APP_BASE_URL}/task/updateTask`, {
@@ -114,7 +115,7 @@ const Todo = (props) => {
         });
     }
   };
-
+ */
   const closeTask = () => {
     console.log(props.id);
     axios
@@ -344,7 +345,7 @@ const Todo = (props) => {
         </MuiThemeProvider>
       </div>
 
-      <input
+{/*       <input
         type="number"
         min="0"
         max="100"
@@ -363,7 +364,7 @@ const Todo = (props) => {
         onKeyPress={(event) => {
           updateTaskOnEnter(event);
         }}
-      />
+      /> */}
       <div className="progress">
         <ProgressBar variant="info" now={progress} label={`${progress}%`} />
       </div>

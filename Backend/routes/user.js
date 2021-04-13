@@ -201,7 +201,6 @@ router.get('/confirmation/:email/:token',(req,res)=>{
                 }
             });
         }
-        
     });
 })
 
