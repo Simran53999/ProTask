@@ -16,9 +16,9 @@ const DashboardTask = (props) => {
             return "Assigned By: "+props.assignedBy;
         }
     }
-    console.log(props.assignedBy)
+    // console.log(props.assignedBy)
     return(
-        <div className={`todo colorCode${props.colorCode}`}>
+        <div className={`todo colorCode${props.colorCode}`} onClick={()=>{props.idChange(props.id);props.titleChange(props.Task);}} >
             <Tooltip title = {props.Task} arrow placement="bottom-start" enterDelay={500}>
                 <li>
                     <li className= {`todo-item${props.status==="Open"?"Open":"Closed"}`}>

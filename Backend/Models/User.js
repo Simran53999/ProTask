@@ -13,14 +13,13 @@ var schema=new Schema({//object for Schema class
 
 schema.pre('save',function(next){
 	var User=this;
-	if(User.isModified() && User.isVerified===false){
+	if(User.isModified() /*&& User.isVerified===false*/){//should be uncommented for email verification
       bcrypt.genSalt(10,(err,salt)=>{
       	bcrypt.hash(User.password,salt,(err,hash)=>{
       	  User.password=hash;
       	   next();	
       	});
       });
-     
 	}
 	else
 		next();

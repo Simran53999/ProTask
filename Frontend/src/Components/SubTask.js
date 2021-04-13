@@ -6,21 +6,16 @@ import Sub from './Sub';
 import Select from 'react-dropdown-select';
 import ProgressBar from "react-bootstrap/ProgressBar";
 import "./Todo.css";
+import './SubTask.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const SubTask=(props)=>{
 console.log(props)
-    const [subtask,setsubtask]=useState("");
+    const [subtask,setsubtask]=useState('');
     const [sortType, setSortType] = useState('');
     const [sortedSubtask,setSortedSubtask]=useState([]);
     const [calculateTaskProgress,setcalculateTaskProgress]=useState(props.taskProgress)
     const [numberOfSubtask,setnumberOfSubtask]=useState(0);
-    let sdate = props.date?.split("T")
-    console.log(props.date)
-    console.log(sdate);
-    let sedate = props.edate?.split("T")
-    console.log(sedate)
-   let seedate = props.eedate?.split("T")
 /*     const fetcher=async url=>{
         const res = await axios.get(url);
         console.log(res)
@@ -29,7 +24,6 @@ console.log(props)
   console.log(props.match.params.id)
       const {data,error,mutate}=useSWR(
         `${process.env.REACT_APP_BASE_URL}/subtask/getAllSubTask/${props.match.params.id}`, fetcher) */
-
 const addSubTask=(event)=>{
     event.preventDefault();
     axios.put(`${process.env.REACT_APP_BASE_URL}/subtask/addSubTask`, {subtask:subtask,taskid:props.taskid}).then(()=>{
@@ -57,7 +51,6 @@ useEffect(() =>{
 
     const sortProperty = sortArray(sortType[0]?.value);
      const stask = [...props.data];
-     console.log(stask)
       let sortedSubTask=[];
     if(sortProperty==="Task")
     { 
@@ -94,29 +87,40 @@ if (!data) return <div>loading...</div> */
 
 return(
     <div className= "my-todo-column">
-    <h3>{props.taskname}</h3>
-  <div className="progress">
-        <ProgressBar variant="info" now={props.taskProgress} label={`${props.taskProgress}%`} />
-        </div>
-        <div className="date-name">
+    <div className="task-details">
+      {/* <ProgressBar className ="progress" variant="info" now={props.taskProgress} label={`${parseFloat(props.taskProgress).toFixed(2)}%`} /> */}
+        <div className="task-date-name">
         <div>
           <text>
-            Expected End Date : {seedate!==undefined?seedate[0]:null}
+            Expected End Date : {props.eedate!==""?props.eedate:'NA'}
           </text>
         </div>
         <div>
           <text>
-            Start On: {sdate!==undefined?sdate[0]:null}
+            Start Date: {props.date!==""?props.date:'NA'}
           </text>
         </div>
         <div>
           <text>
-            End On: {sedate!==undefined?sedate[0]:null}
+            End Date: {props.edate!==""?props.edate:'NA'}
           </text>
         </div>
-      </div>
+        </div> 
+        <div className="task-date-name">
+        <div>
+          <text>
+            Task Progress : <ProgressBar className ="progress" variant="info" now={props.taskProgress} label={`${parseFloat(props.taskProgress).toFixed(2)}%`} />
+          </text>
+        </div>
+        <div>
+          <text>
+            Task Status : {props.status}
+          </text>
+        </div>
+        </div>
       
-    <form >
+      </div>
+      <form >
       <input 
         value={subtask}  
         onChange={submitHandlerSubTask} 

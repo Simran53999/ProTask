@@ -28,7 +28,8 @@ const Todo = (props) => {
   /*  const handleDateChange = (date) => {
    setSelectedDate(date);
  }; */
-
+ let date = props.startDate?.split("T")
+ let edate = props.endDate?.split("T")
  let eedate = props.expectedendDate?.split("T")
   useEffect(() => {
     setprogress(props.progress);
@@ -43,24 +44,11 @@ const Todo = (props) => {
   };
 
   const updateDate = (stDate, enDate, upd) => {
-    // console.log(new Date());
-    // console.log('inside updateDate');
-    // console.log(typeof stDate);
-    // console.log(stDate);
-    // console.log(typeof enDate);
-    // console.log(enDate);
 
     if (upd) {
-      //.replace(/-/g, '\/').replace(/T.+/, '')
-      // console.log('enDate');
-      // console.log(enDate);
       enDate.setMinutes(enDate.getMinutes() - enDate.getTimezoneOffset());
-      // console.log(enDate);
     } else {
-      // console.log('stDate');
-      // console.log(stDate);
       stDate.setMinutes(stDate.getMinutes() - stDate.getTimezoneOffset());
-      // console.log(stDate);
     }
 
     axios
@@ -203,12 +191,10 @@ const Todo = (props) => {
     } else 
     return "";
   }
-
-
  const goToSubtask = () => {
     history.push({
       pathname: `/${props.id}/${taskName}`,
-      state:{taskProgress:progress,taskStartDate:startDate,taskEndDate:endDate,taskStatus:status,taskExpectedEndDate:eedate!==undefined?eedate[0] : ""},
+      state:{taskProgress:progress,taskStartDate:date!==undefined?date[0] : "",taskEndDate:edate!==undefined?edate[0] : "",taskStatus:status,taskExpectedEndDate:eedate!==undefined?eedate[0] : ""},
     });
   };
   const myTheme = createMuiTheme({
@@ -366,7 +352,7 @@ const Todo = (props) => {
         }}
       /> */}
       <div className="progress">
-        <ProgressBar variant="info" now={progress} label={`${progress}%`} />
+        <ProgressBar variant="info" now={progress} label={`${parseFloat(progress).toFixed(2)}%`} />
       </div>
 
       <div className="status">

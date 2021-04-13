@@ -84,7 +84,7 @@ console.log(typeof(props.startDate))
         </div>
       </div>
       <div className="progress">
-        <ProgressBar variant="info" now={progress} label={`${progress}%`} />
+        <ProgressBar variant="info" now={progress} label={`${parseFloat(progress).toFixed(2)}%`} />
       </div>
       <div className="status">
       <Tooltip title={(status==='Open')?'Close Task':'Open Task'}>
