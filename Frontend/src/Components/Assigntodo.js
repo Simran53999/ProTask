@@ -47,7 +47,7 @@ const deleteTask=()=>{
 const goToSubtask = () => {
   props.history.push({
     pathname: `/${props.id}/${props.Task}`,
-    state:{taskProgress:progress,},
+    state:{taskProgress:progress,taskStartDate:date!==undefined?date[0] : "",taskEndDate:edate!==undefined?edate[0] : "",taskStatus:status,taskExpectedEndDate:eedate!==undefined?eedate[0] : ""},
   });
 };
 
@@ -74,7 +74,7 @@ console.log(typeof(props.startDate))
       </div>
       
       <div className="expEndDate2">
-          {`Exp. End Date:\n ${eedate!==undefined?eedate[0]:null}`}
+          Exp. End Date: {eedate!==undefined?eedate[0]:null}
       </div>
       <div className="stDate2">
           Start On: {date!==undefined?date[0]:null}
