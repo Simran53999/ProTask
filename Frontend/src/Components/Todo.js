@@ -187,7 +187,7 @@ const Todo = (props) => {
   }
   function expDateCheck() {
     if (eedate!==undefined) {
-      return "Expected End Date:" + eedate[0];
+      return (<div className="expEndHeading"><div className="expEndTitle">{"Exp. End Date:"}</div><div className="expEndDate">{eedate[0]}</div></div>);
     } else 
     return "";
   }
@@ -224,9 +224,9 @@ const Todo = (props) => {
   });
 
   return (
-    <div className="todo">
+    <div className="todo1">
       {/*Edit TaskName Button*/}
-      <div className="edit">
+      <div className="edit1">
         <Tooltip title="Edit Task Name" enterDelay={700}>
           <button
             className="edit-btn"
@@ -240,17 +240,17 @@ const Todo = (props) => {
         </Tooltip>
       </div>
       {/*TaskName*/}
-      <Tooltip
-        title={props.Task}
-        arrow
-        placement="bottom-start"
-        enterDelay={300}
-      >
-        <div>
-          <div className={`todo-item${status === "Open" ? "Open" : "Closed"}`}>
+      <div className="taskHeading1">
+        <div className={`taskName1 todo-item${status === "Open" ? "Open" : "Closed"}`}>
+          <Tooltip
+            title={props.Task}
+            arrow
+            placement="bottom-start"
+            enterDelay={300}
+          >
             <div className="textContainer mh2">
               <input
-                value={taskNameIsEditable ? null : taskName}
+                value={taskNameIsEditable ? null : (taskName.length>=14)?(taskName.substr(0,12)+'...'):taskName}
                 style={{
                   border: `${taskNameIsEditable ? "1px solid black" : "none"}`,
                 }}
@@ -263,21 +263,18 @@ const Todo = (props) => {
                 onBlur={(event) => changeTaskNameOnFocusOut(event, props.id)}
               />
             </div>
-          </div>
-          <div className="mytask-name">
-            <text>{assignCheck()}</text>
-          </div>
+          </Tooltip>
         </div>
-      </Tooltip>
-      <div className="date-name">
-        <div>
-          <text>
-          {expDateCheck()}
-          </text>
+        <div className="mytask-name assignedByName1">
+          <text>{assignCheck()}</text>
         </div>
-        </div>
+      </div>
+      
+      <div className="date-name1">
+        {expDateCheck()}
+      </div>
 
-      <div className="assign-tm">
+      <div className="assign-tm-st1">
         <MuiThemeProvider theme={myTheme}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <DatePicker
@@ -303,7 +300,7 @@ const Todo = (props) => {
           </MuiPickersUtilsProvider>
         </MuiThemeProvider>
       </div>
-      <div className="assign-tm">
+      <div className="assign-tm-en1">
         <MuiThemeProvider theme={myTheme}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <DatePicker
@@ -351,11 +348,11 @@ const Todo = (props) => {
           updateTaskOnEnter(event);
         }}
       /> */}
-      <div className="progress">
-        <ProgressBar variant="info" now={progress} label={`${parseFloat(progress).toFixed(2)}%`} />
+      <div className="progress1">
+        <ProgressBar variant="info" now={progress} label={`${parseFloat(progress).toFixed(2)}%`} style={{width: '100%'}} />
       </div>
 
-      <div className="status">
+      <div className="status1">
         <Tooltip title={status === "Open" ? "Close Task" : "Open Task"}>
           <button className="status-btn" onClick={closeTask}>
             <i
@@ -366,23 +363,24 @@ const Todo = (props) => {
           </button>
         </Tooltip>
       </div>
-
-      <Tooltip title={"Delete Task"} enterDelay={700}>
-        <div onClick={deleteTask}>
-          <div className="trashBin">
-            <div className="trashBinLid">
-              <div className="trashBinHandle"></div>
-              <div className="trashBinCover"></div>
+      <div className="delete1">
+        <Tooltip title={"Delete Task"} enterDelay={700}>
+          <div onClick={deleteTask}>
+            <div className="trashBin">
+              <div className="trashBinLid">
+                <div className="trashBinHandle"></div>
+                <div className="trashBinCover"></div>
+                </div>
+                <div className="trashBinCan">
+                <div className="trashBinCanLine"></div>
+                <div className="trashBinCanLine"></div>
+                <div className="trashBinCanLine"></div>
               </div>
-              <div className="trashBinCan">
-              <div className="trashBinCanLine"></div>
-              <div className="trashBinCanLine"></div>
-              <div className="trashBinCanLine"></div>
             </div>
           </div>
-        </div>
-      </Tooltip>
-      <div className="status">
+        </Tooltip>
+      </div>
+      <div className="subtasks1">
         <Tooltip title={"Add Subtasks"} enterDelay={700}>
           <button className="status-btn" onClick={goToSubtask}>
             <i className="fas fa-tasks" />

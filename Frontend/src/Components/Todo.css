@@ -1,11 +1,225 @@
-.dashCard1{
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: center;
+/*
+  todo: whole tile;
+  edit: edit taskname button;
+  taskName: task name;
+  startDate: start date;
+  endDate: end date;
+  editProgress: edit progress text field;
+  progressBar: progress bar;
+  openCloseTask: lock symbol;
+  deleteTask: trash can symbol;
+  subTask: sub task symbol;
+*/
+
+/*New css*/
+
+.todo1{
+  width: 50%;
+  height: 4rem;
+  
+  min-width: 500px;
+  
+  display: grid;
+  grid-template-columns: 7% 20% 15% 6% 6% 18% 5% 5% 5%; 
+  grid-column-gap: 1%;
+  
+  background: white;
+  border-radius: 5px;
+  
+  margin-bottom: 1%;
 }
 
+.edit1{
+  grid-column-start: 1;
+  grid-column-end: 2;
+  
+  place-self: center;
+}
+
+.taskHeading1{
+  grid-column-start: 2;
+  grid-column-end: 3;
+  
+  place-self: strech strech;
+  
+  display: grid;
+  grid-template-rows: 70% 30%;
+}
+
+.taskName1{
+  grid-row-start: 1;
+  grid-row-end: 2;
+  
+  place-self: center start;
+  
+}
+
+.assignedByName1{
+  grid-row-start: 2;
+  
+  place-self: center start;
+}
+
+.date-name1{
+  grid-column-start: 3;
+  grid-column-end: 4;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  font-size: 10px;
+  
+}
+
+.assign-tm-st1{
+  grid-column-start: 4;
+  grid-column-end: 5;
+  
+  place-self: center center;
+}
+
+.assign-tm-en1{
+  grid-column-start: 5;
+  grid-column-end: 6;
+  
+  place-self: center center;
+}
+
+.progress1{
+  grid-column-start: 6;
+  grid-column-end: 7;
+  
+  align-self: center;
+}
+
+.status1{
+  grid-column-start: 7;
+  grid-column-end: 8;
+  
+  place-self: center center;
+}
+
+.delete1{
+  grid-column-start: 8;
+  grid-column-end: 9;
+  
+  place-self: center center;
+  
+  cursor: pointer;
+}
+
+.subtasks1{
+  grid-column-start: 9;
+  
+  place-self: center center;
+}
+
+
+.todo2{
+  width: 50%;
+  height: 4rem;
+  
+  min-width: 500px;
+  
+  display: grid;
+  grid-template-columns: 3% 25% 9% 9% 9% 20% 5% 5% 5% 3%; 
+  grid-column-gap: 1%;
+  
+  background: white;
+  border-radius: 5px;
+  
+  margin-bottom: 1%;
+}
+
+.taskHeading2{
+  grid-column-start: 2;
+  grid-column-end: 3;
+  
+  place-self: strech strech;
+  
+  display: grid;
+  grid-template-rows: 70% 30%;
+  
+}
+
+.taskName2{
+  grid-row-start: 1;
+  grid-row-end: 2;
+  
+  place-self: center start;
+  
+}
+
+.assignedToName2{
+  grid-row-start: 2;
+  
+  place-self: center start;
+  
+  font-size: 10px;
+}
+
+.expEndDate2{
+  grid-column-start: 3;
+  grid-column-end: 4;
+  
+  place-self: center center;
+  
+  font-size: 10px;
+}
+
+.stDate2{
+  grid-column-start: 4;
+  grid-column-end: 5;
+  
+  place-self: center center;
+  
+  font-size: 10px;
+}
+
+.enDate2{
+  grid-column-start: 5;
+  grid-column-end: 6;
+  
+  place-self: center center;
+  
+  font-size: 10px;
+}
+
+.progress2{
+  grid-column-start: 6;
+  grid-column-end: 7;
+  
+  align-self: center;
+}
+
+.status2{
+  grid-column-start: 7;
+  grid-column-end: 8;
+  
+  place-self: center center;
+}
+
+.delete2{
+  grid-column-start: 8;
+  grid-column-end: 9;
+  
+  place-self: center center;
+  
+  cursor: pointer;
+}
+
+.subtasks2{
+  grid-column-start: 9;
+  
+  place-self: center center;
+}
+
+/*old css*/
+
 .todo {
+  
   min-width: 400px;
   width: 50%;
   height: 3rem;
@@ -157,7 +371,7 @@ input[type=number] {
 /*tooltip*/
 .textContainer {
   display: block;
-  width: 50%;
+  width: 70%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -227,6 +441,8 @@ input[type=number] {
   outline: none;
 }
 
+
+//trash bin
 .trashBin{
   display: flex;
   flex-direction: column;
@@ -286,6 +502,7 @@ input[type=number] {
   width: 1px;
   background: white;
 }
+
 
 .colorCode0{
   background: linear-gradient(90deg, rgba(112, 219, 219, 1) 0%, rgba(255,255,255,1) 100%);

@@ -157,7 +157,6 @@ export default function Sort(props){
     <div>
       { props.tab==="myTask" &&       
         <div className= "my-todo-column">
-          <h3>My tasks</h3>
           <form >
             <input 
               value={mytask}  
@@ -183,16 +182,29 @@ export default function Sort(props){
               placeholder="Sort By..."                   
             />
           </form>
-          {sortedMyTask.map((element,index)=>{
-            return <Todo username={props.username} Task={element.Task} id={element._id} status={element.status} progress={element.progress}  mutate={props.mutate} assignedBy={element.assignedBy} 
-            assignedTo={element.assignedTo} endDate={element.endDate} startDate={element.startDate}  expectedendDate={element.expectedEndDate}
-            />
-          })}
+          <div className="taskList">
+            {
+              sortedMyTask.map((element,index)=>{
+                return <Todo 
+                          username={props.username} 
+                          Task={element.Task} 
+                          id={element._id} 
+                          status={element.status} 
+                          progress={element.progress} 
+                          mutate={props.mutate} 
+                          assignedBy={element.assignedBy} 
+                          assignedTo={element.assignedTo} 
+                          endDate={element.endDate} 
+                          startDate={element.startDate} 
+                          expectedendDate={element.expectedEndDate}
+                        />
+              })
+            }
+          </div>
         </div>
       }
       { props.tab === "assignTask" &&
         <div className="assign-todo-column">
-          <h3>Assign tasks</h3>
           <form >
             <input value={assigntask} onChange={submitHandlerAssignTodo} type="text" className="todo-input" /> 
             <div className="dropdown"> 
@@ -228,22 +240,24 @@ export default function Sort(props){
               <i className="fas fa-plus-square"></i>
             </button>
           </form> 
-          {
-            sortedAssignTask.map((element,index)=>{
-              return <AssignTodo 
-                        Task={element.Task} 
-                        id={element._id} 
-                        status={element.status} 
-                        progress={element.progress}  
-                        mutate={props.mutate} 
-                        assignedBy={element.username}
-                        assignedTo={element.assignedTo} 
-                        endDate={element.endDate} 
-                        startDate={element.startDate}
-                        expectedendDate={element.expectedEndDate}
-                      />
-            }) 
-          }
+          <div className="taskList">
+            {
+              sortedAssignTask.map((element,index)=>{
+                return <AssignTodo 
+                          Task={element.Task} 
+                          id={element._id} 
+                          status={element.status} 
+                          progress={element.progress}  
+                          mutate={props.mutate} 
+                          assignedBy={element.username}
+                          assignedTo={element.assignedTo} 
+                          endDate={element.endDate} 
+                          startDate={element.startDate}
+                          expectedendDate={element.expectedEndDate}
+                        />
+              }) 
+            }
+          </div>
         </div>
       }
       {props.tab === "dashboardTask" &&

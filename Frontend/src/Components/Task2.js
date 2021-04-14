@@ -46,14 +46,6 @@ const Task=(props)=>{
              console.log(err);
           })
   },[])
-//const Data=data.myTask
-//console.log(Data)  
-
-/* useEffect(()=>{
-    data.myTask.sort((a,b)=>{
-    return b["Task"]-a["Task"];
-  })    
-},[data])  */
 
      if (error) return <div>failed to load</div>
      if (!data) return <div>loading...</div>
@@ -61,34 +53,22 @@ const Task=(props)=>{
 
         return(
           <div className={classes.root}>
-              <Grid item xs={12} className={classes.paperTop} style={{paddingBottom:'10%'}}>
-                  <Header {...props} 
-                  setTab={setTab}/>
-              </Grid>
+            <Grid item xs={12} className={classes.paperTop} style={{paddingBottom:'10%'}}>
+              <Header {...props} setTab={setTab}/>
+            </Grid>
             <div className="Task">
-              {/* <header>
-              <h1>ProTask</h1> 
-              </header> */}
-              {/*<div className="welc">
-                <h2> Welcome {props.match.params.username} </h2>
-              </div>   */} 
-              {/* <div className="sort">
-                <select className="in-select" onChange={(e) => {setSortType(e.target.value)}}>
-                  <option value="" disabled selected>Sort By:</option>
-                  <option value="progress">Progress</option>
-                  <option value="Task">Task</option>
-                  <option value="status">Status</option>
-                </select>
-              </div> */}
-                <Sort username={props.match.params.username} 
+              <Sort 
+                username={props.match.params.username} 
                 userid={props.match.params.id}
                 id={props.match.params.id}
-                mutate={mutate} useUser={useUser}
-                data={data} listOfUsers={listOfUsers}
-                tab={tab}/>
+                mutate={mutate} 
+                useUser={useUser}
+                data={data} 
+                listOfUsers={listOfUsers}
+                tab={tab}
+              />
             </div>  
-            
-            </div>
+          </div>
         )
     }
   

@@ -53,62 +53,67 @@ const goToSubtask = () => {
 
 console.log(typeof(props.startDate))
   return(    
-    <div className="todo">
-      <Tooltip title = {props.Task} arrow placement="bottom-start">
-        <div className="textContainer">
-          <div className={`todo-item${status==="Open"?"Open":"Closed"}`}>
-            {props.Task}
-          </div>
-          <div className="assigned-name"> 
-            <text>
-              Assigned To: {props.assignedTo}
-            </text> 
-          </div>
+    <div className="todo2">
+    
+      <div className="taskHeading2">
+        <div className={`taskName2 todo-item${status === "Open" ? "Open" : "Closed"}`}>
+          <Tooltip
+            title={props.Task}
+            arrow
+            placement="bottom-start"
+            enterDelay={300}
+          >
+            <div className=" mh2">
+              {props.Task}
+            </div>
+          </Tooltip>
         </div>
-      </Tooltip>
-      <div className="date-name">
-        <div>
-          <text>
-            Expected End Date : {eedate!==undefined?eedate[0]:null}
-          </text>
-        </div>
-        <div>
-          <text>
-            Start On: {date!==undefined?date[0]:null}
-          </text>
-        </div>
-        <div>
-          <text>
-            End On: {edate!==undefined?edate[0]:null}
-          </text>
+        <div className="assignedToName2">
+            Assigned To: {props.assignedTo}
         </div>
       </div>
-      <div className="progress">
-        <ProgressBar variant="info" now={progress} label={`${parseFloat(progress).toFixed(2)}%`} />
+      
+      <div className="expEndDate2">
+          {`Exp. End Date:\n ${eedate!==undefined?eedate[0]:null}`}
       </div>
-      <div className="status">
+      <div className="stDate2">
+          Start On: {date!==undefined?date[0]:null}
+      </div>
+      <div className="enDate2">
+          End On: {edate!==undefined?edate[0]:null}
+      </div>
+      
+      <div className="progress2">
+        <ProgressBar variant="info" now={progress} label={`${progress}%`} />
+      </div>
+      
+      <div className="status2">
       <Tooltip title={(status==='Open')?'Close Task':'Open Task'}>
         <button className="status-btn" onClick={closeTask}>
           <i className={(status==='Open')?'fa fa-lock ma2':'fa fa-unlock ma2'} />
         </button>
       </Tooltip>
     </div>
-      <Tooltip title={'Delete Task'} enterDelay={700}>
-      <div onClick={deleteTask}>
-        <div className='trashBin'>
-          <div className='trashBinLid'>
-            <div className='trashBinHandle'></div>
-            <div className='trashBinCover'></div>
-          </div>
-          <div className='trashBinCan'>
-            <div className='trashBinCanLine'></div>
-            <div className='trashBinCanLine'></div>
-            <div className='trashBinCanLine'></div>
+    
+      <div className="delete2">
+        <Tooltip title={'Delete Task'} enterDelay={700}>
+        <div onClick={deleteTask}>
+          <div className='trashBin'>
+            <div className='trashBinLid'>
+              <div className='trashBinHandle'></div>
+              <div className='trashBinCover'></div>
+            </div>
+            <div className='trashBinCan'>
+              <div className='trashBinCanLine'></div>
+              <div className='trashBinCanLine'></div>
+              <div className='trashBinCanLine'></div>
+            </div>
           </div>
         </div>
-      </div>
-    </Tooltip>
-    <div className="status">
+      </Tooltip>
+    </div>
+    
+    <div className="subtasks2">
         <Tooltip title={"Add Subtasks"} enterDelay={700}>
           <button className="status-btn" onClick={goToSubtask}>
             <i className="fas fa-tasks" />
